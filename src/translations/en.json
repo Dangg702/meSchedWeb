@@ -1,0 +1,146 @@
+{
+    "homeHeader": {
+        "Booking": "Booking",
+        "Book-a-doctors-appointment": "Book a doctor's appointment",
+        "Make-an-appointment-without-waiting": "Make an appointment without waiting",
+        "Book-a-hospital-examination": "Book a hospital examination",
+        "Book-examination-pay-receive-results": "Book examination, pay, receive results",
+        "Book-a-clinic-visit": "Book a clinic visit",
+        "Diverse-specialties-and-services": "Diverse specialties and services",
+        "Schedule-vaccinations": "Schedule vaccinations",
+        "Reputable-vaccination-center": "Reputable vaccination center",
+        "Medical-news": "Medical news",
+        "For-medical-staff": "For medical staff",
+        "Doctor": "Doctor",
+        "Clinic": "Clinic",
+        "Welcome": "Welcome",
+        "Logout": "Log out"
+    },
+    "menu": {
+        "admin": {
+            "user": "User",
+            "manage-user": "Manage User",
+            "manage-doctor": "Manage doctor",
+            "manage-admin": "Manage admin",
+            "manage-patient": "Manage patient",
+            "manage-clinic": "Manage clinic",
+            "manage-specialty": "Manage Specialty",
+            "manage-handbook": "Manage Handbook",
+            "clinic": "Clinic",
+            "specialty": "Specialty",
+            "handbook": "Handbook",
+            "crud": "CRUD user"
+        },
+        "doctor": {
+            "manage-schedule": "Manage schedule",
+            "manage-patient": "Manage patient"
+        }
+    },
+    "manage-user": {
+        "create-user": "Create user",
+        "import-csv": "Import",
+        "export-csv": "Export",
+        "id": "ID",
+        "email": "Email",
+        "password": "Password",
+        "first-name": "First name",
+        "last-name": "Last name",
+        "phone-number": "Phone number",
+        "gender": "Gender",
+        "position": "Position",
+        "role": "Role",
+        "save": "Save",
+        "address": "Address",
+        "actions": "Actions",
+        "edit-user": "Edit user",
+        "delete-user": "delete user",
+        "save-changes": "save changes",
+        "cancel": "Cancel",
+        "image": "Avatar",
+        "choose": "Select",
+        "search-placeholder": "Search user by email",
+        "upload": "Upload"
+    },
+    "auth": {
+        "login": "Login",
+        "register": "Register",
+        "forgot-password": "Forgot password",
+        "email": "Email",
+        "password": "Password",
+        "confirm-password": "Confirm password",
+        "remember-me": "Remember me",
+        "forgot-your-password": "Forgot your password?",
+        "dont-have-an-account": "Don't have an account?",
+        "already-have-an-account": "Already have an account?",
+        "or-login-with": "Or login with",
+        "auth": "Authentication",
+        "not-receive": "Didn't receive OTP code?",
+        "try-again": "Try again",
+        "profile": "Create profile"
+    },
+    "form": {
+        "email": "example@example.com",
+        "password": "Password",
+        "input-otp": "Please enter the OTP code",
+        "first-name": "First name",
+        "last-name": "Last name",
+        "phone-number": "Phone number",
+        "gender": "Gender",
+        "male": "Male",
+        "female": "Female",
+        "address": "Address"
+    },
+    "homepage": {
+        "specialty": "Specialty",
+        "clinic": "Clinics",
+        "outStanding-doctor": "Out standing doctor",
+        "handbook": "Handbook",
+        "more": "See more"
+    },
+    "banner": {
+        "title": "CONNECTING PEOPLE WITH HEALTH FACILITIES AND SERVICES",
+        "subtitle": "Quick appointment - Get online queue number - Remote health consultation",
+        "search": "Search for doctors, hospitals, clinics,..."
+    },
+    "doctor": {
+        "medical-examination-schedule": "Medical examination schedule",
+        "no-schedule": "No schedule",
+        "address-title": "Address",
+        "price-title": "Price"
+    },
+    "booking": {
+        "price": "Price",
+        "full-name": "Full name",
+        "phone-number": "Phone number",
+        "email": "Email",
+        "address": "Address",
+        "reason": "Reason for examination",
+        "book-for": "Book for",
+        "gender": "Gender",
+        "info-booking": "Booking information",
+        "date": "Date",
+        "time": "Time",
+        "patient": "Patient",
+        "btn-booking": "Book"
+    },
+
+    "manage-doctor": {
+        "create-doctor": "Update doctor information",
+        "save": "Submit",
+        "selected-doctor": "Choose a doctor",
+        "description": "Introduce",
+        "price": "Price",
+        "payment-method": "Payment method",
+        "city": "City",
+        "clinic-name": "Clinic name",
+        "address": "Address",
+        "notes": "Notes",
+        "select": "Select..."
+    },
+    "manage-schedule": {
+        "title": "Manage your doctor's appointment schedule",
+        "selected-doctor": "Choose a doctor",
+        "selected-date": "Choose a date",
+        "save": "Save"
+    }
+}

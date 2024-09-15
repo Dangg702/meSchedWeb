@@ -1,0 +1,13 @@
+.about-wrapper {
+    margin-top: 20px;
+    background: url('../../../assets/images/background.png') no-repeat center/cover;
+
+    .row {
+        margin: 0;
+    }
+    .about-content {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+    }
+}

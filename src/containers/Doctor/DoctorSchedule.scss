@@ -1,0 +1,101 @@
+@import '../../styles/variables';
+
+.schedule-container {
+    .schedule-list-wrapper {
+        padding: 0 40px;
+
+        .schedule-item-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 8px;
+            &.active {
+                border-bottom: 2px solid $colormain;
+            }
+            .text-description {
+                text-transform: capitalize;
+                font-weight: 500;
+                text-align: center;
+                cursor: pointer;
+            }
+        }
+
+        // custom styles for slick
+        .slick-prev:before,
+        .slick-next:before {
+            content: none;
+        }
+
+        .slick-arrow-prev,
+        .slick-arrow-next {
+            position: absolute;
+            z-index: 1;
+            top: 10%;
+            padding: 6px 12px;
+            border: 1px solid $colormain;
+            border-radius: 50%;
+            background-color: #fff;
+        }
+
+        .slick-arrow-prev {
+            left: -4px;
+        }
+
+        .slick-arrow-next {
+            right: -4px;
+        }
+
+        .slick-slider {
+            padding: 0 40px;
+        }
+    }
+
+    .time-range-container {
+        display: flex;
+        flex-direction: column;
+        padding: 20px 40px 10px 40px;
+
+        .time-range-title {
+            margin-bottom: 12px;
+            .schedule-title {
+                font-size: 1rem;
+                font-weight: 500;
+                text-transform: uppercase;
+            }
+        }
+
+        .time-range-content {
+            display: flex;
+            gap: 12px 8px;
+            flex-wrap: wrap;
+            align-items: center;
+
+            .btn-time-range {
+                padding: 4px 12px;
+                border: 1px solid $border;
+                border-radius: 5px;
+                text-align: center;
+                font-size: 1.1rem;
+                font-weight: 400;
+                transition: cubic-bezier(0.075, 0.82, 0.165, 1) 0.3s;
+                min-width: 120px;
+                height: 34px;
+
+                &:hover {
+                    background-color: $colormain;
+                    color: white;
+                }
+
+                &:focus {
+                    box-shadow: none;
+                }
+
+                &.active {
+                    background-color: $colordetail;
+                    color: white;
+                    border: none;
+                }
+            }
+        }
+    }
+}

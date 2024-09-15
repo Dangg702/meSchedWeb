@@ -1,0 +1,25 @@
+@import '../../../styles/variables';
+
+.manage-doctor-container {
+    margin: 40px 0;
+    height: auto;
+
+    .manage-doctor-editor {
+        margin: 40px 0 20px 0;
+    }
+    .lable-input {
+        font-size: 1rem;
+        font-weight: 500;
+        line-height: 2;
+    }
+    .btn-block {
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+        .btn.btn-save-doctor {
+            background-color: $colormain;
+            color: #fff;
+            width: 70px;
+        }
+    }
+}

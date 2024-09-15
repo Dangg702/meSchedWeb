@@ -1,0 +1,40 @@
+@import '../../styles/variables';
+
+.doctor-info-container {
+    background-color: $bg-grey;
+    width: 100vw;
+
+    .breadcrumb-wrapper {
+        padding: 20px 0;
+        height: 50px;
+        a {
+            color: $text-color-light;
+            text-decoration: none;
+            &:hover {
+                color: $colormain;
+            }
+        }
+    }
+
+    .doctor-info-wrapper {
+        background-color: $bg-white;
+        border-radius: 10px;
+        padding: 16px 24px;
+
+        .doctor-img {
+            width: 170px;
+            height: 170px;
+        }
+    }
+    .doctor-schedule-wrapper {
+        .separate-line {
+            border-left: 1px solid $border;
+        }
+    }
+    .manage-doctor-editor {
+        img {
+            width: 100%;
+            object-fit: cover;
+        }
+    }
+}

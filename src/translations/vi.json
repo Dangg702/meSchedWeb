@@ -1,0 +1,147 @@
+{
+    "homeHeader": {
+        "Booking": "Đặt khám",
+        "Book-a-doctors-appointment": "Đặt khám bác sĩ",
+        "Make-an-appointment-without-waiting": "Đặt khám không chờ đợi",
+        "Book-a-hospital-examination": "Đặt khám bệnh viện",
+        "Book-examination-pay-receive-results": "Đặt khám, thanh toán, nhận kết quả",
+        "Book-a-clinic-visit": "Đặt khám phòng khám",
+        "Diverse-specialties-and-services": "Đa dạng chuyên khoa và dịch vụ",
+        "Schedule-vaccinations": "Đặt lịch tiêm chủng",
+        "Reputable-vaccination-center": "Trung tâm tiêm chủng uy tín",
+        "Medical-news": "Tin Y tế",
+        "For-medical-staff": "Dành cho nhân viên Y tế",
+        "Doctor": "Bác sĩ",
+        "Clinic": "Phòng khám",
+        "Welcome": "Xin chào",
+        "Logout": "Đăng xuất"
+    },
+    "menu": {
+        "admin": {
+            "user": "Người dùng",
+            "manage-user": "Quản lý người dùng",
+            "manage-doctor": "Quản lý bác sĩ",
+            "manage-admin": "Quản lý quản trị viên",
+            "manage-patient": "Quản lý bệnh nhân",
+            "manage-clinic": "Quản lý bệnh viện",
+            "manage-specialty": "Quản lý chuyên khoa",
+            "manage-handbook": "Quản lý cẩm nang",
+            "clinic": "Bệnh viện",
+            "specialty": "Chuyên khoa",
+            "handbook": "Cẩm nang",
+            "crud": "CRUD user"
+        },
+        "doctor": {
+            "manage-schedule": "Quản lý lịch khám",
+            "manage-patient": "Quản lý bệnh nhân"
+        }
+    },
+    "auth": {
+        "login": "Đăng nhập",
+        "register": "Đăng ký",
+        "forgot-password": "Quên mật khẩu",
+        "email": "Email",
+        "password": "Mật khẩu",
+        "confirm-password": "Xác nhận mật khẩu",
+        "remember-me": "Ghi nhớ",
+        "forgot-your-password": "Quên mật khẩu?",
+        "dont-have-an-account": "Chưa có tài khoản?",
+        "already-have-an-account": "Đã có tài khoản?",
+        "or-login-with": "Hoặc đăng nhập với",
+        "auth": "Xác thực",
+        "not-receive": "Không nhận được mã OTP?",
+        "try-again": "Thử lại",
+        "profile": "Tạo hồ sơ"
+    },
+    "form": {
+        "email": "example@example.com",
+        "password": "Mật khẩu",
+        "input-otp": "Nhập mã OTP",
+        "first-name": "Tên",
+        "last-name": "Họ",
+        "phone-number": "Số điện thoại",
+        "gender": "Giới tính",
+        "male": "Nam",
+        "female": "Nữ",
+        "address": "Địa chỉ"
+    },
+    "homepage": {
+        "specialty": "Chuyên khoa",
+        "clinic": "Cơ sở Y tế",
+        "outStanding-doctor": "Bác sĩ nổi bật",
+        "handbook": "Cẩm nang",
+        "more": "Xem thêm"
+    },
+    "banner": {
+        "title": "KẾT NỐI NGƯỜI DÂN VỚI CƠ SỞ - DỊCH VỤ Y TẾ",
+        "subtitle": "Đặt khám nhanh - Lấy số xếp hàng trực tuyến - Tư vấn sức khỏe từ xa",
+        "search": "Tìm kiếm bác sĩ, bệnh viện, phòng khám,..."
+    },
+    "doctor": {
+        "medical-examination-schedule": "lịch khám",
+        "no-schedule": "Không có lịch khám",
+        "address-title": "Địa chỉ",
+        "price-title": "Giá khám"
+    },
+    "booking": {
+        "price": "Phí khám",
+        "full-name": "Họ tên",
+        "phone-number": "Số điện thoại",
+        "email": "Email",
+        "address": "Địa chỉ",
+        "reason": "Lý do khám",
+        "book-for": "Đặt cho ai",
+        "gender": "Giới tính",
+        "info-booking": "Thông tin đặt khám",
+        "date": "Ngày khám",
+        "time": "Thời gian",
+        "patient": "Bệnh nhân",
+        "btn-booking": "Đặt lịch"
+    },
+
+    "manage-user": {
+        "create-user": "Thêm người dùng",
+        "import-csv": "Nhập CSV",
+        "export-csv": "Xuất CSV",
+        "id": "ID",
+        "email": "Email",
+        "password": "Mật khẩu",
+        "first-name": "Tên",
+        "last-name": "Họ",
+        "phone-number": "Số điện thoại",
+        "gender": "Giới tính",
+        "position": "Chức danh",
+        "role": "Vai trò",
+        "save": "Lưu",
+        "address": "Địa chỉ",
+        "actions": "Hành động",
+        "edit-user": "Chinh sửa người dùng",
+        "delete-user": "Xóa người dùng",
+        "save-changes": "Lưu thay đổi",
+        "cancel": "Hủy",
+        "image": "Ảnh đại diện",
+        "choose": "Chọn",
+        "emailerr": "",
+        "search-placeholder": "Tìm người dùng theo email",
+        "upload": "Tải ảnh"
+    },
+    "manage-doctor": {
+        "create-doctor": "Cập nhật thông tin bác sĩ",
+        "save": "Lưu",
+        "selected-doctor": "Chọn bác sĩ",
+        "description": "Thông tin giới thiệu",
+        "price": "Phí khám",
+        "payment-method": "Phương thức thanh toán",
+        "city": "Thành phố",
+        "clinic-name": "Tên phòng khám/ bệnh viện",
+        "address": "Địa chỉ",
+        "notes": "Ghi chú",
+        "select": "Chọn..."
+    },
+    "manage-schedule": {
+        "title": "Quản lý kế hoạch khám bệnh của bác sĩ",
+        "selected-doctor": "Chọn bác sĩ",
+        "selected-date": "Chọn ngày",
+        "save": "Lưu"
+    }
+}

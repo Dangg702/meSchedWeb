@@ -1,0 +1,12 @@
+@import '../../../styles/variables';
+
+.image-container {
+    img {
+        width: 100%;
+    }
+    .handbook-image {
+        width: 100%;
+        height: 144px;
+        object-fit: fill;
+    }
+}

@@ -1,0 +1,45 @@
+@import '../../../styles/common.scss';
+@import '../../../styles/variables.scss';
+
+.header-container {
+    z-index: 99;
+    display: flex;
+    justify-content: space-between;
+    background-color: $colormain;
+    color: $common-text-color;
+    height: 40px;
+    position: relative;
+
+    .header-right {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        .languages {
+            display: flex;
+            gap: 6px;
+            .language {
+                cursor: pointer;
+                color: #d8d8d8;
+                opacity: 1;
+                &:hover {
+                    color: darken($colordetail, 5);
+                }
+                &.active {
+                    color: darken($colordetail, 5);
+                }
+            }
+        }
+    }
+    .btn-logout {
+        color: $common-text-color;
+        line-height: 40px;
+        height: 40px;
+        padding: 0 10px;
+        &:hover {
+            background-color: darken($colormain, 5);
+        }
+        i {
+            font-size: $base-size + 1px;
+        }
+    }
+}

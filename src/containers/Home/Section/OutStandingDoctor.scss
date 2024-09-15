@@ -1,0 +1,18 @@
+@import '../../../styles/variables';
+
+.doctor-avatar {
+    border-radius: 50%;
+}
+
+.position-wrapper {
+    .position-name {
+        font-size: 1.1rem;
+        font-weight: 500;
+        margin: 10px 0 4px 0;
+        word-wrap: break-word;
+    }
+    .specialty {
+        color: $text-color-light;
+        font-size: 1rem;
+    }
+}

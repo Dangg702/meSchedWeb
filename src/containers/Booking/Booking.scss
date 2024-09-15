@@ -1,0 +1,46 @@
+@import '../../styles/variables';
+
+.booking-container {
+    background-color: $bg-grey;
+    width: 100%;
+    height: 100%;
+    padding: 60px 20px;
+
+    .content-wrapper {
+        background-color: $bg-white;
+        border-radius: 10px;
+    }
+    .booking-title {
+        font-weight: 600;
+    }
+    .separate-line {
+        border-top: 1px solid rgb(243 244 246);
+        margin: 12px 0;
+    }
+
+    .doctor-avatar-booking {
+        width: 70px;
+        height: 70px;
+    }
+
+    .booking-detail {
+        padding: 20px 0;
+        .h-30 {
+            height: 30px;
+        }
+        .btn-booking {
+            background-color: $colormain;
+            color: $common-white;
+            border: none;
+            height: 38px;
+            padding: 10px 20px;
+            margin-top: 20px;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            &:hover {
+                background-color: darken($colormain, 10%);
+            }
+        }
+    }
+}

@@ -1,0 +1,111 @@
+@import '../../styles/variables';
+
+a div {
+    text-decoration: none;
+    color: $text-color;
+    text-decoration: underline #fff;
+}
+
+// custom styles for slick
+.slick-prev:before,
+.slick-next:before {
+    content: none;
+}
+
+.slick-arrow-prev,
+.slick-arrow-next {
+    position: absolute;
+    z-index: 1;
+    top: 40%;
+    padding: 8px 12px;
+    border: 1px solid $colormain;
+    border-radius: 8px;
+    background-color: #fff;
+}
+
+.slick-arrow-prev {
+    left: -4px;
+}
+
+.slick-arrow-next {
+    right: -4px;
+}
+
+.slick-line:first-child {
+    &.slick-arrow-prev {
+        display: none !important;
+    }
+}
+
+.slick-line:last-child {
+    &.slick-arrow-next {
+        display: none !important;
+    }
+}
+
+.slick-disabled {
+    display: none !important;
+}
+
+// section
+.section-wrapper {
+    width: 100%;
+    // height: 330px;
+    margin-top: 20px;
+    padding: 20px 40px;
+    .section-content {
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            .btn-more {
+                line-height: 0;
+                font-weight: 500;
+                border-radius: 5px;
+                padding: 16px;
+                outline: $colormain solid 1px;
+                color: $colormain;
+                &:hover {
+                    background-color: $colormain;
+                    color: #fff;
+                }
+            }
+        }
+        .section-container {
+        }
+    }
+}
+
+.section-container {
+    .section-item-wrapper {
+        min-width: 270px;
+        width: 100%;
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+
+        .section-item-container {
+            padding: 12px 28px;
+            border: 1px solid #ccc;
+            border-radius: 12px;
+        }
+    }
+    .image-container {
+        padding: 12px;
+
+        .image {
+            width: 144px;
+            height: 144px;
+            object-fit: cover;
+        }
+    }
+    .text-description {
+        word-wrap: break-word;
+        text-decoration: none;
+        color: #000;
+        font-size: 1.2rem;
+        font-weight: 600;
+        line-height: 1.6;
+    }
+}

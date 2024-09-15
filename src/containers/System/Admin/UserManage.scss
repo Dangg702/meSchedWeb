@@ -1,0 +1,23 @@
+@import '../../../styles/variables';
+
+.pagination {
+    justify-content: center;
+}
+.btn.btn-add-user {
+    text-wrap: nowrap;
+    background-color: $colormain;
+    color: #fff;
+    transition: all 0.3s;
+    &:hover {
+        background-color: darken($colormain, 5);
+    }
+}
+.btn.btn-export {
+    text-wrap: nowrap;
+    background-color: $colordetail;
+    color: #fff;
+    transition: all 0.3s;
+    &:hover {
+        background-color: darken($colordetail, 5);
+    }
+}

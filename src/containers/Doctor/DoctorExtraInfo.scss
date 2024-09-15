@@ -1,0 +1,20 @@
+@import '../../styles/variables';
+
+.doctor-extra-info-container {
+    .info-title {
+        text-transform: uppercase;
+        font-size: 1rem;
+        font-weight: 600;
+        color: $text-color-grey;
+        line-height: 2;
+    }
+    .break-line {
+        border-bottom: 1px solid $border;
+        padding-bottom: 1rem;
+    }
+    .clinic-name {
+        font-weight: 600;
+        color: $text-color;
+        line-height: 2;
+    }
+}
