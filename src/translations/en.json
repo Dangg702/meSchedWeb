@@ -125,7 +125,9 @@
     },
 
     "manage-doctor": {
-        "create-doctor": "Update doctor information",
+        "create-doctor": "Add doctor information",
+        "edit-doctor": "Update doctor information",
+        "manage": "Manage doctor information",
         "save": "Submit",
         "selected-doctor": "Choose a doctor",
         "description": "Introduce",
@@ -135,12 +137,46 @@
         "clinic-name": "Clinic name",
         "address": "Address",
         "notes": "Notes",
-        "select": "Select..."
+        "select": "Select...",
+        "selected-specialty": "Choose a specialty",
+        "selected-clinic": "Choose a clinic"
     },
     "manage-schedule": {
         "title": "Manage your doctor's appointment schedule",
         "selected-doctor": "Choose a doctor",
         "selected-date": "Choose a date",
         "save": "Save"
+    },
+    "manage-specialty": {
+        "create-title": "Add Clinic",
+        "edit-title": "Update Clinic",
+        "save": "Save",
+        "name-vi": "Specialty name (Vietnamese)",
+        "name-en": "Specialty name (English)",
+        "description": "Description",
+        "image": "Image",
+        "choose": "Choose",
+        "search-placeholder": "Search specialty by name",
+        "edit-specialty": "Edit specialty",
+        "delete-specialty": "Delete specialty",
+        "create-specialty": "Create specialty",
+        "upload-specialty": "Specialty image",
+        "specialty-name": "Specialty name"
+    },
+    "manage-clinic": {
+        "save": "Save",
+        "name": "Clinic name",
+        "description": "Description",
+        "image": "Image",
+        "choose": "Choose",
+        "search-placeholder": "Search clinic by name",
+        "edit-specialty": "Edit clinic",
+        "delete-specialty": "Delete clinic",
+        "create-specialty": "Create clinic",
+        "upload-specialty": "Clinic image",
+        "specialty-name": "Clinic name",
+        "address": "Address",
+        "desc": "Description",
+        "type": "Type"
     }
 }

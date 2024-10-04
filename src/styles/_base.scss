@@ -93,28 +93,31 @@ input {
     }
 }
 
-// .modal {
-//     .modal-dialog {
-//         .modal-content {
-//             .modal-header {
-//                 padding: 0 10px;
-//                 height: 35px;
-//                 background-color: $colormain;
-//                 color: $common-text-color;
-//                 .modal-title {
-//                     line-height: 35px;
-//                     font-weight: 500;
-//                     font-size: $base-size + 1px;
-//                 }
-//                 .btn-close {
-//                     position: absolute;
-//                     color: $common-text-color;
-//                     i {
-//                         line-height: 35px;
-//                         font-size: $base-size + 2px;
-//                     }
-//                 }
-//             }
-//         }
-//     }
-// }
+.modal {
+    .modal-dialog {
+        .modal-content {
+            .modal-header {
+                justify-content: space-between;
+                padding: 0 10px;
+                height: 42px;
+                background-color: $colormain;
+                color: $common-text-color;
+                .modal-title {
+                    line-height: 35px;
+                    font-weight: 500;
+                    font-size: $base-size + 1px;
+                }
+                .close {
+                    color: $common-text-color;
+                    border: none;
+                    background: transparent;
+                    font-size: 24px;
+                    font-weight: 600;
+                }
+                .close:hover {
+                    color: #333;
+                }
+            }
+        }
+    }
+}

@@ -126,7 +126,9 @@
         "upload": "Tải ảnh"
     },
     "manage-doctor": {
-        "create-doctor": "Cập nhật thông tin bác sĩ",
+        "create-doctor": "Thêm bác sĩ",
+        "edit-doctor": "Cập nhật thông tin bác sĩ",
+        "manage": "Quản lý thông tin bác sĩ",
         "save": "Lưu",
         "selected-doctor": "Chọn bác sĩ",
         "description": "Thông tin giới thiệu",
@@ -136,12 +138,47 @@
         "clinic-name": "Tên phòng khám/ bệnh viện",
         "address": "Địa chỉ",
         "notes": "Ghi chú",
-        "select": "Chọn..."
+        "select": "Chọn...",
+        "selected-specialty": "Chọn chuyên khoa",
+        "selected-clinic": "Chọn phòng khám/ bệnh viện"
     },
     "manage-schedule": {
         "title": "Quản lý kế hoạch khám bệnh của bác sĩ",
         "selected-doctor": "Chọn bác sĩ",
         "selected-date": "Chọn ngày",
         "save": "Lưu"
+    },
+    "manage-specialty": {
+        "save": "Lưu",
+        "save-changes": "Lưu thay đổi",
+        "name-vi": "Tên chuyên khoa (tiếng Việt)",
+        "name-en": "Tên chuyên khoa (Tiếng Anh)",
+        "description": "Mô tả",
+        "image": "Ảnh",
+        "choose": "Chọn",
+        "search-placeholder": "Tìm kiếm chuyên khoa theo tên",
+        "delete-specialty": "Xóa chuyên khoa",
+        "create-specialty": "Thêm chuyên khoa",
+        "upload-specialty": "Ảnh chuyên khoa",
+        "specialty-name": "Tên chuyên khoa"
+    },
+    "manage-clinic": {
+        "create-title": "Thêm Bệnh viện/ Phòng khám",
+        "edit-title": "Chỉnh sửa thông tin Bệnh viện/ Phòng khám",
+        "manage": "Quản lý thông tin Bệnh viện/ Phòng khám",
+        "save": "Lưu",
+        "save-changes": "Lưu thay đổi",
+        "name": "Tên Bệnh Viện/ Phòng khám",
+        "description": "Mô tả",
+        "image": "Ảnh",
+        "choose": "Chọn",
+        "search-placeholder": "Tìm kiếm Bệnh Viện/ Phòng khám theo tên",
+        "delete-specialty": "Xóa Bệnh Viện/ Phòng khám",
+        "create-specialty": "Thêm Bệnh Viện/ Phòng khám",
+        "upload-specialty": "Ảnh Bệnh Viện/ Phòng khám",
+        "specialty-name": "Tên Bệnh Viện/ Phòng khám",
+        "address": "Địa chỉ",
+        "desc": "Mô tả",
+        "type": "Loại"
     }
 }

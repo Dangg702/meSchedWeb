@@ -1,0 +1,60 @@
+@import '../../styles/variables';
+@import '../../styles/common.scss';
+
+.specialty-list-item {
+    padding: 24px;
+}
+.specialty-list-item-container {
+}
+.specialty-list-item-link {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .left-content {
+        display: flex;
+        align-items: center;
+    }
+    .btn-book {
+        background-color: $colormain;
+        color: $common-white;
+        padding: 10px 20px;
+        height: auto;
+        width: 9rem;
+        font-weight: 600;
+        transition: all 0.3s;
+        &:hover {
+            background-color: darken($colormain, 5);
+        }
+    }
+}
+.specialty-list-item-image {
+    img {
+        width: 127px;
+        height: 127px;
+        border-radius: 50%;
+    }
+}
+.specialty-list-item-info {
+    margin-left: 24px;
+    line-height: 2;
+    text-align: left;
+
+    .specialty-list-item-name {
+        font-size: 1.2rem;
+        font-weight: 600;
+    }
+    .specialty-list-item-major {
+        width: fit-content;
+        padding: 0 10px;
+        background-color: $bg-grey;
+        border-radius: 12px;
+        text-decoration: underline $bg-grey;
+    }
+    .specialty-list-item-address {
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        font-size: 1rem;
+    }
+}

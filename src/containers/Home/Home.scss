@@ -21,6 +21,7 @@ a div {
     border: 1px solid $colormain;
     border-radius: 8px;
     background-color: #fff;
+    cursor: pointer;
 }
 
 .slick-arrow-prev {
@@ -103,9 +104,32 @@ a div {
     .text-description {
         word-wrap: break-word;
         text-decoration: none;
+        text-transform: capitalize;
+        text-align: center;
         color: #000;
         font-size: 1.2rem;
         font-weight: 600;
         line-height: 1.6;
+        max-width: 168px;
+        height: 54px;
+        &:hover {
+            color: $colormain;
+        }
+    }
+}
+
+@media screen and (max-width: 599px) {
+    .slick-arrow-prev,
+    .slick-arrow-next {
+        display: none !important;
+    }
+
+    .section-item-container {
+        width: 80%;
+    }
+    .image-container {
+        width: 100%;
+        display: flex;
+        justify-content: center;
     }
 }

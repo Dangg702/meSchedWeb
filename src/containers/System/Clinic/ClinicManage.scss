@@ -1,0 +1,29 @@
+@import '../../../styles/variables';
+
+.clinic-title {
+    font-size: 1.6rem;
+    font-weight: bold;
+    color: $colormain;
+    text-transform: uppercase;
+    text-align: center;
+    line-height: 1.4;
+}
+.btn-block {
+    width: 100%;
+    text-align: right;
+    margin: 24px 0;
+    .btn-save-clinic {
+        height: auto;
+        width: 96px;
+        background-color: $common-btn-confirm;
+        color: $common-white;
+        font-weight: 600;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: all 0.3s;
+        &:hover {
+            background-color: darken($common-btn-confirm, 10%);
+        }
+    }
+}

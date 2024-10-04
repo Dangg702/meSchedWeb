@@ -40,9 +40,26 @@ const userService = {
     getProfileDoctor(doctorId) {
         return axios.get(`/api/get-profile-doctor?id=${doctorId}`);
     },
-
     bookingAppointment(data) {
         return axios.post(`/api/booking-appointment`, data);
+    },
+    verifyBooking(data) {
+        return axios.post(`/api/verify-booking-appointment`, data);
+    },
+    createSpecialty(data) {
+        return axios.post(`/api/create-specialty`, data);
+    },
+    getSpecialty() {
+        return axios.get(`/api/get-all-specialty`);
+    },
+    getDoctorBySpecialtyId(id) {
+        return axios.get(`/api/get-doctor-by-specialty?id=${id}`);
+    },
+    getClinics() {
+        return axios.get(`/api/get-all-clinic`);
+    },
+    getClinicById(id) {
+        return axios.get(`/api/get-clinic-detail-by-id?id=${id}`);
     },
 };
 

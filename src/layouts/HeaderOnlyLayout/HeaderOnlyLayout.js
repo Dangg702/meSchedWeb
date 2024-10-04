@@ -2,9 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import HomeHeader from '../component/HomeHeader';
-import HomeFooter from '../component/HomeFooter';
 
-class DefaultLayout extends Component {
+class HeaderOnlyLayout extends Component {
     constructor(props) {
         super(props);
         this.state = {};
@@ -14,13 +13,11 @@ class DefaultLayout extends Component {
         const isHomePage = window.location && window.location.pathname === '/';
 
         return (
-            <div className="layout-container" style={{ height: '100vh' }}>
+            <div className="layout-container">
                 {/* Header */}
                 <HomeHeader isShowBanner={isHomePage} />
                 {/* content */}
                 {this.props.children}
-                {/* Footer */}
-                <HomeFooter />
             </div>
         );
     }
@@ -36,4 +33,4 @@ const mapDispatchToProps = (dispatch) => {
     return {};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(DefaultLayout);
+export default connect(mapStateToProps, mapDispatchToProps)(HeaderOnlyLayout);

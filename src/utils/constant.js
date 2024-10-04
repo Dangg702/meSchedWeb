@@ -5,11 +5,16 @@ export const path = {
     REGISTER: '/register',
     DOCTOR_INFO: '/doctor/:id',
     BOOKING: '/booking/:id',
+    BOOKING_VERIFY: '/booking-verify',
+    SPECIALTY_DETAIL: '/specialist-examination/:id',
+    CLINIC_DETAIL: '/clinics-examination/:id',
 
     SYSTEM: '/system',
     SYSTEM_USER_MANAGE: '/system/user-manage',
     SYSTEM_DOCTOR_MANAGE: '/system/doctor-manage',
     SYSTEM_DOCTOR_SCHEDULE_MANAGE: '/system/doctor/schedule-manage',
+    SYSTEM_SPECIALTY_MANAGE: '/system/specialty-manage',
+    SYSTEM_CLINIC_MANAGE: '/system/clinic-manage',
 };
 
 export const languages = {

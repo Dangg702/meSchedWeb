@@ -52,32 +52,48 @@ class Home extends Component {
             draggable: true,
             infinite: false,
             speed: 500,
-            slidesToShow: 4,
-            slidesToScroll: 4,
+            slidesToShow: 6,
+            slidesToScroll: 6,
             initialSlide: 0,
             responsive: [
                 {
-                    breakpoint: 1024,
+                    breakpoint: 1370,
+                    settings: {
+                        slidesToShow: 5,
+                        slidesToScroll: 5,
+                        infinite: true,
+                    },
+                },
+                {
+                    breakpoint: 1200,
+                    settings: {
+                        slidesToShow: 4,
+                        slidesToScroll: 4,
+                        infinite: true,
+                    },
+                },
+                {
+                    breakpoint: 995,
                     settings: {
                         slidesToShow: 3,
                         slidesToScroll: 3,
                         infinite: true,
-                        dots: true,
                     },
                 },
                 {
-                    breakpoint: 765,
+                    breakpoint: 798,
                     settings: {
                         slidesToShow: 2,
                         slidesToScroll: 2,
-                        initialSlide: 2,
+                        infinite: true,
                     },
                 },
                 {
-                    breakpoint: 530,
+                    breakpoint: 554,
                     settings: {
                         slidesToShow: 1,
                         slidesToScroll: 1,
+                        infinite: true,
                     },
                 },
             ],

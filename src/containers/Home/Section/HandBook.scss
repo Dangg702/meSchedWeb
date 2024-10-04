@@ -10,3 +10,10 @@
         object-fit: fill;
     }
 }
+@media screen and (max-width: 599px) {
+    .image-container {
+        .handbook-image {
+            object-fit: contain;
+        }
+    }
+}

@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Slider from 'react-slick';
 
+import userService from '../../../services/userService';
 import './MedicalFacilities.scss';
 import clinicImg from '../../../assets/images/clinic/cho-ray.jpg';
 import { FormattedMessage } from 'react-intl';
@@ -9,9 +11,27 @@ import { FormattedMessage } from 'react-intl';
 class MedicalFacilities extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            clinics: [],
+        };
+    }
+
+    componentDidMount() {
+        this.getClinics();
+    }
+
+    async getClinics() {
+        let response = await userService.getClinics();
+        console.log(response);
+        if (response && response.errCode === 0) {
+            this.setState({
+                clinics: response.data,
+            });
+        }
     }
 
     render() {
+        let { clinics } = this.state;
         return (
             <>
                 <div className="section-wrapper">
@@ -27,54 +47,19 @@ class MedicalFacilities extends Component {
 
                         <div className="section-container">
                             <Slider {...this.props.settings}>
-                                <div className="section-item-wrapper">
-                                    <a href="/" className="section-item-container">
-                                        <div className="image-container">
-                                            <img className="image" src={clinicImg} alt="..." />
-                                        </div>
-                                        <div className="text-description">Bệnh viện Chợ Rẫy</div>
-                                    </a>
-                                </div>
-                                <div className="section-item-wrapper">
-                                    <a href="/" className="section-item-container">
-                                        <div className="image-container">
-                                            <img className="image" src={clinicImg} alt="..." />
-                                        </div>
-                                        <span className="text-description">Bệnh viện Chợ Rẫy</span>
-                                    </a>
-                                </div>
-                                <div className="section-item-wrapper">
-                                    <a href="/" className="section-item-container">
-                                        <div className="image-container">
-                                            <img className="image" src={clinicImg} alt="..." />
-                                        </div>
-                                        <span className="text-description">Bệnh viện Chợ Rẫy</span>
-                                    </a>
-                                </div>
-                                <div className="section-item-wrapper">
-                                    <a href="/" className="section-item-container">
-                                        <div className="image-container">
-                                            <img className="image" src={clinicImg} alt="..." />
-                                        </div>
-                                        <span className="text-description">Bệnh viện Chợ Rẫy</span>
-                                    </a>
-                                </div>
-                                <div className="section-item-wrapper">
-                                    <a href="/" className="section-item-container">
-                                        <div className="image-container">
-                                            <img className="image" src={clinicImg} alt="..." />
-                                        </div>
-                                        <span className="text-description">Bệnh viện Chợ Rẫy</span>
-                                    </a>
-                                </div>
-                                <div className="section-item-wrapper">
-                                    <a href="/" className="section-item-container">
-                                        <div className="image-container">
-                                            <img className="image" src={clinicImg} alt="..." />
-                                        </div>
-                                        <span className="text-description">Bệnh viện Chợ Rẫy</span>
-                                    </a>
-                                </div>
+                                {clinics.map((clinic, index) => (
+                                    <div className="section-item-wrapper" key={index}>
+                                        <Link
+                                            to={`/clinics-examination/${clinic.id}`}
+                                            className="section-item-container"
+                                        >
+                                            <div className="image-container">
+                                                <img className="image" src={clinicImg} alt="..." />
+                                            </div>
+                                            <div className="text-description">{clinic.name}</div>
+                                        </Link>
+                                    </div>
+                                ))}
                             </Slider>
                         </div>
                     </div>

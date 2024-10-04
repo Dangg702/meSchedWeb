@@ -11,6 +11,9 @@ const adminService = {
     login(loginBody) {
         return axios.post(`/admin/login`, loginBody);
     },
+    createClinic(data) {
+        return axios.post(`/api/create-clinic`, data);
+    },
 };
 
 export default adminService;
