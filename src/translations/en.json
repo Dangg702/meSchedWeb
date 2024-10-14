@@ -29,11 +29,13 @@
             "clinic": "Clinic",
             "specialty": "Specialty",
             "handbook": "Handbook",
-            "crud": "CRUD user"
+            "crud": "CRUD user",
+            "add-clinic": "Add clinic"
         },
         "doctor": {
             "manage-schedule": "Manage schedule",
-            "manage-patient": "Manage patient"
+            "manage-patient": "Manage patient",
+            "manage-appointment": "Manage appointment"
         }
     },
     "manage-user": {
@@ -123,7 +125,6 @@
         "patient": "Patient",
         "btn-booking": "Book"
     },
-
     "manage-doctor": {
         "create-doctor": "Add doctor information",
         "edit-doctor": "Update doctor information",
@@ -143,9 +144,17 @@
     },
     "manage-schedule": {
         "title": "Manage your doctor's appointment schedule",
+        "title-info": "Information appointment schedule",
         "selected-doctor": "Choose a doctor",
         "selected-date": "Choose a date",
-        "save": "Save"
+        "save": "Save",
+        "search-placeholder": "Search by date",
+        "no-data": "Không có dữ liệu lịch hẹn",
+        "date": "Date",
+        "time": "Time",
+        "doctor": "Doctor",
+        "actions": "Actions",
+        "delete": "Delete"
     },
     "manage-specialty": {
         "create-title": "Add Clinic",
@@ -177,6 +186,23 @@
         "specialty-name": "Clinic name",
         "address": "Address",
         "desc": "Description",
-        "type": "Type"
+        "type": "Type",
+        "add-clinic-title": "Add Clinic",
+        "actions": "Actions"
+    },
+    "manage-appointment": {
+        "title": "Manage your doctor's appointment",
+        "choose-date": "Choose date",
+        "no-data": "No appointment data",
+        "status": "Status",
+        "time": "Time",
+        "patient-name": "Full Name",
+        "gender": "Gender",
+        "actions": "Actions",
+        "confirm": "Confirm",
+        "cancel": "Cancel"
+    },
+    "my-appointment": {
+        "title": "My appointment"
     }
 }

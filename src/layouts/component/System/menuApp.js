@@ -28,6 +28,10 @@ export const adminMenu = [
         name: 'menu.admin.clinic',
         menus: [
             {
+                name: 'menu.admin.add-clinic',
+                link: '/system/add-clinic',
+            },
+            {
                 name: 'menu.admin.manage-clinic',
                 link: '/system/clinic-manage',
             },
@@ -56,15 +60,24 @@ export const adminMenu = [
 export const doctorMenu = [
     {
         name: 'menu.doctor.manage-schedule',
-        menus: [
-            {
-                name: 'menu.doctor.manage-schedule',
-                link: '/system/doctor/schedule-manage',
-            },
-            // {
-            //     name: 'menu.doctor.manage-patient',
-            //     link: '/system/doctor/patient-manage',
-            // },
-        ],
+        link: '/system/doctor/schedule-manage',
+
+        // menus: [
+        //     {
+        //         name: 'menu.doctor.manage-schedule',
+        //         link: '/system/doctor/schedule-manage',
+        //     },
+        // ],
+    },
+    {
+        name: 'menu.doctor.manage-appointment',
+        link: '/system/doctor/appointment-manage',
+
+        // menus: [
+        //     {
+        //         name: 'menu.doctor.manage-appointment',
+        //         link: '/system/doctor/appointment-manage',
+        //     },
+        // ],
     },
 ];

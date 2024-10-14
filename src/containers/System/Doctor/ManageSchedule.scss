@@ -60,6 +60,10 @@
     }
 }
 
+.modal-backdrop.show {
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
 // Mobile styles
 @media only screen and (max-width: 600px) {
     .schedule-container {

@@ -8,6 +8,9 @@ export const path = {
     BOOKING_VERIFY: '/booking-verify',
     SPECIALTY_DETAIL: '/specialist-examination/:id',
     CLINIC_DETAIL: '/clinics-examination/:id',
+    SPECIALTY_ALL: '/book-appointment/specialty',
+    MY_PROFILE: '/my-profile',
+    MY_APPOINTMENT: '/my-appointment',
 
     SYSTEM: '/system',
     SYSTEM_USER_MANAGE: '/system/user-manage',
@@ -15,6 +18,8 @@ export const path = {
     SYSTEM_DOCTOR_SCHEDULE_MANAGE: '/system/doctor/schedule-manage',
     SYSTEM_SPECIALTY_MANAGE: '/system/specialty-manage',
     SYSTEM_CLINIC_MANAGE: '/system/clinic-manage',
+    SYSTEM_ADD_CLINIC: '/system/add-clinic',
+    SYSTEM_DOCTOR_APPOINTMENT_MANAGE: '/system/doctor/appointment-manage',
 };
 
 export const languages = {

@@ -202,13 +202,30 @@
     align-items: center;
 }
 
-.banner-nav-wrapper {
-    display: none;
+.right-nav-wrapper {
+    display: flex;
+    // flex-direction: row-reverse;
 }
+
+// .banner-nav-wrapper {
+//     display: none;
+// }
 
 // responsive mobile
 @media only screen and (max-width: 768px) {
     .banner-nav-wrapper {
         display: none;
+    }
+    .header-logo {
+        // width: 90px;
+        // background-size: 70%;
+        display: none;
+    }
+    .navbar {
+        flex-direction: row-reverse;
+        justify-content: flex-start !important;
+    }
+    .right-nav-wrapper {
+        margin-right: 12px;
     }
 }

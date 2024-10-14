@@ -38,7 +38,7 @@ class ModalUser extends Component {
             gender: '',
             position: '',
             role: '',
-            avatar: '',
+            image: '',
 
             errors: {
                 email: '',
@@ -50,7 +50,7 @@ class ModalUser extends Component {
                 gender: '',
                 position: '',
                 role: '',
-                avatar: '',
+                image: '',
             },
 
             genderArr: [],
@@ -145,9 +145,9 @@ class ModalUser extends Component {
     };
 
     handleSubmitForm = () => {
-        const { id, email, password, firstName, lastName, address, phoneNumber, gender, role, position, avatar } =
+        const { id, email, password, firstName, lastName, address, phoneNumber, gender, role, position, image } =
             this.state;
-        const data = { id, email, password, firstName, lastName, address, phoneNumber, gender, role, position, avatar };
+        const data = { id, email, password, firstName, lastName, address, phoneNumber, gender, role, position, image };
         if (this.props.isEditing) {
             this.props.handleSubmit(data);
         } else {
@@ -176,21 +176,12 @@ class ModalUser extends Component {
     };
 
     handleChangeImage = (e) => {
-        // let data = new FormData();
-        // data.append('image', e.target.files[0]);
-        // userService.uploadFile(data).then((res) => {
-        //     if (res && res.errCode === 0) {
-        //         let copyState = { ...this.state };
-        //         copyState['image'] = res.link;
-        //         this.setState(copyState);
-        //     } else {
-        //         console.log('upload image failed');
-        //     }
-        // });
         let file = e.target.files[0];
+        console.log('file', file);
+
         if (file) {
             let url = URL.createObjectURL(file);
-            this.setState({ previewImgUrl: url, avatar: url });
+            this.setState({ previewImgUrl: url, image: file });
         }
     };
 
@@ -198,7 +189,6 @@ class ModalUser extends Component {
         let { isEditing, language } = this.props;
         let { genderArr, positionArr, roleArr, isOpenLightBox, errors } = this.state;
         // console.log('roles', this.props.roles);
-
         return (
             <Modal
                 isOpen={this.props.modal}
@@ -417,8 +407,9 @@ class ModalUser extends Component {
                                     <div className="preview-img-container">
                                         <Input
                                             id="image"
-                                            name="file"
+                                            name="image"
                                             type="file"
+                                            accept="image/*"
                                             hidden
                                             onChange={(e) => this.handleChangeImage(e)}
                                         />

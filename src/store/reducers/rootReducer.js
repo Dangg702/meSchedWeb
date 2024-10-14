@@ -23,7 +23,7 @@ const userPersistConfig = {
 const appPersistConfig = {
     ...persistCommonConfig,
     key: 'app',
-    whitelist: ['language'],
+    whitelist: ['language', 'loading'],
 };
 
 const rootReducer = (history) =>

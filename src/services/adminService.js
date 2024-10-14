@@ -14,6 +14,9 @@ const adminService = {
     createClinic(data) {
         return axios.post(`/api/create-clinic`, data);
     },
+    getAllClinic(name, page, perPage) {
+        return axios.get(`/api/get-clinics?name=${name}&page=${page}&per_page=${perPage}`);
+    },
 };
 
 export default adminService;

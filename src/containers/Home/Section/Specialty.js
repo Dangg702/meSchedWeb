@@ -36,9 +36,9 @@ class Specialty extends Component {
                             <h2 className="section-title">
                                 <FormattedMessage id="homepage.specialty" />
                             </h2>
-                            <button type="button" className="btn btn-more">
+                            <Link to={`/book-appointment/specialty`} className="btn btn-more">
                                 <FormattedMessage id="homepage.more" />
-                            </button>
+                            </Link>
                         </div>
 
                         <div className="section-container">

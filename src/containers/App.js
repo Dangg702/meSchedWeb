@@ -4,11 +4,14 @@ import { Route, Switch } from 'react-router-dom';
 import { ConnectedRouter as Router } from 'connected-react-router';
 import { history } from '../redux';
 import { ToastContainer } from 'react-toastify';
+import LoadingOverlay from 'react-loading-overlay';
 
 import CustomScrollbars from '../components/CustomScrollbars';
+import * as actions from '~/store/actions';
 
 import { routes } from '~/routes/routes';
 import DefaultLayout from '~/layouts/DefaultLayout';
+import LoadingOverlayComponent from '~/components/LoadingOverlayComponent/LoadingOverlayComponent';
 
 class App extends Component {
     handlePersistorState = () => {
@@ -27,6 +30,7 @@ class App extends Component {
 
     componentDidMount() {
         this.handlePersistorState();
+        // this.props.setLoading(false);
     }
 
     render() {
@@ -35,32 +39,34 @@ class App extends Component {
                 <Router history={history}>
                     <div className="main-container">
                         <div className="content-container">
-                            <CustomScrollbars style={{ width: '100%', height: ' 100vh' }}>
-                                <Switch>
-                                    {routes.map((route, index) => {
-                                        const Page = route.component;
-                                        let Layout = DefaultLayout;
+                            <LoadingOverlayComponent>
+                                <CustomScrollbars style={{ width: '100%', height: ' 100vh' }}>
+                                    <Switch>
+                                        {routes.map((route, index) => {
+                                            const Page = route.component;
+                                            let Layout = DefaultLayout;
 
-                                        if (route.layout) {
-                                            Layout = route.layout;
-                                        } else if (route.layout === null) {
-                                            Layout = Fragment;
-                                        }
-                                        return (
-                                            <Route
-                                                key={index}
-                                                path={route.path}
-                                                exact={route.exact}
-                                                render={(props) => (
-                                                    <Layout>
-                                                        <Page {...props} />
-                                                    </Layout>
-                                                )}
-                                            />
-                                        );
-                                    })}
-                                </Switch>
-                            </CustomScrollbars>
+                                            if (route.layout) {
+                                                Layout = route.layout;
+                                            } else if (route.layout === null) {
+                                                Layout = Fragment;
+                                            }
+                                            return (
+                                                <Route
+                                                    key={index}
+                                                    path={route.path}
+                                                    exact={route.exact}
+                                                    render={(props) => (
+                                                        <Layout>
+                                                            <Page {...props} />
+                                                        </Layout>
+                                                    )}
+                                                />
+                                            );
+                                        })}
+                                    </Switch>
+                                </CustomScrollbars>
+                            </LoadingOverlayComponent>
                         </div>
                     </div>
                 </Router>
@@ -84,11 +90,14 @@ const mapStateToProps = (state) => {
     return {
         started: state.app.started,
         isLoggedIn: state.user.isLoggedIn,
+        loading: state.app.loading,
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
-    return {};
+    return {
+        setLoading: (isLoading) => dispatch(actions.setLoading(isLoading)),
+    };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

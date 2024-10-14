@@ -29,11 +29,13 @@
             "clinic": "Bệnh viện",
             "specialty": "Chuyên khoa",
             "handbook": "Cẩm nang",
-            "crud": "CRUD user"
+            "crud": "CRUD user",
+            "add-clinic": "Thêm bệnh viện/ Phòng khám"
         },
         "doctor": {
             "manage-schedule": "Quản lý lịch khám",
-            "manage-patient": "Quản lý bệnh nhân"
+            "manage-patient": "Quản lý bệnh nhân",
+            "manage-appointment": "Quản lý lịch hẹn"
         }
     },
     "auth": {
@@ -144,9 +146,17 @@
     },
     "manage-schedule": {
         "title": "Quản lý kế hoạch khám bệnh của bác sĩ",
+        "title-info": "Thông tin kế hoạch khám",
         "selected-doctor": "Chọn bác sĩ",
         "selected-date": "Chọn ngày",
-        "save": "Lưu"
+        "save": "Lưu",
+        "search-placeholder": "Tìm theo ngày",
+        "no-data": "Không có dữ liệu lịch hẹn",
+        "date": "Ngày",
+        "time": "Thời gian",
+        "doctor": "Bác sĩ",
+        "actions": "Thao tác",
+        "delete": "Xóa"
     },
     "manage-specialty": {
         "save": "Lưu",
@@ -179,6 +189,23 @@
         "specialty-name": "Tên Bệnh Viện/ Phòng khám",
         "address": "Địa chỉ",
         "desc": "Mô tả",
-        "type": "Loại"
+        "type": "Loại",
+        "add-clinic-title": "Thêm Bệnh Viện/ Phòng khám",
+        "actions": "Thao tác"
+    },
+    "manage-appointment": {
+        "title": "Quản lý lịch hẹn của bác sĩ",
+        "choose-date": "Chọn ngày",
+        "no-data": "Không có dữ liệu lịch hẹn",
+        "status": "Trạng thái",
+        "time": "Thời gian",
+        "patient-name": "Họ Tên",
+        "gender": "Giới tính",
+        "actions": "Thao tác",
+        "confirm": "Xác nhận",
+        "cancel": "Hủy"
+    },
+    "my-appointment": {
+        "title": "Lịch hẹn của bạn"
     }
 }

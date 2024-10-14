@@ -5,9 +5,10 @@ import ReactPaginate from 'react-paginate';
 import _ from 'lodash';
 import { debounce } from 'lodash';
 import { CSVLink } from 'react-csv';
+import { toast } from 'react-toastify';
+import { Link } from 'react-router-dom';
 
 import ModalUser from './ModalUser';
-import { toast } from 'react-toastify';
 import userService from '../../../services/userService';
 import { emitter } from '../../../utils/emitter';
 import * as actions from '../../../store/actions';
@@ -86,7 +87,7 @@ class UserManage extends Component {
 
     createNewUser = async (data) => {
         try {
-            let { email, password, firstName, lastName, address, phoneNumber, role, gender, position, avatar } = data;
+            let { email, password, firstName, lastName, address, phoneNumber, role, gender, position, image } = data;
             let newData = {
                 email: email.trim(),
                 password: password.trim(),
@@ -97,7 +98,7 @@ class UserManage extends Component {
                 role,
                 gender: gender,
                 position: position,
-                avatar,
+                image: image,
             };
             let response = await userService.createUser(newData);
             if (response && response.errCode === 0) {
@@ -121,6 +122,7 @@ class UserManage extends Component {
 
     editUser = async (id, data) => {
         try {
+            console.log('edit data', data);
             let response = await userService.editUser(id, data);
             if (response && response.errCode === 0) {
                 toast.success('Edit user succeeded');
@@ -135,7 +137,8 @@ class UserManage extends Component {
     };
 
     handleSubmitModal = (data) => {
-        const { email, password, firstName, lastName, address, phoneNumber, gender, role, position, avatar } = data;
+        const { email, password, firstName, lastName, address, phoneNumber, gender, role, position, image } = data;
+        // let imageUrl = await
         const createData = {
             email,
             password,
@@ -146,7 +149,7 @@ class UserManage extends Component {
             gender,
             role,
             position,
-            avatar,
+            image,
         };
         if (this.state.isEditing) {
             this.editUser(data.id, {
@@ -157,7 +160,7 @@ class UserManage extends Component {
                 gender,
                 roleId: role,
                 positionId: position,
-                image: avatar,
+                image: image && image,
             });
         } else {
             this.createNewUser(createData);

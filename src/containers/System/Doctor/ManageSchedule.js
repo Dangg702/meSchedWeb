@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Select from 'react-select';
 import { FormattedMessage } from 'react-intl';
-import _ from 'lodash';
+import _, { debounce } from 'lodash';
 import moment from 'moment';
+import { Button, Modal, ModalBody, ModalFooter, ModalHeader, Table } from 'reactstrap';
 
 import './ManageSchedule.scss';
 import { languages } from '~/utils';
@@ -13,6 +14,7 @@ import { FormattedDate } from '~/components/Formating';
 import { isRequired } from '~/utils/ValidateInput';
 import * as actions from '~/store/actions';
 import { toast } from 'react-toastify';
+import ReactPaginate from 'react-paginate';
 
 class ManageSchedule extends Component {
     constructor(props) {
@@ -24,6 +26,12 @@ class ManageSchedule extends Component {
             selectedDate: currentDate.setDate(currentDate.getDate() + 2),
             minDate: new Date().setDate(new Date().getDate() - 1),
             timeRanges: [],
+            listSchedule: [],
+            perPage: 50,
+            page: 1,
+            totalSchedule: 0,
+            totalPages: 0,
+            isConfirmDelModal: false,
             errs: {
                 selectedOption: null,
                 selectedDate: null,
@@ -36,6 +44,7 @@ class ManageSchedule extends Component {
     componentDidMount() {
         this.getAllDoctors();
         this.props.fetchScheduleCode();
+        this.getAllSchedule();
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -48,6 +57,12 @@ class ManageSchedule extends Component {
                 timeRanges: data,
                 defaultTimeRanges: data,
             });
+        }
+        if (prevState.page !== this.state.page) {
+            this.getAllSchedule(this.state.page, this.state.perPage);
+        }
+        if (prevState.totalSchedule !== this.state.totalSchedule) {
+            this.getAllSchedule(1, this.state.perPage);
         }
     }
 
@@ -135,10 +150,11 @@ class ManageSchedule extends Component {
     handleSubmit = async () => {
         let { selectedOption, selectedDate, timeRanges } = this.state;
         let formattedDate = selectedDate ? moment(selectedDate).format('DD/MM/YYYY') : null;
-        // console.log('formattedDate', typeof formattedDate);
         timeRanges = timeRanges.filter((item) => item.isSelected).map((item) => item.keyMap);
+        if (this.props.role === 'R2') {
+            selectedOption = selectedOption ? selectedOption : { value: this.props.doctorId };
+        }
         let isValid = this.checkValid(selectedOption, selectedDate, timeRanges, 'all');
-
         if (!isValid) {
             return;
         } else {
@@ -150,10 +166,9 @@ class ManageSchedule extends Component {
                 obj.timeType = item;
                 result.push(obj);
             });
-
             let response = await doctorService.createDoctorSchedule({
                 dataArr: result,
-                doctorId: selectedOption.value,
+                doctorId: selectedOption ? selectedOption.value : this.props.doctorId,
                 date: formattedDate,
             });
             if (response && response.errCode === 0) {
@@ -168,9 +183,8 @@ class ManageSchedule extends Component {
                     },
                 });
                 toast.success('Create schedule successfully');
+                this.setState({ page: 1 });
             } else toast.error('Create schedule failed');
-
-            console.log('handleSubmit', response);
         }
     };
 
@@ -180,10 +194,50 @@ class ManageSchedule extends Component {
         }
     };
 
+    handleSearch = debounce((e) => {
+        let term = e.target.value;
+        if (term) {
+            let cloneListSchedule = _.cloneDeep(this.state.listSchedule);
+            cloneListSchedule = cloneListSchedule.filter((item) => item.date.includes(term));
+            this.setState({ listSchedule: cloneListSchedule });
+            // this.getAllSchedule(term, this.state.page, this.state.perPage);
+        } else {
+            this.getAllSchedule('ALL', this.state.page, this.state.perPage);
+        }
+    }, 300);
+
+    toggleModal = () => {
+        this.setState({ isConfirmDelModal: !this.state.isConfirmDelModal });
+    };
+
+    handleDelete = async (item) => {
+        console.log(item.id);
+        this.toggleModal();
+        let response = await doctorService.deleteSchedule(item.id);
+        if (response && response.errCode === 0) {
+            toast.success('Delete schedule successfully');
+            this.setState({ page: 1 });
+        } else {
+            toast.error('Delete schedule failed');
+        }
+    };
+
+    getAllSchedule = async () => {
+        let res = await doctorService.getAllSchedule('ALL', this.state.page, this.state.perPage);
+        if (res && res.errCode === 0) {
+            this.setState({ listSchedule: res.data, totalSchedule: res.total, totalPages: res.total_pages });
+        }
+    };
+    // pagination
+    handlePageClick = (event) => {
+        this.setState({ page: +event.selected + 1 });
+    };
+
     render() {
-        let { doctors, selectedDate, minDate, timeRanges, errs } = this.state;
+        let { doctors, selectedDate, minDate, timeRanges, errs, listSchedule, isConfirmDelModal } = this.state;
         let { language } = this.props;
         let options = this.buildInputDataSelect(doctors);
+
         return (
             <div className="container schedule-container">
                 <div className="schedule-title my-3">
@@ -191,21 +245,26 @@ class ManageSchedule extends Component {
                 </div>
                 <div className="form-wrapper">
                     <div className="row g-3">
-                        <div className="col-sm-12 col-md-6">
-                            <label className="lable-input">
-                                <FormattedMessage id="manage-schedule.selected-doctor" />
-                            </label>
-                            <Select
-                                className="select-doctor"
-                                options={options}
-                                value={this.state.selectedOption}
-                                onChange={this.handleChangeDoctor}
-                                onBlur={() => this.checkValid(this.state.selectedOption, null, null, 'selectedOption')}
-                            />
-                            <div className={errs || errs.selectedOption ? 'error-message' : ''}>
-                                {errs.selectedOption}
+                        {this.props.role && this.props.role === 'R2' ? null : (
+                            <div className="col-sm-12 col-md-6">
+                                <label className="lable-input">
+                                    <FormattedMessage id="manage-schedule.selected-doctor" />
+                                </label>
+                                <Select
+                                    className="select-doctor"
+                                    options={options}
+                                    value={this.state.selectedOption}
+                                    onChange={this.handleChangeDoctor}
+                                    onBlur={() =>
+                                        this.checkValid(this.state.selectedOption, null, null, 'selectedOption')
+                                    }
+                                />
+                                <div className={errs || errs.selectedOption ? 'error-message' : ''}>
+                                    {errs.selectedOption}
+                                </div>
                             </div>
-                        </div>
+                        )}
+
                         <div className="col-sm-12 col-md-6">
                             <label className="lable-input">
                                 <FormattedMessage id="manage-schedule.selected-date" />
@@ -239,6 +298,115 @@ class ManageSchedule extends Component {
                         <FormattedMessage id="manage-schedule.save" />
                     </button>
                 </div>
+                <div className="schedule-title my-3">
+                    <FormattedMessage id="manage-schedule.title-info" />
+                </div>
+                <div className="schedule-info row">
+                    <div className="col-sm-12 col-md-6">
+                        <FormattedMessage id="manage-schedule.search-placeholder" defaultMessage="search">
+                            {(placeholder) => (
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    placeholder={placeholder}
+                                    onInput={(e) => this.handleSearch(e)}
+                                />
+                            )}
+                        </FormattedMessage>
+                    </div>
+
+                    <div className="col-12 mt-3 table-manage-schedule">
+                        <Table bordered responsive>
+                            <thead>
+                                <tr className="table-warning">
+                                    <th>#</th>
+                                    <th>
+                                        <FormattedMessage id="manage-schedule.date" />
+                                    </th>
+                                    <th>
+                                        <FormattedMessage id="manage-schedule.time" />
+                                    </th>
+                                    <th>
+                                        <FormattedMessage id="manage-schedule.doctor" />
+                                    </th>
+                                    <th>
+                                        <FormattedMessage id="manage-schedule.actions" />
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {listSchedule && listSchedule.length > 0 ? (
+                                    listSchedule.map((item, index) => (
+                                        <tr>
+                                            <th scope="row" key={index}>
+                                                {index + 1}
+                                            </th>
+                                            <td>{item.date}</td>
+                                            <td>
+                                                {language === languages.VI
+                                                    ? item.timeData.valueVi
+                                                    : item.timeData.valueEn}
+                                            </td>
+                                            <td>
+                                                {language === languages.VI
+                                                    ? `${item.doctorData.lastName} ${item.doctorData.firstName}`
+                                                    : `${item.doctorData.firstName} ${item.doctorData.lastName}`}
+                                            </td>
+                                            <td>
+                                                <button
+                                                    className="btn btn-outline-danger ms-2"
+                                                    onClick={() => this.toggleModal()}
+                                                >
+                                                    <FormattedMessage id="manage-schedule.delete" />
+                                                </button>
+                                                <Modal isOpen={isConfirmDelModal} toggle={this.toggleModal}>
+                                                    <ModalHeader toggle={this.toggleModal}>Xác nhận xóa</ModalHeader>
+                                                    <ModalBody>Bạn có chắc chắn muốn xóa lịch hẹn này không?</ModalBody>
+                                                    <ModalFooter>
+                                                        <Button color="primary" onClick={() => this.handleDelete(item)}>
+                                                            Xóa
+                                                        </Button>{' '}
+                                                        <Button color="secondary" onClick={this.toggleModal}>
+                                                            Hủy
+                                                        </Button>
+                                                    </ModalFooter>
+                                                </Modal>
+                                            </td>
+                                        </tr>
+                                    ))
+                                ) : (
+                                    <tr>
+                                        <td colSpan="6" className="text-center">
+                                            <FormattedMessage id="manage-schedule.no-data" />
+                                        </td>
+                                    </tr>
+                                )}
+                            </tbody>
+                        </Table>
+                    </div>
+
+                    {/* Paginate */}
+                    <ReactPaginate
+                        nextLabel=">>"
+                        onPageChange={(e) => this.handlePageClick(e)}
+                        pageRangeDisplayed={3}
+                        marginPagesDisplayed={5}
+                        pageCount={this.state.totalPages}
+                        previousLabel="<<"
+                        pageClassName="page-item"
+                        pageLinkClassName="page-link"
+                        previousClassName="page-item"
+                        previousLinkClassName="page-link"
+                        nextClassName="page-item"
+                        nextLinkClassName="page-link"
+                        breakLabel="..."
+                        breakClassName="page-item"
+                        breakLinkClassName="page-link"
+                        containerClassName="pagination"
+                        activeClassName="active"
+                        renderOnZeroPageCount={null}
+                    />
+                </div>
             </div>
         );
     }
@@ -250,6 +418,8 @@ const mapStateToProps = (state) => {
         isLoggedIn: state.user.isLoggedIn,
         language: state.app.language,
         scheduleTime: state.admin.scheduleTime,
+        role: state.user.userInfo.roleId,
+        doctorId: state.user.userInfo.id,
     };
 };
 

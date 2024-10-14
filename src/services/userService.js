@@ -61,6 +61,18 @@ const userService = {
     getClinicById(id) {
         return axios.get(`/api/get-clinic-detail-by-id?id=${id}`);
     },
+    getListAppointmentPatient(doctorId, date) {
+        return axios.get(`/api/lists-appointment-patient?doctorId=${doctorId}&date=${date}`);
+    },
+    confirmAppointment(data) {
+        return axios.post(`/api/confirm-appointment`, data);
+    },
+    cancelAppointment(data) {
+        return axios.post(`/api/cancel-appointment`, data);
+    },
+    getListAppointmentOfPatientById(patientId) {
+        return axios.get(`/api/list-my-appointment?id=${patientId}`);
+    },
 };
 
 export default userService;

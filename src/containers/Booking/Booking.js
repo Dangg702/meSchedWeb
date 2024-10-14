@@ -84,11 +84,14 @@ class Booking extends Component {
             language,
         };
         try {
+            this.props.setLoading(true);
             let result = await userService.bookingAppointment(data);
             if (result.errCode === 0) {
+                this.props.setLoading(false);
                 toast.success('Hãy kiểm tra hộp thư');
                 this.props.history.goBack();
             } else {
+                this.props.setLoading(false);
                 toast.error('Đặt lịch thất bại: ' + result.message);
             }
         } catch (error) {
@@ -100,7 +103,7 @@ class Booking extends Component {
         let { language, scheduleTime } = this.props;
         let { doctorInfo, time } = this.state;
         const foundTime = scheduleTime?.find((item) => item.keyMap === time);
-        console.log('check', doctorInfo);
+        // console.log('check', doctorInfo);
         return (
             <>
                 <div className="booking-container">
@@ -251,6 +254,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         fetchScheduleCode: () => dispatch(actions.fetchScheduleCode()),
+        setLoading: (isLoading) => dispatch(actions.setLoading(isLoading)),
     };
 };
 

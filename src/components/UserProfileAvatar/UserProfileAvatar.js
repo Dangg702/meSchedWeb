@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
-import { languages } from '~/utils';
+import { languages, path } from '~/utils';
 import * as actions from '~/store/actions';
 
 import './UserProfileAvatar.scss';
@@ -41,6 +42,12 @@ class UserProfileAvatar extends Component {
                         {/* {userInfo && userInfo.firstName} */}
                     </DropdownToggle>
                     <DropdownMenu className="dropdown-menu-wrapper">
+                        <div className="dropdown-menu-item">
+                            <Link to={path.MY_PROFILE}>Hồ sơ của bạn</Link>
+                        </div>
+                        <div className="dropdown-menu-item">
+                            <Link to={path.MY_APPOINTMENT}>Lịch hẹn của bạn</Link>
+                        </div>
                         <div className="dropdown-menu-item" onClick={this.handleLogout}>
                             <FormattedMessage id="homeHeader.Logout" />
                         </div>

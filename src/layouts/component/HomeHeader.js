@@ -70,7 +70,7 @@ class HomeHeader extends Component {
     };
 
     render() {
-        let { language, isLoggedIn, userInfo } = this.props;
+        let { language, isLoggedIn, userInfo, isSubNav } = this.props;
         let isShowBanner = this.props.isShowBanner ? true : false;
         return (
             <>
@@ -81,6 +81,7 @@ class HomeHeader extends Component {
                                 <div className="header-logo"></div>
                             </NavbarBrand>
                             <NavbarToggler onClick={() => this.toggle()} />
+                            {/* <div> */}
                             <Collapse isOpen={this.state.isOpen} navbar>
                                 <Nav className="ms-auto" navbar>
                                     <UncontrolledDropdown
@@ -165,6 +166,27 @@ class HomeHeader extends Component {
                                         </DropdownMenu>
                                     </UncontrolledDropdown>
                                 </Nav>
+                                {/* <NavbarText className="ms-3">
+                                    {isLoggedIn ? (
+                                        <UserProfileAvatar userInfo={userInfo} className="image-avatar-user" />
+                                    ) : (
+                                        <Link to={path.LOGIN} className="btn btn-login">
+                                            <FormattedMessage id={'auth.login'} />
+                                        </Link>
+                                    )}
+                                </NavbarText>
+                                <NavbarText className="ms-3 language-btn">
+                                    <div className={language === languages.VI ? 'language action' : 'language'}>
+                                        <span onClick={() => this.changLanguage(languages.VI)}>VI</span>
+                                    </div>
+                                    <div
+                                        className={language === languages.EN ? 'ms-3 language action' : 'ms-3 language'}
+                                    >
+                                        <span onClick={() => this.changLanguage(languages.EN)}>EN</span>
+                                    </div>
+                                </NavbarText> */}
+                            </Collapse>
+                            <div className="right-nav-wrapper">
                                 <NavbarText className="ms-3">
                                     {isLoggedIn ? (
                                         <UserProfileAvatar userInfo={userInfo} className="image-avatar-user" />
@@ -184,7 +206,8 @@ class HomeHeader extends Component {
                                         <span onClick={() => this.changLanguage(languages.EN)}>EN</span>
                                     </div>
                                 </NavbarText>
-                            </Collapse>
+                            </div>
+                            {/* </div> */}
                         </Navbar>
                     </div>
                 </div>
@@ -213,24 +236,28 @@ class HomeHeader extends Component {
                     <></>
                 )}
 
-                <div className="banner-nav-wrapper">
-                    <div className="row banner-nav">
-                        <div className="col-md-3 col-lg-3 banner-nav-item">
-                            <i className="fa-regular fa-snowflake me-2"></i>
-                            Đặt khám bác sĩ
-                        </div>
-                        <div className="col-md-3 col-lg-3 banner-nav-item">
-                            <i className="fa-regular fa-building me-2"></i>
-                            Đặt khám bệnh viện
-                        </div>
-                        <div className="col-md-3 col-lg-3 banner-nav-item">
-                            <i className="fa-regular fa-calendar-plus me-2"></i>Đặt khám chuyên khoa
-                        </div>
-                        <div className="col-md-3 col-lg-3 banner-nav-item">
-                            <i className="fa-solid fa-syringe me-2"></i>Đặt lịch tiêm chủng
+                {isSubNav ? (
+                    <div className="banner-nav-wrapper">
+                        <div className="row banner-nav">
+                            <div className="col-md-4 col-lg-4 banner-nav-item">
+                                <i className="fa-regular fa-snowflake me-2"></i>
+                                Đặt khám bác sĩ
+                            </div>
+                            <div className="col-md-4 col-lg-4 banner-nav-item">
+                                <i className="fa-regular fa-building me-2"></i>
+                                Đặt khám bệnh viện
+                            </div>
+                            <div className="col-md-4 col-lg-4 banner-nav-item">
+                                <i className="fa-regular fa-calendar-plus me-2"></i>Đặt khám chuyên khoa
+                            </div>
+                            {/* <div className="col-md-3 col-lg-3 banner-nav-item">
+                                <i className="fa-solid fa-syringe me-2"></i>Đặt lịch tiêm chủng
+                            </div> */}
                         </div>
                     </div>
-                </div>
+                ) : (
+                    <></>
+                )}
             </>
         );
     }

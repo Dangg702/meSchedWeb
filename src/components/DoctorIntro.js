@@ -32,15 +32,15 @@ class DoctorIntro extends Component {
                     </div>
                     {buttonRight ? (
                         <>
-                            <div className="col-sm-12 col-md-8 m-auto">
+                            <div className="col-sm-12 col-md-7 m-auto">
                                 <div className="doctor-position" style={{ fontSize: positionSize }}>
                                     {language === languages.VI
                                         ? doctorData?.positionData
                                             ? `${doctorData?.positionData?.valueVi} ${doctorData?.lastName} ${doctorData?.firstName}`
-                                            : `${doctorData.name}`
+                                            : `${doctorData?.lastName} ${doctorData?.firstName}`
                                         : doctorData?.positionData
                                         ? `${doctorData?.positionData?.valueEn} ${doctorData?.firstName} ${doctorData?.lastName}`
-                                        : `${doctorData.name}`}
+                                        : `${doctorData?.firstName} ${doctorData?.lastName}`}
                                 </div>
                                 <div className="doctor-info" style={{ fontSize: fontSize, fontColor: fontColor }}>
                                     {addressClinic
@@ -51,7 +51,7 @@ class DoctorIntro extends Component {
                                           )}
                                 </div>
                             </div>
-                            <div className="col-sm-12 col-md-2 m-auto">
+                            <div className="col-sm-12 col-md-3 m-auto">
                                 <div className="button-right">
                                     <button className={`${btnStyle}`}>Đặt khám ngay</button>
                                 </div>
@@ -59,15 +59,15 @@ class DoctorIntro extends Component {
                         </>
                     ) : (
                         <>
-                            <div className="col-sm-12 col-md-10 m-auto">
+                            <div className="col-sm-12 col-md-8 m-auto">
                                 <div className="doctor-position" style={{ fontSize: positionSize }}>
                                     {language === languages.VI
                                         ? doctorData?.positionData
                                             ? `${doctorData?.positionData?.valueVi} ${doctorData?.lastName} ${doctorData?.firstName}`
-                                            : `${doctorData.name}`
+                                            : `${doctorData?.lastName} ${doctorData?.firstName}`
                                         : doctorData?.positionData
                                         ? `${doctorData?.positionData?.valueEn} ${doctorData?.firstName} ${doctorData?.lastName}`
-                                        : `${doctorData.name}`}
+                                        : `${doctorData?.firstName} ${doctorData?.lastName}`}
                                 </div>
                                 <div className="doctor-info" style={{ fontSize: fontSize, fontColor: fontColor }}>
                                     {addressClinic

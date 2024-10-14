@@ -12,13 +12,14 @@ class DefaultLayout extends Component {
 
     render() {
         const isHomePage = window.location && window.location.pathname === '/';
+        const isBookApmt = window.location && window.location.pathname.includes('/book-appointment');
 
         return (
             <div className="layout-container" style={{ height: '100vh' }}>
                 {/* Header */}
-                <HomeHeader isShowBanner={isHomePage} />
+                <HomeHeader isShowBanner={isHomePage || isBookApmt} isSubNav={isBookApmt} />
                 {/* content */}
-                {this.props.children}
+                <div className="layout-content">{this.props.children}</div>
                 {/* Footer */}
                 <HomeFooter />
             </div>

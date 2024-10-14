@@ -13,3 +13,8 @@ export const changeLanguageApp = (language) => ({
     type: actionTypes.CHANGE_LANGUAGE,
     language: language,
 });
+
+export const setLoading = (isLoading) => ({
+    type: actionTypes.SET_LOADING,
+    payload: isLoading,
+});
