@@ -13,36 +13,40 @@ import userService from '../../../services/userService';
 import { emitter } from '../../../utils/emitter';
 import * as actions from '../../../store/actions';
 import './SpecialtyManage.scss';
+import ConfirmModal from '~/components/ConfirmModal';
 
 class SpecialtyManage extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            listSpecialty: [],
             isOpenModal: false,
             isEditing: false,
             specialtyData: null,
             contentOfConfirmModal: {},
-            totalUsers: 0,
+            totalSpecialty: 0,
             totalPages: 0,
-            perPage: 6,
+            perPage: 20,
             page: 1,
             sortBy: 'asc',
             sortField: 'id',
             dataExport: [],
+            isConfirmDelModal: false,
+            deleteData: null,
         };
     }
 
     async componentDidMount() {
-        await this.getAllUsers(this.state.page, this.state.perPage);
+        await this.getAllSpecialty(this.state.page, this.state.perPage);
     }
 
     componentDidUpdate(prevProps, prevState) {
         if (prevState.page !== this.state.page) {
-            this.getAllUsers(this.state.page, this.state.perPage);
+            this.getAllSpecialty(this.state.page, this.state.perPage);
         }
-        if (prevState.totalUsers !== this.state.totalUsers || prevState.isEditing !== this.state.isEditing) {
-            this.getUsers();
-        }
+        // if (prevState.totalSpecialty !== this.state.totalSpecialty || prevState.isEditing !== this.state.isEditing) {
+        //     this.getUsers();
+        // }
     }
 
     //   Paginate
@@ -50,13 +54,13 @@ class SpecialtyManage extends Component {
         this.setState({ page: +event.selected + 1 });
     };
 
-    getAllUsers = async (page, perPage) => {
+    getAllSpecialty = async (page, perPage) => {
         try {
-            const response = await userService.getUsers('ALL', page, perPage);
+            const response = await userService.getSpecialty('ALL', page, perPage);
             if (response && response.errCode === 0) {
                 this.setState({
-                    users: response.data,
-                    totalUsers: response.total,
+                    listSpecialty: response.data,
+                    totalSpecialty: response.total,
                     totalPages: response.total_pages,
                 });
             }
@@ -65,7 +69,7 @@ class SpecialtyManage extends Component {
         }
     };
 
-    getUsers = async () => {
+    getSpecialties = async () => {
         try {
             const response = await userService.getUsers('ALL');
             if (response && response.errCode === 0) {
@@ -78,27 +82,24 @@ class SpecialtyManage extends Component {
         }
     };
 
-    handleCreateUser = () => {
+    handleCreateSpecialty = () => {
         this.setState({ isOpenModal: !this.state.isOpenModal });
         this.setState({ isEditing: false });
+        emitter.emit('EVENT_CLEAR_MODAL_DATA');
     };
 
     createSpecialty = async (data) => {
         try {
-            const { valueVi, valueEn, image } = data;
-            let newData = {
-                valueVi: valueVi.trim(),
-                valueEn: valueEn.trim(),
-                image,
-            };
-            console.log('newData', newData);
-            let response = await userService.createSpecialty(newData);
+            this.props.setLoading(true);
+            let response = await userService.createSpecialty(data);
             if (response && response.errCode === 0) {
+                this.props.setLoading(false);
                 toast.success('Create specialty succeeded');
-                // this.getAllUsers(this.state.page, this.state.perPage);
+                this.getAllSpecialty(this.state.page, this.state.perPage);
                 this.setState({ isOpenModal: false });
                 emitter.emit('EVENT_CLEAR_MODAL_DATA');
             } else {
+                this.props.setLoading(false);
                 toast.error(response.message);
             }
         } catch (error) {
@@ -106,20 +107,27 @@ class SpecialtyManage extends Component {
         }
     };
 
-    handleEditUser = (user) => {
+    handleEditSpecialty = (data) => {
         this.setState({ isOpenModal: !this.state.isOpenModal });
         this.setState({ isEditing: !this.state.isEditing });
-        this.setState({ userData: user });
+        if (data.image) {
+            data.previewImgUrl = data.image;
+        }
+        this.setState({ specialtyData: data });
     };
 
-    editUser = async (id, data) => {
+    editSpecialty = async (id, data) => {
         try {
-            let response = await userService.editUser(id, data);
+            this.props.setLoading(true);
+            let response = await userService.editSpecialty(id, data);
             if (response && response.errCode === 0) {
-                toast.success('Edit user succeeded');
-                this.getAllUsers(this.state.page, this.state.perPage);
+                this.props.setLoading(false);
+                toast.success('Edit specialty succeeded');
+                this.getAllSpecialty(this.state.page, this.state.perPage);
                 this.setState({ isOpenModal: false });
+                emitter.emit('EVENT_CLEAR_MODAL_DATA');
             } else {
+                this.props.setLoading(false);
                 toast.error(response.message);
             }
         } catch (error) {
@@ -127,47 +135,43 @@ class SpecialtyManage extends Component {
         }
     };
 
-    handleSubmitModal = (data) => {
-        const { valueVi, valueEn, image } = data;
-        const createData = {
-            valueVi: valueVi && valueVi.trim(),
-            valueEn: valueEn && valueEn.trim(),
-            image,
-        };
+    handleSubmitModal = (id, data) => {
         if (this.state.isEditing) {
-            this.editUser(data.id, {
-                valueVi: valueVi && valueVi.trim(),
-                valueEn: valueEn && valueEn.trim(),
-                image,
-            });
+            this.editSpecialty(id, data);
         } else {
-            this.createSpecialty(createData);
+            this.createSpecialty(data);
         }
     };
 
-    handleDeleteUser = (id) => {
-        // this.setState({ isOpenModal: !this.state.isOpenModal });
-    };
-
-    deleteUser = async (id) => {
+    deleteSpecialty = async (item) => {
         try {
-            let res = await userService.deleteUser(id);
+            this.props.setLoading(true);
+            let res = await userService.deleteSpecialty(item.id);
             if (res && res.errCode === 0) {
-                toast.success('Delete user succeeded');
-                this.getAllUsers(this.state.page, this.state.perPage);
+                this.props.setLoading(false);
+                toast.success('Delete specialty succeeded');
+                this.getAllSpecialty(this.state.page, this.state.perPage);
+                this.toggleModal();
             } else {
+                this.props.setLoading(false);
                 toast.error(res.message);
             }
         } catch (error) {
             console.log(error);
         }
     };
+    toggleModal = (item) => {
+        this.setState({ isConfirmDelModal: !this.state.isConfirmDelModal });
+        if (item) {
+            this.setState({ deleteData: item });
+        }
+    };
     // Sort
     handleSort = (sortBy, sortField) => {
         this.setState({ sortBy: sortBy, sortField: sortField });
-        let cloneListUsers = _.cloneDeep(this.state.users);
-        cloneListUsers = _.orderBy(cloneListUsers, [sortField], [sortBy]);
-        this.setState({ users: cloneListUsers });
+        let cloneListSpecialty = _.cloneDeep(this.state.listSpecialty);
+        cloneListSpecialty = _.orderBy(cloneListSpecialty, [sortField], [sortBy]);
+        this.setState({ listSpecialty: cloneListSpecialty });
     };
     // Export CSV
     getUserExport = (event, done) => {
@@ -177,25 +181,26 @@ class SpecialtyManage extends Component {
     handleSearch = debounce((e) => {
         let term = e.target.value;
         if (term) {
-            let cloneListUsers = _.cloneDeep(this.state.users);
-            cloneListUsers = cloneListUsers.filter((item) => item.email.toLowerCase().includes(term.toLowerCase()));
-            this.setState({ users: cloneListUsers });
+            let cloneListSpecialty = _.cloneDeep(this.state.listSpecialty);
+            cloneListSpecialty = cloneListSpecialty.filter((item) =>
+                item.valueVi.toLowerCase().includes(term.toLowerCase()),
+            );
+            this.setState({ listSpecialty: cloneListSpecialty });
         } else {
-            this.getAllUsers(this.state.page, this.state.perPage);
+            this.getAllSpecialty(this.state.page, this.state.perPage);
         }
     }, 300);
 
     render() {
-        console.log(this.state.dataExport);
-
+        const { isConfirmDelModal } = this.state;
         return (
             <div className="user-container container-fluid">
                 <ModalCreateSpecialty
                     modal={this.state.isOpenModal}
-                    toggle={this.handleCreateUser}
+                    toggle={this.handleCreateSpecialty}
                     handleSubmit={this.handleSubmitModal}
                     isEditing={this.state.isEditing}
-                    userData={this.state.userData}
+                    specialtyData={this.state.specialtyData}
                 />
                 <div className="title text-center">
                     <FormattedMessage id="menu.admin.manage-specialty" />
@@ -226,16 +231,16 @@ class SpecialtyManage extends Component {
                                         // onClick={() => this.getUserExport()}
                                     >
                                         <i className="fa-solid fa-file-export me-2"></i>
-                                        <FormattedMessage id="manage-user.export-csv" />
+                                        <FormattedMessage id="manage-specialty.export-csv" />
                                     </CSVLink>
                                 </div>
                                 <div className="col">
                                     <button
                                         type="button"
                                         className="btn btn-add-user"
-                                        onClick={() => this.handleCreateUser()}
+                                        onClick={() => this.handleCreateSpecialty()}
                                     >
-                                        <i class="fa-solid fa-plus me-2"></i>
+                                        <i className="fa-solid fa-plus me-2"></i>
                                         <FormattedMessage id="manage-specialty.create-specialty" />
                                     </button>
                                 </div>
@@ -243,12 +248,12 @@ class SpecialtyManage extends Component {
                         </div>
                     </div>
                 </div>
-                {/* <div className="users-table table-responsive mt-3 mx-1">
+                <div className="listSpecialty-table table-responsive mt-3 mx-1">
                     <table className="table table-bordered table-hover">
                         <thead>
                             <tr className="table-warning">
                                 <th scope="col">
-                                    <FormattedMessage id="manage-user.id" />
+                                    <FormattedMessage id="manage-specialty.id" />
                                     <span className="filter-icon">
                                         <i
                                             className="fa-solid fa-arrow-up-long"
@@ -261,61 +266,70 @@ class SpecialtyManage extends Component {
                                     </span>
                                 </th>
                                 <th scope="col">
-                                    <FormattedMessage id="manage-user.email" />
-                                </th>
-                                <th scope="col">
-                                    <FormattedMessage id="manage-user.first-name" />
+                                    <FormattedMessage id="manage-specialty.valueVi" />
                                     <span className="filter-icon">
                                         <i
                                             className="fa-solid fa-arrow-up-long"
-                                            onClick={() => this.handleSort('asc', 'firstName')}
+                                            onClick={() => this.handleSort('asc', 'valueVi')}
                                         ></i>
                                         <i
                                             className="fa-solid fa-arrow-down-long ms-1"
-                                            onClick={() => this.handleSort('desc', 'firstName')}
+                                            onClick={() => this.handleSort('desc', 'valueVi')}
                                         ></i>
                                     </span>
                                 </th>
                                 <th scope="col">
-                                    <FormattedMessage id="manage-user.last-name" />
+                                    <FormattedMessage id="manage-specialty.valueEn" />
+                                    <span className="filter-icon">
+                                        <i
+                                            className="fa-solid fa-arrow-up-long"
+                                            onClick={() => this.handleSort('asc', 'valueEn')}
+                                        ></i>
+                                        <i
+                                            className="fa-solid fa-arrow-down-long ms-1"
+                                            onClick={() => this.handleSort('desc', 'valueEn')}
+                                        ></i>
+                                    </span>
                                 </th>
                                 <th scope="col">
-                                    <FormattedMessage id="manage-user.address" />
-                                </th>
-                                <th scope="col">
-                                    <FormattedMessage id="manage-user.actions" />
+                                    <FormattedMessage id="manage-specialty.actions" />
                                 </th>
                             </tr>
                         </thead>
                         <tbody>
-                            {this.state.users.map((user, index) => (
+                            {this.state.listSpecialty.map((item, index) => (
                                 <tr key={index}>
-                                    <th scope="row">{user.id}</th>
-                                    <td>{user.email}</td>
-                                    <td>{user.firstName}</td>
-                                    <td>{user.lastName}</td>
-                                    <td>{user.address}</td>
+                                    <th scope="row">{index + 1}</th>
+                                    <td>{item.valueVi}</td>
+                                    <td>{item.valueEn}</td>
                                     <td className="d-flex gap-2">
                                         <button
                                             type="button"
                                             className="btn btn-outline-warning"
-                                            onClick={() => this.handleEditUser(user)}
+                                            onClick={() => this.handleEditSpecialty(item)}
                                         >
                                             <i className="fa-solid fa-user-pen"></i>
                                         </button>
                                         <button
                                             type="button"
                                             className="btn btn-outline-danger"
-                                            onClick={() => this.deleteUser(user.id)}
+                                            onClick={() => this.toggleModal(item)}
+                                            // onClick={() => this.deleteSpecialty(item)}
                                         >
                                             <i className="fa-solid fa-trash-can"></i>
                                         </button>
+                                        <ConfirmModal
+                                            isOpen={isConfirmDelModal}
+                                            toggle={this.toggleModal}
+                                            onDelete={() => this.deleteSpecialty(this.state.deleteData)}
+                                            itemName={`Chuyên khoa ${item.valueVi}`}
+                                        />
                                     </td>
                                 </tr>
                             ))}
                         </tbody>
                     </table>
-                </div> */}
+                </div>
                 {/* Paginate */}
                 <ReactPaginate
                     nextLabel=">>"
@@ -349,7 +363,9 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-    return {};
+    return {
+        setLoading: (isLoading) => dispatch(actions.setLoading(isLoading)),
+    };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SpecialtyManage);

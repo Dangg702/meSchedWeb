@@ -18,10 +18,13 @@ class DoctorIntro extends Component {
     render() {
         const { language, doctorData, addressClinic, fontSize, fontColor, positionSize, buttonRight, btnStyle } =
             this.props;
+        let specialtyValueVi = `Chuyên khoa: ${doctorData?.doctorInfoData?.specialtyData.valueVi}`;
+        let specialtyValueEn = `Specialty: ${doctorData?.doctorInfoData?.specialtyData.valueEn}`;
+        let clinicName = doctorData?.doctorInfoData?.clinicData.name;
         return (
             <>
-                <div className="row doctor-info-content pb-4">
-                    <div className="col-sm-12 col-md-2">
+                <div className="row g-0 doctor-info-content pb-4">
+                    <div className="col-sm-12 col-md-4">
                         <div className="image-container">
                             <img
                                 className={`${this.props.className} image rounded-circle`}
@@ -32,7 +35,7 @@ class DoctorIntro extends Component {
                     </div>
                     {buttonRight ? (
                         <>
-                            <div className="col-sm-12 col-md-7 m-auto">
+                            <div className="col-sm-12 col-md-5 m-auto">
                                 <div className="doctor-position" style={{ fontSize: positionSize }}>
                                     {language === languages.VI
                                         ? doctorData?.positionData
@@ -45,9 +48,11 @@ class DoctorIntro extends Component {
                                 <div className="doctor-info" style={{ fontSize: fontSize, fontColor: fontColor }}>
                                     {addressClinic
                                         ? `${addressClinic}`
-                                        : doctorData?.markdownData &&
-                                          doctorData?.markdownData.description && (
-                                              <span>{doctorData?.markdownData.description}</span>
+                                        : doctorData?.doctorInfoData?.specialtyData.valueVi &&
+                                          doctorData?.doctorInfoData?.clinicData.name && (
+                                              <span>
+                                                  {language === languages.VI ? specialtyValueVi : specialtyValueEn}
+                                              </span>
                                           )}
                                 </div>
                             </div>
@@ -72,9 +77,15 @@ class DoctorIntro extends Component {
                                 <div className="doctor-info" style={{ fontSize: fontSize, fontColor: fontColor }}>
                                     {addressClinic
                                         ? `${addressClinic}`
-                                        : doctorData?.markdownData &&
-                                          doctorData?.markdownData.description && (
-                                              <span>{doctorData?.markdownData.description}</span>
+                                        : doctorData?.doctorInfoData?.specialtyData.valueVi &&
+                                          doctorData?.doctorInfoData?.clinicData.name && (
+                                              <span>
+                                                  {language === languages.VI ? specialtyValueVi : specialtyValueEn}
+                                                  <br />
+                                                  {language === languages.VI
+                                                      ? `Nơi công tác: ${clinicName}`
+                                                      : `Work place: ${clinicName}`}
+                                              </span>
                                           )}
                                 </div>
                             </div>

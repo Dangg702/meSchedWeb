@@ -15,3 +15,14 @@
         }
     }
 }
+
+@media screen and (max-width: 769px) {
+    .footer-wrapper {
+        padding-top: 20px;
+        text-align: center;
+        height: auto;
+    }
+    .col-sm-12 {
+        margin-top: 12px;
+    }
+}

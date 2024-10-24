@@ -5,7 +5,7 @@
         "Make-an-appointment-without-waiting": "Make an appointment without waiting",
         "Book-a-hospital-examination": "Book a hospital examination",
         "Book-examination-pay-receive-results": "Book examination, pay, receive results",
-        "Book-a-clinic-visit": "Book a clinic visit",
+        "Book-a-specialty-visit": "Book a specialty",
         "Diverse-specialties-and-services": "Diverse specialties and services",
         "Schedule-vaccinations": "Schedule vaccinations",
         "Reputable-vaccination-center": "Reputable vaccination center",
@@ -170,7 +170,13 @@
         "delete-specialty": "Delete specialty",
         "create-specialty": "Create specialty",
         "upload-specialty": "Specialty image",
-        "specialty-name": "Specialty name"
+        "specialty-name": "Specialty name",
+        "id": "ID",
+        "actions": "Actions",
+        "valueVi": "Vietnamese Name",
+        "valueEn": "English Name",
+        "export-csv": "Export",
+        "back": "Back"
     },
     "manage-clinic": {
         "save": "Save",
@@ -204,5 +210,10 @@
     },
     "my-appointment": {
         "title": "My appointment"
+    },
+    "no-access": {
+        "title": "403 - No Access",
+        "sub-title": "Sorry, you are not authorized to access this page.",
+        "btn-back": "Back to home"
     }
 }

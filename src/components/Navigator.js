@@ -177,7 +177,6 @@ class Navigator extends Component {
 
     render() {
         const { menus, location, onLinkClick } = this.props;
-        console.log(menus);
         return (
             <Fragment>
                 <ul className="navigator-menu list-unstyled">

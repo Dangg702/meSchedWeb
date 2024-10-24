@@ -13,7 +13,7 @@ class About extends Component {
                             <h2 className="section-title text-center pb-4 pt-3">Về chúng tôi</h2>
                         </div>
 
-                        <div className="section-container row">
+                        <div className="section-container row g-0">
                             <div className="col-sm-12 col-md-6">
                                 <div className="about-video pb-3 ps-3">
                                     <iframe

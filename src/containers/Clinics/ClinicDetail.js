@@ -9,6 +9,7 @@ import { userService } from '~/services';
 import SearchResult from '~/components/SearchResult';
 import './ClinicDetail.scss';
 import doctorImg from '~/assets/images/doctor/user-default.jfif';
+import ClinicIntro from '~/components/ClinicIntro/ClinicIntro';
 
 class ClinicDetail extends Component {
     constructor(props) {
@@ -48,17 +49,15 @@ class ClinicDetail extends Component {
     render() {
         let { language } = this.props;
         let { clinicData } = this.state;
-        console.log('clinic detail', clinicData);
         let html = clinicData?.contentHtml;
 
         return (
             <>
                 <div className="clinic-detail-container ">
                     <div className="clinic-detail-header">
-                        <DoctorIntro
-                            doctorData={clinicData}
-                            addressClinic={clinicData?.address}
-                            className={'clinic-detail-header-avatar'}
+                        <ClinicIntro
+                            clinicData={clinicData}
+                            linkTo={`/book-exam/search?type=clinic&q=${clinicData.name}`}
                             fontSize={'1rem'}
                             fontColor={'#595959'}
                             positionSize={'1.5rem'}

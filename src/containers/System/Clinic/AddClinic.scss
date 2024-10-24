@@ -12,7 +12,8 @@
     width: 100%;
     text-align: right;
     margin: 24px 0;
-    .btn-save-clinic {
+    .btn-save-clinic,
+    .btn-back {
         height: auto;
         width: 96px;
         background-color: $common-btn-confirm;
@@ -24,6 +25,13 @@
         transition: all 0.3s;
         &:hover {
             background-color: darken($common-btn-confirm, 10%);
+        }
+    }
+    .btn-back {
+        background-color: $colordetail;
+        margin-right: 12px;
+        &:hover {
+            background-color: darken($colordetail, 10%);
         }
     }
 }

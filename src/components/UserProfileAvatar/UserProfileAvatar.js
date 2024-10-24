@@ -38,8 +38,11 @@ class UserProfileAvatar extends Component {
             <>
                 <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
                     <DropdownToggle data-toggle="dropdown" tag="span" className="title-dropdown">
-                        <img className={`${this.props.className} image rounded-circle`} src={doctorImg} alt="avatar" />
-                        {/* {userInfo && userInfo.firstName} */}
+                        <img
+                            className={`${this.props.className} image rounded-circle`}
+                            src={userInfo.image ? userInfo.image : doctorImg}
+                            alt="avatar"
+                        />
                     </DropdownToggle>
                     <DropdownMenu className="dropdown-menu-wrapper">
                         <div className="dropdown-menu-item">

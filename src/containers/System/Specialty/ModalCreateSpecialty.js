@@ -58,22 +58,20 @@ class ModalCreateSpecialty extends Component {
     listenToEmitter() {
         emitter.on('EVENT_CLEAR_MODAL_DATA', () => {
             this.setState({
-                email: '',
-                password: '',
-                firstName: '',
-                lastName: '',
-                address: '',
-                phoneNumber: '',
+                nameVi: '',
+                nameEn: '',
+                image: '',
+                previewImgUrl: '',
             });
         });
     }
 
     async componentDidMount() {
         try {
-            const { isEditing, userData } = this.props;
-            if (isEditing && userData) {
-                const { id, email, firstName, lastName, address, phoneNumber } = userData;
-                this.setState({ id, email, firstName, lastName, address, phoneNumber });
+            const { isEditing, specialtyData } = this.props;
+            if (isEditing && specialtyData) {
+                const { id, valueVi, valueEn, image, previewImgUrl } = specialtyData;
+                this.setState({ id, nameVi: valueVi, nameEn: valueEn, image, previewImgUrl });
             }
         } catch (e) {
             console.log(e);
@@ -81,25 +79,25 @@ class ModalCreateSpecialty extends Component {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        const { isEditing, userData } = this.props;
-        if (isEditing && userData && prevProps.userData !== userData) {
-            const { id, email, firstName, lastName, address, phoneNumber, gender, roleId, positionId } = userData;
+        const { isEditing, specialtyData } = this.props;
+        if (isEditing && specialtyData && prevProps.specialtyData !== specialtyData) {
+            const { id, valueVi, valueEn, image, previewImgUrl } = specialtyData;
             this.setState({
                 id,
-                email,
-                firstName,
-                lastName,
-                address,
-                phoneNumber,
-                gender,
-                role: roleId,
-                position: positionId,
+                nameVi: valueVi,
+                nameEn: valueEn,
+                image,
+                previewImgUrl,
+            });
+        }
+        if (prevState.previewImgUrl !== this.state.previewImgUrl || prevState.image !== this.state.image) {
+            this.setState({
+                previewImgUrl: this.state.previewImgUrl,
             });
         }
     }
 
     onChangeInput = (e) => {
-        console.log('onchange', e);
         let copyState = { ...this.state };
         copyState[e.target.name] = e.target.value;
         copyState.errors[e.target.name] = '';
@@ -114,13 +112,20 @@ class ModalCreateSpecialty extends Component {
     };
 
     handleSubmitForm = () => {
-        const { nameVi, nameEn, image } = this.state;
-        const data = { valueVi: nameVi, valueEn: nameEn, image };
+        const { nameVi, nameEn, image, id } = this.state;
+        const data = new FormData();
+        data.append('valueVi', nameVi);
+        data.append('valueEn', nameEn);
+        if (image) {
+            data.append('image', image);
+        }
         if (this.props.isEditing) {
-            this.props.handleSubmit(data);
+            this.props.handleSubmit(id, data);
+            emitter.emit('EVENT_CLEAR_MODAL_DATA');
         } else {
-            if (nameVi && nameVi) {
-                this.props.handleSubmit(data);
+            if (nameVi && nameEn) {
+                this.props.handleSubmit(id, data);
+                emitter.emit('EVENT_CLEAR_MODAL_DATA');
             } else {
                 this.setState({
                     errors: {
@@ -139,28 +144,16 @@ class ModalCreateSpecialty extends Component {
     };
 
     handleChangeImage = (e) => {
-        // let data = new FormData();
-        // data.append('image', e.target.files[0]);
-        // userService.uploadFile(data).then((res) => {
-        //     if (res && res.errCode === 0) {
-        //         let copyState = { ...this.state };
-        //         copyState['image'] = res.link;
-        //         this.setState(copyState);
-        //     } else {
-        //         console.log('upload image failed');
-        //     }
-        // });
         let file = e.target.files[0];
         if (file) {
             let url = URL.createObjectURL(file);
-            this.setState({ previewImgUrl: url, avatar: url });
+            this.setState({ previewImgUrl: url, image: file });
         }
     };
 
     render() {
         let { isEditing, language } = this.props;
         let { isOpenLightBox, errors } = this.state;
-        console.log('check ', this.state);
 
         return (
             <Modal
@@ -182,7 +175,7 @@ class ModalCreateSpecialty extends Component {
                         <Row>
                             <Col md={6} className="mb-3">
                                 <FormGroup>
-                                    <Label for="speciatyName">
+                                    <Label for="nameVi">
                                         <FormattedMessage id="manage-specialty.name-vi" />
                                     </Label>
                                     <Input
@@ -201,7 +194,7 @@ class ModalCreateSpecialty extends Component {
                             </Col>
                             <Col md={6} className="mb-3">
                                 <FormGroup>
-                                    <Label for="speciatyName">
+                                    <Label for="nameEn">
                                         <FormattedMessage id="manage-specialty.name-en" />
                                     </Label>
                                     <Input

@@ -28,12 +28,10 @@ class BookingVerify extends Component {
             const searchParams = new URLSearchParams(location.search);
             let token = searchParams.get('token');
             let date = searchParams.get('date');
-            console.log('searchParams', token, date);
             let rs = await userService.verifyBooking({
                 token: token,
                 date: date,
             });
-            console.log('rs', rs);
             if (rs?.errCode === 0) {
                 this.setState({
                     isVerify: true,

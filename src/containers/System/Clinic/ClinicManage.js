@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
+import { push } from 'connected-react-router';
 import ReactPaginate from 'react-paginate';
 import _ from 'lodash';
 import { debounce } from 'lodash';
@@ -15,6 +16,7 @@ import * as actions from '~/store/actions';
 import { adminService } from '~/services';
 
 import './ClinicManage.scss';
+import ConfirmModal from '~/components/ConfirmModal';
 
 class ClinicManage extends Component {
     constructor(props) {
@@ -26,6 +28,7 @@ class ClinicManage extends Component {
             perPage: 10,
             page: 1,
             isConfirmDelModal: false,
+            deleteData: null,
         };
     }
 
@@ -42,7 +45,6 @@ class ClinicManage extends Component {
     getAllClinic = async (page, perPage) => {
         try {
             const response = await adminService.getAllClinic('ALL', page, perPage);
-            console.log('getAllClinic', response);
             if (response && response.errCode === 0) {
                 this.setState({
                     listClinic: response.data,
@@ -55,33 +57,35 @@ class ClinicManage extends Component {
         }
     };
 
-    // handleSearch = debounce((e) => {
-    //     let term = e.target.value;
-    //     if (term) {
-    //         let cloneListSchedule = _.cloneDeep(this.state.listSchedule);
-    //         cloneListSchedule = cloneListSchedule.filter((item) => item.date.includes(term));
-    //         this.setState({ listSchedule: cloneListSchedule });
-    //         // this.getAllSchedule(term, this.state.page, this.state.perPage);
-    //     } else {
-    //         this.getAllSchedule('ALL', this.state.page, this.state.perPage);
-    //     }
-    // }, 300);
+    handleSearch = debounce((e) => {
+        let term = e.target.value;
+        if (term) {
+            let cloneListClinic = _.cloneDeep(this.state.listClinic);
+            cloneListClinic = cloneListClinic.filter((item) => item.name.includes(term));
+            this.setState({ listClinic: cloneListClinic });
+        } else {
+            this.getAllClinic(this.state.page, this.state.perPage);
+        }
+    }, 300);
 
-    toggleModal = () => {
+    toggleModal = (item) => {
         this.setState({ isConfirmDelModal: !this.state.isConfirmDelModal });
+        if (item) {
+            this.setState({ deleteData: item.id });
+        }
     };
 
-    // handleDelete = async (item) => {
-    //     console.log(item.id);
-    //     this.toggleModal();
-    //     let response = await doctorService.deleteSchedule(item.id);
-    //     if (response && response.errCode === 0) {
-    //         toast.success('Delete schedule successfully');
-    //         this.setState({ page: 1 });
-    //     } else {
-    //         toast.error('Delete schedule failed');
-    //     }
-    // };
+    handleDelete = async (id) => {
+        this.toggleModal();
+        let response = await adminService.deleteClinic(id);
+        if (response && response.errCode === 0) {
+            toast.success('Delete clinic successfully');
+            this.setState({ page: 1 });
+            this.getAllClinic(this.state.page, this.state.perPage);
+        } else {
+            toast.error('Delete clinic failed');
+        }
+    };
 
     render() {
         const { listClinic, isConfirmDelModal } = this.state;
@@ -99,7 +103,7 @@ class ClinicManage extends Component {
                                         type="text"
                                         className="form-control"
                                         placeholder={placeholder}
-                                        // onInput={(e) => this.handleSearch(e)}
+                                        onInput={(e) => this.handleSearch(e)}
                                     />
                                 )}
                             </FormattedMessage>
@@ -120,12 +124,7 @@ class ClinicManage extends Component {
                                     </CSVLink> */}
                                 </div>
                                 <div className="col">
-                                    <Link
-                                        to={path.SYSTEM_ADD_CLINIC}
-                                        type="button"
-                                        className="btn btn-add-user"
-                                        // onClick={() => this.handleCreateUser()}
-                                    >
+                                    <Link to={path.SYSTEM_ADD_CLINIC} type="button" className="btn btn-add-user">
                                         <i className="fa-solid fa-user-plus me-2"></i>
                                         <FormattedMessage id="manage-clinic.create-specialty" />
                                     </Link>
@@ -153,42 +152,36 @@ class ClinicManage extends Component {
                         <tbody>
                             {listClinic && listClinic.length > 0 ? (
                                 listClinic.map((item, index) => (
-                                    <tr>
+                                    <tr key={index}>
                                         <th scope="row" key={index}>
                                             {index + 1}
                                         </th>
                                         <td>{item.name}</td>
                                         <td>{item.address}</td>
                                         <td className="d-flex gap-2">
-                                            <button
+                                            <Link
+                                                to={{
+                                                    pathname: path.SYSTEM_ADD_CLINIC,
+                                                    state: { clinicData: item }, // Truyền dữ liệu qua state
+                                                }}
                                                 type="button"
                                                 className="btn btn-outline-warning"
-                                                // onClick={() => this.handleEditUser(user)}
                                             >
                                                 <i className="fa-solid fa-user-pen"></i>
-                                            </button>
+                                            </Link>
                                             <button
                                                 type="button"
                                                 className="btn btn-outline-danger"
-                                                onClick={() => this.toggleModal()}
+                                                onClick={() => this.toggleModal(item)}
                                             >
                                                 <i className="fa-solid fa-trash-can"></i>
                                             </button>
-                                            <Modal isOpen={isConfirmDelModal} toggle={this.toggleModal}>
-                                                <ModalHeader toggle={this.toggleModal}>Xác nhận xóa</ModalHeader>
-                                                <ModalBody>
-                                                    Sau khi xóa sẽ không thể hoàn tác. Bạn có chắc chắn muốn xóa bệnh
-                                                    viện/ phòng khám này không?
-                                                </ModalBody>
-                                                <ModalFooter>
-                                                    <Button color="primary" onClick={() => this.handleDelete(item)}>
-                                                        Xóa
-                                                    </Button>{' '}
-                                                    <Button color="secondary" onClick={this.toggleModal}>
-                                                        Hủy
-                                                    </Button>
-                                                </ModalFooter>
-                                            </Modal>
+                                            <ConfirmModal
+                                                isOpen={isConfirmDelModal}
+                                                toggle={this.toggleModal}
+                                                onDelete={() => this.handleDelete(this.state.deleteData)}
+                                                itemName={'Bệnh viện/ Phòng khám'}
+                                            />
                                         </td>
                                     </tr>
                                 ))
@@ -203,7 +196,7 @@ class ClinicManage extends Component {
                     </Table>
                 </div>
                 {/* Paginate */}
-                {/* <ReactPaginate
+                <ReactPaginate
                     nextLabel=">>"
                     onPageChange={(e) => this.handlePageClick(e)}
                     pageRangeDisplayed={3}
@@ -222,7 +215,7 @@ class ClinicManage extends Component {
                     containerClassName="pagination"
                     activeClassName="active"
                     renderOnZeroPageCount={null}
-                /> */}
+                />
             </div>
         );
     }
@@ -240,6 +233,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         fetchScheduleCode: () => dispatch(actions.fetchScheduleCode()),
+        navigate: (path) => dispatch(push(path)),
     };
 };
 

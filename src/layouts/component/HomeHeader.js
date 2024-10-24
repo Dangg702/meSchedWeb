@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Redirect, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { Link, withRouter } from 'react-router-dom';
 import {
     Collapse,
     Navbar,
@@ -22,6 +22,7 @@ import { changeLanguageApp } from '../../store/actions';
 import UserProfileAvatar from '~/components/UserProfileAvatar';
 
 import './HomeHeader.scss';
+import { push } from 'connected-react-router';
 
 class HomeHeader extends Component {
     constructor(props) {
@@ -36,7 +37,30 @@ class HomeHeader extends Component {
             dropdownMenu: false,
             dropdownMenu2: false,
             dropdownUserMenu: false,
+            subNavActive: null,
+            searchVal: '',
         };
+    }
+
+    componentDidMount() {
+        let { location } = this.props;
+        let pathName = location.pathname;
+        let subNavActive = '';
+        if (pathName.includes('book-appointment')) {
+            subNavActive = pathName.split('/').pop();
+        }
+        this.setState({ subNavActive });
+    }
+    componentDidUpdate(prevProps, prevState) {
+        let { location } = this.props;
+        let pathName = location.pathname;
+        if (pathName !== prevProps.location.pathname) {
+            let subNavActive = '';
+            if (pathName.includes('book-appointment')) {
+                subNavActive = pathName.split('/').pop();
+            }
+            this.setState({ subNavActive });
+        }
     }
 
     toggle() {
@@ -69,9 +93,29 @@ class HomeHeader extends Component {
         this.props.changeLanguageRedux(language);
     };
 
+    handleChangeNavItem = (type) => {
+        this.setState({ subNavActive: type });
+        this.props.navigate(`/book-appointment/${type}`);
+    };
+
+    handleChangeSearchVal = (e) => {
+        this.setState({ searchVal: e.target.value });
+    };
+
+    handleSearch = () => {
+        this.props.navigate(path.SEARCH + `?type=all&q=${this.state.searchVal}`);
+    };
+
+    handleSearchKeyDown = (e) => {
+        if (e.key === 'Enter') {
+            this.handleSearch();
+        }
+    };
+
     render() {
         let { language, isLoggedIn, userInfo, isSubNav } = this.props;
         let isShowBanner = this.props.isShowBanner ? true : false;
+        let { subNavActive, searchVal } = this.state;
         return (
             <>
                 <div className="home-header-container">
@@ -96,7 +140,7 @@ class HomeHeader extends Component {
                                         </DropdownToggle>
                                         <DropdownMenu right>
                                             <DropdownItem>
-                                                <NavLink className="nav-item-wrapper" href="/components/">
+                                                <NavLink className="nav-item-wrapper" href="/book-appointment/doctor">
                                                     <FormattedMessage id={'homeHeader.Book-a-doctors-appointment'} />
                                                     <span>
                                                         <FormattedMessage
@@ -106,7 +150,7 @@ class HomeHeader extends Component {
                                                 </NavLink>
                                             </DropdownItem>
                                             <DropdownItem>
-                                                <NavLink className="nav-item-wrapper" href="/components/">
+                                                <NavLink className="nav-item-wrapper" href="/book-appointment/clinic">
                                                     <FormattedMessage id={'homeHeader.Book-a-hospital-examination'} />
                                                     <span>
                                                         <FormattedMessage
@@ -116,21 +160,14 @@ class HomeHeader extends Component {
                                                 </NavLink>
                                             </DropdownItem>
                                             <DropdownItem>
-                                                <NavLink className="nav-item-wrapper" href="/components/">
-                                                    <FormattedMessage id={'homeHeader.Book-a-clinic-visit'} />
+                                                <NavLink
+                                                    className="nav-item-wrapper"
+                                                    href="/book-appointment/specialty"
+                                                >
+                                                    <FormattedMessage id={'homeHeader.Book-a-specialty-visit'} />
                                                     <span>
                                                         <FormattedMessage
                                                             id={'homeHeader.Diverse-specialties-and-services'}
-                                                        />
-                                                    </span>
-                                                </NavLink>
-                                            </DropdownItem>
-                                            <DropdownItem>
-                                                <NavLink className="nav-item-wrapper" href="/components/">
-                                                    <FormattedMessage id={'homeHeader.Schedule-vaccinations'} />
-                                                    <span>
-                                                        <FormattedMessage
-                                                            id={'homeHeader.Reputable-vaccination-center'}
                                                         />
                                                     </span>
                                                 </NavLink>
@@ -213,16 +250,26 @@ class HomeHeader extends Component {
                 </div>
                 {isShowBanner ? (
                     <div className="home-header-banner">
-                        <div className="row w-100">
+                        <div className="row g-0 w-100">
                             <div className="col-sm-12 banner-content-wrapper">
                                 <div className="title">
                                     <FormattedMessage id="banner.title" />
                                 </div>
                                 <div className="search-wrapper">
-                                    <i className="fa-solid fa-magnifying-glass search-icon"></i>
+                                    <i
+                                        className="fa-solid fa-magnifying-glass search-icon"
+                                        onClick={() => this.handleSearch()}
+                                    ></i>
                                     <FormattedMessage id="banner.search" defaultMessage="search">
                                         {(placeholder) => (
-                                            <input type="text" className="search-input" placeholder={placeholder} />
+                                            <input
+                                                type="text"
+                                                className="search-input"
+                                                placeholder={placeholder}
+                                                value={searchVal}
+                                                onChange={(e) => this.handleChangeSearchVal(e)}
+                                                onKeyDown={(e) => this.handleSearchKeyDown(e)}
+                                            />
                                         )}
                                     </FormattedMessage>
                                 </div>
@@ -238,21 +285,33 @@ class HomeHeader extends Component {
 
                 {isSubNav ? (
                     <div className="banner-nav-wrapper">
-                        <div className="row banner-nav">
-                            <div className="col-md-4 col-lg-4 banner-nav-item">
+                        <div className="row g-0 banner-nav">
+                            <div
+                                className={`col-md-4 col-lg-4 banner-nav-item ${
+                                    subNavActive === 'doctor' ? 'active' : ''
+                                }`}
+                                onClick={() => this.handleChangeNavItem('doctor')}
+                            >
                                 <i className="fa-regular fa-snowflake me-2"></i>
                                 Đặt khám bác sĩ
                             </div>
-                            <div className="col-md-4 col-lg-4 banner-nav-item">
+                            <div
+                                className={`col-md-4 col-lg-4 banner-nav-item ${
+                                    subNavActive === 'clinic' ? 'active' : ''
+                                }`}
+                                onClick={() => this.handleChangeNavItem('clinic')}
+                            >
                                 <i className="fa-regular fa-building me-2"></i>
                                 Đặt khám bệnh viện
                             </div>
-                            <div className="col-md-4 col-lg-4 banner-nav-item">
+                            <div
+                                className={`col-md-4 col-lg-4 banner-nav-item ${
+                                    subNavActive === 'specialty' ? 'active' : ''
+                                }`}
+                                onClick={() => this.handleChangeNavItem('specialty')}
+                            >
                                 <i className="fa-regular fa-calendar-plus me-2"></i>Đặt khám chuyên khoa
                             </div>
-                            {/* <div className="col-md-3 col-lg-3 banner-nav-item">
-                                <i className="fa-solid fa-syringe me-2"></i>Đặt lịch tiêm chủng
-                            </div> */}
                         </div>
                     </div>
                 ) : (
@@ -274,7 +333,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         changeLanguageRedux: (language) => dispatch(changeLanguageApp(language)),
+        navigate: (path) => dispatch(push(path)),
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(HomeHeader);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(HomeHeader));

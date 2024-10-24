@@ -19,7 +19,7 @@ class OutStandingDoctor extends Component {
     }
 
     componentDidMount() {
-        this.getTopDoctors(5);
+        this.getTopDoctors(20);
     }
 
     async getTopDoctors(limit) {
@@ -46,9 +46,9 @@ class OutStandingDoctor extends Component {
                             <h2 className="section-title">
                                 <FormattedMessage id="homepage.outStanding-doctor" />
                             </h2>
-                            <button type="button" className="btn btn-more">
+                            <Link to={`/book-appointment/specialty`} className="btn btn-more">
                                 <FormattedMessage id="homepage.more" />
-                            </button>
+                            </Link>
                         </div>
 
                         <div className="section-container">
@@ -58,7 +58,11 @@ class OutStandingDoctor extends Component {
                                         <Link to={`/doctor/${doctor.id}`} className="section-item-container">
                                             <>
                                                 <div className="image-container">
-                                                    <img className="image doctor-avatar " src={doctorImg} alt="..." />
+                                                    <img
+                                                        className="image doctor-avatar "
+                                                        src={doctor.image ? doctor.image : doctorImg}
+                                                        alt="..."
+                                                    />
                                                 </div>
                                                 <div className="position-wrapper text-center">
                                                     <div className="position-name">
@@ -73,7 +77,11 @@ class OutStandingDoctor extends Component {
                                                                 : `${doctor.firstName} ${doctor.lastName}`}
                                                         </div>
                                                     </div>
-                                                    <div className="specialty">Thần kinh</div>
+                                                    <div className="specialty">
+                                                        {language === languages.VI
+                                                            ? doctor.doctorInfoData.specialtyData.valueVi
+                                                            : doctor.doctorInfoData.specialtyData.valueEn}
+                                                    </div>
                                                 </div>
                                             </>
                                         </Link>

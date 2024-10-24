@@ -59,7 +59,7 @@ class ModalUser extends Component {
             previewImgUrl: '',
             isOpenLightBox: false,
         };
-        this.listenToEmitter();
+        // this.listenToEmitter();
     }
 
     openLightBox = () => {
@@ -83,6 +83,11 @@ class ModalUser extends Component {
                 lastName: '',
                 address: '',
                 phoneNumber: '',
+                gender: '',
+                position: '',
+                role: '',
+                image: '',
+                previewImgUrl: '',
             });
         });
     }
@@ -97,10 +102,15 @@ class ModalUser extends Component {
             this.props.getGenderStart();
             this.props.getPositionStart();
             this.props.getRoleStart();
+            this.listenToEmitter();
         } catch (e) {
             console.log(e);
         }
     }
+
+    // componentWillUnmount() {
+    //     emitter.off('EVENT_CLEAR_MODAL_DATA');
+    // }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         const { isEditing, userData } = this.props;
@@ -147,13 +157,27 @@ class ModalUser extends Component {
     handleSubmitForm = () => {
         const { id, email, password, firstName, lastName, address, phoneNumber, gender, role, position, image } =
             this.state;
-        const data = { id, email, password, firstName, lastName, address, phoneNumber, gender, role, position, image };
+        const data = new FormData();
+        if (!this.props.isEditing) {
+            data.append('email', email);
+            data.append('password', password);
+        }
+        data.append('firstName', firstName);
+        data.append('lastName', lastName);
+        data.append('address', address);
+        data.append('phoneNumber', phoneNumber);
+        data.append('gender', gender);
+        data.append('roleId', role);
+        data.append('positionId', position);
+        if (image) {
+            data.append('image', image);
+        }
         if (this.props.isEditing) {
-            this.props.handleSubmit(data);
+            this.props.handleSubmit(id, data);
         } else {
             let { email, password, firstName, lastName, address, phoneNumber } = this.state;
             if (email && password && firstName && lastName && address && phoneNumber) {
-                this.props.handleSubmit(data);
+                this.props.handleSubmit(id, data);
             } else {
                 this.setState({
                     errors: {
@@ -177,14 +201,11 @@ class ModalUser extends Component {
 
     handleChangeImage = (e) => {
         let file = e.target.files[0];
-        console.log('file', file);
-
         if (file) {
             let url = URL.createObjectURL(file);
             this.setState({ previewImgUrl: url, image: file });
         }
     };
-
     render() {
         let { isEditing, language } = this.props;
         let { genderArr, positionArr, roleArr, isOpenLightBox, errors } = this.state;
@@ -249,25 +270,6 @@ class ModalUser extends Component {
                         <Row>
                             <Col md={6} className="mb-3">
                                 <FormGroup>
-                                    <Label for="firstName">
-                                        <FormattedMessage id="manage-user.first-name" />
-                                    </Label>
-                                    <Input
-                                        id="firstName"
-                                        name="firstName"
-                                        type="text"
-                                        placeholder="Minh"
-                                        value={this.state.firstName}
-                                        onChange={(e) => this.onChangeInput(e)}
-                                        onKeyDown={(e) => this.handleEnter(e)}
-                                        invalid={errors.firstName && errors.firstName !== '' ? true : false}
-                                        onBlur={() => this.validateIn('firstName')}
-                                    />
-                                    <FormFeedback>{errors.firstName === '' ? '' : errors.firstName}</FormFeedback>
-                                </FormGroup>
-                            </Col>
-                            <Col md={6} className="mb-3">
-                                <FormGroup>
                                     <Label for="lastName">
                                         <FormattedMessage id="manage-user.last-name" />
                                     </Label>
@@ -283,6 +285,25 @@ class ModalUser extends Component {
                                         onBlur={() => this.validateIn('lastName')}
                                     />
                                     <FormFeedback>{errors.lastName === '' ? '' : errors.lastName}</FormFeedback>
+                                </FormGroup>
+                            </Col>
+                            <Col md={6} className="mb-3">
+                                <FormGroup>
+                                    <Label for="firstName">
+                                        <FormattedMessage id="manage-user.first-name" />
+                                    </Label>
+                                    <Input
+                                        id="firstName"
+                                        name="firstName"
+                                        type="text"
+                                        placeholder="Minh"
+                                        value={this.state.firstName}
+                                        onChange={(e) => this.onChangeInput(e)}
+                                        onKeyDown={(e) => this.handleEnter(e)}
+                                        invalid={errors.firstName && errors.firstName !== '' ? true : false}
+                                        onBlur={() => this.validateIn('firstName')}
+                                    />
+                                    <FormFeedback>{errors.firstName === '' ? '' : errors.firstName}</FormFeedback>
                                 </FormGroup>
                             </Col>
                         </Row>

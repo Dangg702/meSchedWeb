@@ -7,7 +7,6 @@ import * as actions from '~/store/actions';
 
 import './SearchResult.scss';
 import doctorImg from '~/assets/images/doctor/user-default.jfif';
-import { Button } from 'reactstrap';
 
 class SearchResult extends Component {
     constructor(props) {
@@ -22,31 +21,58 @@ class SearchResult extends Component {
     handleBooking = () => {};
 
     render() {
+        const { resultData, language } = this.props;
+        console.log('resultData', resultData);
         return (
-            <div className="specialty-list-item">
-                <div className="specialty-list-item-container">
-                    <Link to={path.doctorDetail} className="specialty-list-item-link">
-                        <div className="left-content">
-                            <div className="specialty-list-item-image">
-                                <img src={doctorImg} alt="..." />
-                            </div>
-                            <div className="specialty-list-item-info">
-                                <div className="specialty-list-item-name">BS Phan Minh</div>
-                                <div className="specialty-list-item-major">Nội tiết</div>
-                                <div className="specialty-list-item-address">
-                                    79 Đ. Thành Thái, Phường 14, Quận 10, Hồ Chí Minh
+            <>
+                {resultData && resultData.length > 0 ? (
+                    resultData.map((item, index) => (
+                        <div className="search-list-item" key={index}>
+                            <div className="search-list-item-container">
+                                <div className="row g-0 search-list-item-link">
+                                    <div className="col-sm-12 col-md-3">
+                                        <div className="search-list-item-image">
+                                            <img
+                                                src={
+                                                    item['doctorInfoData.image']
+                                                        ? item['doctorInfoData.image']
+                                                        : doctorImg
+                                                }
+                                                alt="..."
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="col-sm-12 col-md-6">
+                                        <div className="search-list-item-info">
+                                            <div className="search-list-item-name">
+                                                {language === languages.VI
+                                                    ? `BS ${item['doctorInfoData.lastName']} ${item['doctorInfoData.firstName']}`
+                                                    : `Dr. ${item['doctorInfoData.firstName']} ${item['doctorInfoData.lastName']}`}
+                                            </div>
+                                            <div className="search-list-item-major">
+                                                {language === languages.VI
+                                                    ? item['specialtyData.valueVi']
+                                                    : item['specialtyData.valueEn']}
+                                            </div>
+                                            <div className="search-list-item-address">
+                                                {item['clinicData.name']} <br />
+                                                {item['clinicData.address']}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="col-sm-12 col-md-3">
+                                        <Link to={`/doctor/${item['doctorInfoData.id']}`} className="btn-book btn">
+                                            Đặt khám
+                                        </Link>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div>
-                            {/* tiep */}
-                            <Link to={`/doctor/:id`} className="btn-book btn">
-                                Đặt khám
-                            </Link>
-                        </div>
-                    </Link>
-                </div>
-            </div>
+                    ))
+                ) : (
+                    <div className="no-data">Không có dữ liệu</div>
+                )}
+            </>
         );
     }
 }

@@ -1,0 +1,44 @@
+@import '../../styles/variables';
+
+.no-access-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    text-align: center;
+    background-color: #f0f2f5;
+}
+
+.icon-container {
+    margin-bottom: 20px;
+}
+
+.no-access-icon {
+    width: 350px;
+    height: auto;
+}
+
+h1 {
+    font-size: 2.5em;
+    color: $colormain;
+}
+
+p {
+    font-size: 1.3em;
+    margin: 20px 0;
+    color: #333;
+}
+
+.back-home-link {
+    font-size: 1.2em;
+    text-decoration: none;
+    padding: 10px 20px;
+    background-color: $colordetail;
+    color: #fff;
+    border-radius: 5px;
+}
+
+.back-home-link:hover {
+    background-color: $colordetail;
+}

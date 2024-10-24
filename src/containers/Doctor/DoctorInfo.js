@@ -46,7 +46,6 @@ class DoctorInfo extends Component {
         let language = this.props.language;
         let { doctorData, doctorId } = this.state;
         let html = doctorData?.markdownData && doctorData?.markdownData?.contentHtml;
-
         return (
             <>
                 <div className="doctor-info-container ">
@@ -60,15 +59,16 @@ class DoctorInfo extends Component {
                     </div>
                     <div className="doctor-info-wrapper container">
                         <DoctorIntro doctorData={doctorData} className={'doctor-img'} />
-                        <div className="doctor-schedule-wrapper pb-4 row">
+                        <div className="doctor-schedule-wrapper pb-4 row g-0">
                             <div className="col-sm-12 col-md-8">
+                                <h5 className="ms-3 pt-3 pb-1">Đặt khám nhanh</h5>
                                 <DoctorSchedule doctorId={doctorId} />
                             </div>
                             <div className="col-sm-12 col-md-4 separate-line">
-                                <DoctorExtraInfo doctorId={doctorId} />
+                                <DoctorExtraInfo doctorExtraData={doctorData.doctorInfoData} />
                             </div>
                         </div>
-                        <div className="doctor-introduce-wrapper pb-4" dangerouslySetInnerHTML={{ __html: html }}></div>
+                        <div className="doctor-introduce-wrapper py-4" dangerouslySetInnerHTML={{ __html: html }}></div>
                         <div className="doctor-comment-wrapper"></div>
                     </div>
                     <div style={{ height: '30px' }}></div>

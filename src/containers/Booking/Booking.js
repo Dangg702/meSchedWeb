@@ -103,7 +103,6 @@ class Booking extends Component {
         let { language, scheduleTime } = this.props;
         let { doctorInfo, time } = this.state;
         const foundTime = scheduleTime?.find((item) => item.keyMap === time);
-        // console.log('check', doctorInfo);
         return (
             <>
                 <div className="booking-container">
@@ -226,17 +225,14 @@ class Booking extends Component {
                                     </Col>
                                 </Row>
                                 <Row className="h-30">
-                                    <Col md={12}>
-                                        <Button className="w-100 btn-booking" onClick={this.handleBooking}>
-                                            <FormattedMessage id="booking.btn-booking" />
-                                        </Button>
-                                    </Col>
+                                    <Button className="w-100 btn-booking" onClick={this.handleBooking}>
+                                        <FormattedMessage id="booking.btn-booking" />
+                                    </Button>
                                 </Row>
                             </div>
                         </div>
                     </div>
                 </div>
-                {/* <HomeFooter /> */}
             </>
         );
     }

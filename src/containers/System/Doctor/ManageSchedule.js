@@ -38,6 +38,7 @@ class ManageSchedule extends Component {
                 timeRanges: null,
             },
             defaultTimeRanges: [],
+            deleteData: null,
         };
     }
 
@@ -166,12 +167,14 @@ class ManageSchedule extends Component {
                 obj.timeType = item;
                 result.push(obj);
             });
+            this.props.setLoading(true);
             let response = await doctorService.createDoctorSchedule({
                 dataArr: result,
                 doctorId: selectedOption ? selectedOption.value : this.props.doctorId,
                 date: formattedDate,
             });
             if (response && response.errCode === 0) {
+                this.props.setLoading(false);
                 this.setState({
                     selectedOption: null,
                     selectedDate: null,
@@ -183,8 +186,11 @@ class ManageSchedule extends Component {
                     },
                 });
                 toast.success('Create schedule successfully');
-                this.setState({ page: 1 });
-            } else toast.error('Create schedule failed');
+                this.getAllSchedule(this.state.page, this.state.perPage);
+            } else {
+                this.props.setLoading(false);
+                toast.error('Create schedule failed');
+            }
         }
     };
 
@@ -206,18 +212,24 @@ class ManageSchedule extends Component {
         }
     }, 300);
 
-    toggleModal = () => {
+    toggleModal = (item) => {
         this.setState({ isConfirmDelModal: !this.state.isConfirmDelModal });
+        if (item) {
+            this.setState({ deleteData: item });
+        }
     };
 
-    handleDelete = async (item) => {
-        console.log(item.id);
-        this.toggleModal();
-        let response = await doctorService.deleteSchedule(item.id);
+    handleDelete = async (id) => {
+        this.props.setLoading(true);
+        let response = await doctorService.deleteSchedule(id);
         if (response && response.errCode === 0) {
+            this.props.setLoading(false);
+            this.toggleModal();
             toast.success('Delete schedule successfully');
             this.setState({ page: 1 });
+            this.getAllSchedule(this.state.page, this.state.perPage);
         } else {
+            this.props.setLoading(false);
             toast.error('Delete schedule failed');
         }
     };
@@ -337,7 +349,7 @@ class ManageSchedule extends Component {
                             <tbody>
                                 {listSchedule && listSchedule.length > 0 ? (
                                     listSchedule.map((item, index) => (
-                                        <tr>
+                                        <tr key={index}>
                                             <th scope="row" key={index}>
                                                 {index + 1}
                                             </th>
@@ -355,7 +367,7 @@ class ManageSchedule extends Component {
                                             <td>
                                                 <button
                                                     className="btn btn-outline-danger ms-2"
-                                                    onClick={() => this.toggleModal()}
+                                                    onClick={() => this.toggleModal(item.id)}
                                                 >
                                                     <FormattedMessage id="manage-schedule.delete" />
                                                 </button>
@@ -363,7 +375,10 @@ class ManageSchedule extends Component {
                                                     <ModalHeader toggle={this.toggleModal}>Xác nhận xóa</ModalHeader>
                                                     <ModalBody>Bạn có chắc chắn muốn xóa lịch hẹn này không?</ModalBody>
                                                     <ModalFooter>
-                                                        <Button color="primary" onClick={() => this.handleDelete(item)}>
+                                                        <Button
+                                                            color="primary"
+                                                            onClick={() => this.handleDelete(this.state.deleteData)}
+                                                        >
                                                             Xóa
                                                         </Button>{' '}
                                                         <Button color="secondary" onClick={this.toggleModal}>
@@ -426,6 +441,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         fetchScheduleCode: () => dispatch(actions.fetchScheduleCode()),
+        setLoading: (isLoading) => dispatch(actions.setLoading(isLoading)),
     };
 };
 

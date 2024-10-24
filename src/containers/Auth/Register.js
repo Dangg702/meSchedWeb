@@ -57,7 +57,7 @@ class Register extends Component {
     handleCheckOTP = async (values) => {
         const { otpCode } = values;
         console.log('handleCheckOTP', otpCode);
-        let res = await userService.verifyOtpCode(otpCode);
+        let res = await userService.verifyOtpCode(otpCode.trim());
         if (res.errCode === 0) {
             this.setState({ isVerify: true });
         } else {
@@ -76,10 +76,10 @@ class Register extends Component {
                 lastName: lastName.trim(),
                 address: address.trim(),
                 phoneNumber: phoneNumber.trim(),
-                role: 'R3',
+                roleId: 'R3',
                 gender: gender,
             };
-            let response = await userService.createUser(newData);
+            let response = await userService.register(newData);
             if (response && response.errCode === 0) {
                 this.props.navigate(path.LOGIN);
             } else {
@@ -93,17 +93,20 @@ class Register extends Component {
         this.setState({ isShowPassword: !this.state.isShowPassword });
     };
 
+    handleBackHome = () => {
+        this.props.navigate(path.HOME);
+    };
+
     render() {
         const { isSendEmail, isVerify, isShowPassword } = this.state;
-        console.log('email', this.state.email);
         return (
             <div className="login-background">
-                <div className="back-btn">
+                <div className="back-btn" onClick={() => this.handleBackHome()}>
                     <i className="fa-solid fa-arrow-left-long"></i>
                 </div>
                 <div className="login-container w-register">
                     {!isSendEmail ? (
-                        <div className="row login-content">
+                        <div className="row g-0 login-content">
                             <FormikForm
                                 formTitle="auth.register"
                                 formFields={[
@@ -123,7 +126,7 @@ class Register extends Component {
                             />
                         </div>
                     ) : !isVerify ? (
-                        <div className="row login-content otp-form">
+                        <div className="row g-0 login-content otp-form">
                             <FormikForm
                                 formTitle="auth.auth"
                                 formFields={[
@@ -140,7 +143,7 @@ class Register extends Component {
                             />
                         </div>
                     ) : (
-                        <div className="row login-content">
+                        <div className="row g-0 login-content">
                             <FormikForm
                                 formTitle="auth.profile"
                                 formFields={[

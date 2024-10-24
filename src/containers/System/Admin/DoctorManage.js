@@ -85,8 +85,6 @@ class DoctorManage extends Component {
         let optionSpecialty = this.buildInputDataSelect(specialtyData);
         let optionClinic = this.buildInputDataSelect(clinicData);
 
-        console.log('optionClinic', optionClinic);
-
         this.setState({
             listPrice: optionsPrice,
             listPayment: optionsPayment,
@@ -149,7 +147,7 @@ class DoctorManage extends Component {
     };
     getAllSpecialty = async () => {
         try {
-            const response = await userService.getSpecialty();
+            const response = await userService.getSpecialty('ALL', null, null);
             if (response && response.errCode === 0) {
                 return response.data;
             }
@@ -214,8 +212,6 @@ class DoctorManage extends Component {
             selectedCity,
             selectedSpecialty,
             selectedClinic,
-            nameClinic,
-            addressClinic,
             note,
         } = this.state;
         let data = {
@@ -229,8 +225,6 @@ class DoctorManage extends Component {
             selectedCity: selectedCity.value,
             selectedSpecialty: selectedSpecialty.value ? selectedSpecialty.value : '',
             selectedClinic: selectedClinic.value ? selectedClinic.value : '',
-            nameClinic,
-            addressClinic,
             note,
         };
         let response = await doctorService.postInfoDoctor(data);
@@ -262,55 +256,40 @@ class DoctorManage extends Component {
         cpState[name] = valueObj;
 
         this.setState({ ...cpState });
+        console.log(valueObj, selectedName);
+        console.log(cpState);
 
         if (name === 'selectedDoctor') {
             let res = await doctorService.getDoctorInfoById(valueObj.value);
             console.log('getDoctorInfoById', res);
-            if (
-                res &&
-                res.errCode === 0 &&
-                res.data &&
-                res.data.markdownData &&
-                res.data.markdownData.contentMarkdown
-            ) {
-                let markdownData = res.data.markdownData;
-                let selectedPrice = '',
-                    selectedPayment = '',
-                    selectedCity = '',
-                    selectedClinic = '',
-                    selectedSpecialty = '',
-                    nameClinic = '',
-                    addressClinic = '',
-                    note = '';
-                let doctorInfoData = res.data.doctorInfoData;
-                if (res.data.doctorInfoData) {
-                    selectedPrice = this.findItem(listPrice, doctorInfoData.priceId);
-                    selectedPayment = this.findItem(listPayment, doctorInfoData.paymentId);
-                    selectedCity = this.findItem(listCity, doctorInfoData.provinceId);
-                    selectedClinic = this.findItem(listClinic, doctorInfoData.clinicId);
-                    selectedSpecialty = this.findItem(listSpecialty, doctorInfoData.specialtyId);
-                    nameClinic = doctorInfoData.nameClinic;
-                    addressClinic = doctorInfoData.addressClinic;
-                    note = doctorInfoData.note;
-                }
+
+            if (res && res.errCode === 0 && res.data) {
+                let markdownData = res.data.markdownData || {};
+                let doctorInfoData = res.data.doctorInfoData || {};
+
+                let selectedPrice = this.findItem(listPrice, doctorInfoData.priceId) || '';
+                let selectedPayment = this.findItem(listPayment, doctorInfoData.paymentId) || '';
+                let selectedCity = this.findItem(listCity, doctorInfoData.provinceId) || '';
+                let selectedClinic = this.findItem(listClinic, doctorInfoData.clinicId) || '';
+                let selectedSpecialty = this.findItem(listSpecialty, doctorInfoData.specialtyId) || '';
+                let note = doctorInfoData.note || '';
 
                 this.setState({
-                    contentHtml: markdownData.contentHtml,
-                    contentMarkdown: markdownData.contentMarkdown,
-                    description: markdownData.description,
-                    hadData: true,
+                    contentHtml: markdownData.contentHtml || '',
+                    contentMarkdown: markdownData.contentMarkdown || '',
+                    description: markdownData.description || '',
+                    hadData: !!(markdownData.contentHtml || markdownData.contentMarkdown),
                     selectedPrice: selectedPrice,
                     selectedPayment: selectedPayment,
                     selectedCity: selectedCity,
                     selectedSpecialty: selectedSpecialty,
                     selectedClinic: selectedClinic,
-                    nameClinic: nameClinic,
-                    addressClinic: addressClinic,
                     note: note,
                 });
             } else {
+                // Xử lý khi không có dữ liệu hợp lệ
                 this.setState({
-                    ...this.initState,
+                    ...this.initState, // Reset state về ban đầu nếu không có dữ liệu hợp lệ
                 });
             }
         }
@@ -332,12 +311,14 @@ class DoctorManage extends Component {
             listClinic,
         } = this.state;
 
+        console.log('selectedDoctor', selectedDoctor);
+
         return (
             <div className="manage-doctor-container container-fluid">
                 <h2 className="manage-doctor-title text-center mb-3">
                     <FormattedMessage id="manage-doctor.manage" />
                 </h2>
-                <div className="row mb-3">
+                <div className="row g-0 mb-3">
                     <div className="col-sm-12 col-md-4">
                         <label className="lable-input">
                             <FormattedMessage id="manage-doctor.selected-doctor" />
@@ -366,7 +347,7 @@ class DoctorManage extends Component {
                     </div>
                 </div>
 
-                <div className="row mb-3">
+                <div className="row g-0 mb-3">
                     <div className="col-sm-12 col-md-6">
                         <label className="lable-input">
                             <FormattedMessage id="manage-doctor.selected-specialty" />
@@ -395,7 +376,7 @@ class DoctorManage extends Component {
                     </div>
                 </div>
 
-                <div className="row mb-3">
+                <div className="row g-0 mb-3">
                     <div className="col-sm-12 col-md-4">
                         <label className="lable-input">
                             <FormattedMessage id="manage-doctor.price" />
@@ -437,33 +418,8 @@ class DoctorManage extends Component {
                     </div>
                 </div>
 
-                <div className="row mb-3">
-                    <div className="col-sm-12 col-md-4">
-                        <label className="lable-input">
-                            <FormattedMessage id="manage-doctor.clinic-name" />
-                        </label>
-                        <Input
-                            id="nameClinic"
-                            name="nameClinic"
-                            value={this.state.nameClinic}
-                            // onBlur={(e) => this.validateIn('password')}
-                            onChange={(e) => this.handleChangeText(e, 'nameClinic')}
-                        />
-                        {/* <FormFeedback>{errors.password === '' ? '' : errors.password}</FormFeedback> */}
-                    </div>
-                    <div className="col-sm-12 col-md-4">
-                        <label className="lable-input">
-                            <FormattedMessage id="manage-doctor.address" />
-                        </label>
-                        <Input
-                            id="addressClinic"
-                            name="addressClinic"
-                            value={this.state.addressClinic}
-                            onChange={(e) => this.handleChangeText(e, 'addressClinic')}
-                        />
-                        {/* <FormFeedback>{errors.password === '' ? '' : errors.password}</FormFeedback> */}
-                    </div>
-                    <div className="col-sm-12 col-md-4">
+                <div className="row g-0 mb-3">
+                    <div className="col-sm-12 col-md-12">
                         <label className="lable-input">
                             <FormattedMessage id="manage-doctor.notes" />
                         </label>
@@ -473,7 +429,6 @@ class DoctorManage extends Component {
                             value={this.state.note}
                             onChange={(e) => this.handleChangeText(e, 'note')}
                         />
-                        {/* <FormFeedback>{errors.password === '' ? '' : errors.password}</FormFeedback> */}
                     </div>
                 </div>
 

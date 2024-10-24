@@ -1,0 +1,62 @@
+@import '../../styles/variables';
+
+.row {
+    --bs-gutter-x: 0;
+}
+
+.specialty-more-container {
+    display: flex;
+
+    .clinic-wrapper,
+    .specialty-wrapper {
+        padding: 20px 80px;
+    }
+}
+
+.specialty-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    .specialty-item {
+        width: calc(100% / 6);
+        text-align: center;
+        padding: 20px 0;
+        cursor: pointer;
+        &:hover {
+            box-shadow: 0 10px 70px #00000026;
+            border-radius: 12px;
+        }
+
+        .specialty-image {
+            width: 64px;
+            height: 64px;
+            object-fit: contain;
+        }
+    }
+}
+
+.btn-clinic-booking {
+    display: block;
+    text-align: center;
+    padding: 8px 0;
+    width: 100%;
+    // max-width: 280px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    background-color: $colormain;
+    color: #fff;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-top: 12px;
+    &:hover {
+        background-color: darken($colormain, 5%);
+    }
+}
+
+.clinic-image {
+    width: 120px !important;
+    object-fit: contain;
+    max-height: 60px;
+}

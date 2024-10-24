@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Select from 'react-select';
 import { FormattedMessage } from 'react-intl';
-import _ from 'lodash';
-import moment from 'moment';
 import Lightbox from 'yet-another-react-lightbox';
 import MarkdownIt from 'markdown-it';
 import MdEditor from 'react-markdown-editor-lite';
+import { withRouter } from 'react-router-dom';
+import _ from 'lodash';
 import {
     Modal,
     ModalHeader,
@@ -22,17 +21,20 @@ import {
     FormText,
     FormFeedback,
 } from 'reactstrap';
+
+import { emitter } from '~/utils/emitter';
 import './AddClinic.scss';
-import { languages } from '~/utils';
-import doctorService from '~/services/doctorService';
+import { languages, path } from '~/utils';
 import * as actions from '~/store/actions';
 import { toast } from 'react-toastify';
 import { adminService } from '~/services';
+import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 
 class AddClinic extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            id: null,
             type: '',
             name: '',
             address: '',
@@ -49,7 +51,10 @@ class AddClinic extends Component {
             },
             previewImgUrl: '',
             isOpenLightBox: false,
+            isEditing: false,
+            dataClinic: null,
         };
+        this.listenToEmitter();
     }
 
     initState = {
@@ -60,52 +65,48 @@ class AddClinic extends Component {
         contentMarkdown: '',
         contentHtml: '',
         image: '',
+        previewImgUrl: '',
     };
 
-    componentDidMount() {}
+    componentDidMount() {
+        this.listenToEmitter();
+        const clinicData = this.props.location.state?.clinicData;
+        if (clinicData) {
+            this.setState({
+                ...clinicData,
+                isEditing: true,
+            });
+        }
+    }
 
     componentDidUpdate(prevProps, prevState) {}
 
+    // componentWillUnmount() {
+    //     emitter.off('EVENT_CLEAR_MODAL_DATA');
+    // }
+
+    listenToEmitter() {
+        emitter.on('EVENT_CLEAR_MODAL_DATA', () => {
+            this.setState({
+                ...this.initState,
+            });
+        });
+    }
+
+    openLightBox = () => {
+        this.setState({
+            isOpenLightBox: true,
+        });
+    };
+
+    closeLightBox = () => {
+        this.setState({
+            isOpenLightBox: false,
+        });
+    };
+
     // Initialize a markdown parser
     mdParser = new MarkdownIt(/* Markdown-it options */);
-
-    getAllDoctors = async () => {
-        try {
-            const response = await doctorService.getDoctors();
-            if (response && response.errCode === 0) {
-                this.setState({
-                    doctors: response.doctors,
-                });
-            }
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
-    checkValid = (selectedOption, selectedDate, timeRanges, fieldToCheck) => {
-        let errs = {};
-
-        if (fieldToCheck === 'selectedOption' || fieldToCheck === 'all') {
-            if (!selectedOption) {
-                errs.selectedOption = 'Please select a doctor';
-            }
-        }
-
-        if (fieldToCheck === 'selectedDate' || fieldToCheck === 'all') {
-            if (!selectedDate) {
-                errs.selectedDate = 'Please select a date';
-            }
-        }
-
-        if (fieldToCheck === 'timeRanges' || fieldToCheck === 'all') {
-            if (!timeRanges || timeRanges.length === 0) {
-                errs.timeRanges = 'Please select at least one time range';
-            }
-        }
-
-        this.setState({ errs });
-        return _.isEmpty(errs);
-    };
 
     onChangeInput = (e) => {
         let { name, value } = e.target;
@@ -118,67 +119,74 @@ class AddClinic extends Component {
         this.setState({ contentHtml: html, contentMarkdown: text });
     };
 
-    handleSubmit = async () => {
-        let { type, name, address, description, contentMarkdown, contentHtml, image } = this.state;
-        let errs = {};
-
-        // if (!type) {
-        //     errs.type = 'Please input clinic type';
-        // }
-
-        // if (!name) {
-        //     errs.name = 'Please input clinic name';
-        // }
-
-        // if (!address) {
-        //     errs.address = 'Please input clinic address';
-        // }
-
-        // if (!description) {
-        //     errs.description = 'Please input clinic description';
-        // }
-
-        // if (!image) {
-        //     errs.image = 'Please upload clinic image';
-        // }
-
-        // if (!contentMarkdown) {
-        //     errs.contentMarkdown = 'Please input contentMarkdown';
-        // }
-        // if (!contentHtml) {
-        //     errs.contentHtml = 'Please input contentHtml';
-        // }
-
-        // if (_.isEmpty(errs)) {
+    createClinical = async (data) => {
         try {
-            let data = {
-                type,
-                name,
-                address,
-                description,
-                contentMarkdown,
-                contentHtml,
-                image,
-            };
-            console.log('check submit', data);
-
-            const response = await adminService.createClinic(data);
+            this.props.setLoading(true);
+            let response = await adminService.createClinic(data);
             if (response && response.errCode === 0) {
-                toast.success('Create clinic successfully');
-                this.setState({
-                    ...this.initState,
-                });
+                this.props.setLoading(false);
+                toast.success('Create clinic succeeded');
+                emitter.emit('EVENT_CLEAR_MODAL_DATA');
             } else {
-                toast.error('Create clinic failed');
+                this.props.setLoading(false);
+                toast.error(response.message);
             }
         } catch (error) {
             console.log(error);
         }
-        // } else {
-        //     this.setState({
-        //         errors: errs,
-        //     });
-        // }
+    };
+
+    updateClinic = async (id, data) => {
+        try {
+            this.props.setLoading(true);
+            let response = await adminService.updateClinic(id, data);
+            if (response && response.errCode === 0) {
+                this.props.setLoading(false);
+                toast.success('Update clinic succeeded');
+                emitter.emit('EVENT_CLEAR_MODAL_DATA');
+            } else {
+                this.props.setLoading(false);
+                toast.error(response.message);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    handleSubmit = async () => {
+        let { id, type, name, address, description, contentMarkdown, contentHtml, image } = this.state;
+        let errs = {};
+        try {
+            const data = new FormData();
+            data.append('type', type);
+            data.append('name', name);
+            data.append('address', address);
+            data.append('description', description);
+            data.append('contentMarkdown', contentMarkdown);
+            data.append('contentHtml', contentHtml);
+            if (image) {
+                data.append('image', image);
+            }
+            if (this.state.isEditing) {
+                this.updateClinic(id, data);
+            } else {
+                if (type && name && address && contentMarkdown && contentHtml) {
+                    this.createClinical(data);
+                } else {
+                    this.setState({
+                        errors: {
+                            type: type ? '' : 'Type is required',
+                            name: name ? '' : 'Name is required',
+                            address: address ? '' : 'Address is required',
+                            contentMarkdown: contentMarkdown ? '' : 'ContentMarkdown is required',
+                            contentHtml: contentHtml ? '' : 'ContentHtml is required',
+                        },
+                    });
+                }
+            }
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     handleSubmitKey = (event) => {
@@ -187,11 +195,17 @@ class AddClinic extends Component {
         }
     };
 
+    handleChangeImage = (e) => {
+        let file = e.target.files[0];
+        if (file) {
+            let url = URL.createObjectURL(file);
+            this.setState({ previewImgUrl: url, image: file });
+        }
+    };
+
     render() {
         let { errors, isOpenLightBox } = this.state;
         let { language } = this.props;
-        console.log('check clinic', this.state);
-
         return (
             <div className="container-fluid clinic-container p-4">
                 <div className="clinic-title my-3">
@@ -211,10 +225,10 @@ class AddClinic extends Component {
                                     type="text"
                                     value={this.state.name}
                                     onChange={(e) => this.onChangeInput(e)}
-                                    // invalid={errors.name && errors.name !== '' ? true : false}
+                                    invalid={errors.name && errors.name !== '' ? true : false}
                                     // onKeyDown={this.handleEnter}
                                 />
-                                {/* <FormFeedback>{errors.name === '' ? '' : errors.name}</FormFeedback> */}
+                                <FormFeedback>{errors.name === '' ? '' : errors.name}</FormFeedback>
                             </FormGroup>
                         </Col>
                         <Col md={6} className="mb-3">
@@ -229,10 +243,10 @@ class AddClinic extends Component {
                                     type="text"
                                     value={this.state.address}
                                     onChange={(e) => this.onChangeInput(e)}
-                                    // invalid={errors.address && errors.address !== '' ? true : false}
+                                    invalid={errors.address && errors.address !== '' ? true : false}
                                     // onKeyDown={this.handleEnter}
                                 />
-                                {/* <FormFeedback>{errors.address === '' ? '' : errors.address}</FormFeedback> */}
+                                <FormFeedback>{errors.address === '' ? '' : errors.address}</FormFeedback>
                             </FormGroup>
                         </Col>
                     </Row>
@@ -243,7 +257,7 @@ class AddClinic extends Component {
                                     <FormattedMessage id="manage-clinic.type" />
                                 </Label>
                                 <Input id="type" name="type" type="text" onChange={(e) => this.onChangeInput(e)} />
-                                {/* <FormFeedback>{errors.name === '' ? '' : errors.name}</FormFeedback> */}
+                                <FormFeedback>{errors.name === '' ? '' : errors.name}</FormFeedback>
                             </FormGroup>
                         </Col>
                         <Col md={6} className="mb-3">
@@ -257,7 +271,6 @@ class AddClinic extends Component {
                                     type="textarea"
                                     onChange={(e) => this.onChangeInput(e)}
                                 />
-                                {/* <FormFeedback>{errors.name === '' ? '' : errors.name}</FormFeedback> */}
                             </FormGroup>
                         </Col>
                         <Col md={4} className="mb-3 d-flex align-items-center">
@@ -303,7 +316,10 @@ class AddClinic extends Component {
                     />
                 </div>
                 <div className="btn-block">
-                    <button className="btn btn-save-clinic" onClick={this.handleSubmit}>
+                    <Link to={path.SYSTEM_CLINIC_MANAGE} className="btn btn-back">
+                        <FormattedMessage id="manage-specialty.back" />
+                    </Link>
+                    <button className="btn btn-save-clinic" onClick={() => this.handleSubmit()}>
                         <FormattedMessage id="manage-specialty.save" />
                     </button>
                 </div>
@@ -324,7 +340,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         fetchScheduleCode: () => dispatch(actions.fetchScheduleCode()),
+        setLoading: (isLoading) => dispatch(actions.setLoading(isLoading)),
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddClinic);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(AddClinic));

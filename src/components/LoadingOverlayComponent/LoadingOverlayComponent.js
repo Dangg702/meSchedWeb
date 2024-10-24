@@ -4,11 +4,27 @@ import { connect } from 'react-redux';
 
 const LoadingOverlayComponent = ({ loading, children }) => {
     return (
-        <LoadingOverlay active={loading} spinner text="Loading...">
+        <LoadingOverlay
+            active={loading}
+            spinner
+            text="Loading..."
+            styles={{
+                overlay: (base) => ({
+                    ...base,
+                    zIndex: 100000000000,
+                }),
+                content: (base) => ({
+                    ...base,
+                    // color: 'white',
+                }),
+            }}
+        >
             {children}
         </LoadingOverlay>
     );
 };
+
+LoadingOverlay.propTypes = undefined; //fix warning
 
 const mapStateToProps = (state) => ({
     loading: state.app.loading,

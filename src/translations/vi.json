@@ -5,7 +5,7 @@
         "Make-an-appointment-without-waiting": "Đặt khám không chờ đợi",
         "Book-a-hospital-examination": "Đặt khám bệnh viện",
         "Book-examination-pay-receive-results": "Đặt khám, thanh toán, nhận kết quả",
-        "Book-a-clinic-visit": "Đặt khám phòng khám",
+        "Book-a-specialty-visit": "Đặt khám chuyên khoa",
         "Diverse-specialties-and-services": "Đa dạng chuyên khoa và dịch vụ",
         "Schedule-vaccinations": "Đặt lịch tiêm chủng",
         "Reputable-vaccination-center": "Trung tâm tiêm chủng uy tín",
@@ -167,10 +167,17 @@
         "image": "Ảnh",
         "choose": "Chọn",
         "search-placeholder": "Tìm kiếm chuyên khoa theo tên",
+        "edit-specialty": "Chỉnh sửa chuyên khoa",
         "delete-specialty": "Xóa chuyên khoa",
         "create-specialty": "Thêm chuyên khoa",
         "upload-specialty": "Ảnh chuyên khoa",
-        "specialty-name": "Tên chuyên khoa"
+        "specialty-name": "Tên chuyên khoa",
+        "id": "STT",
+        "valueVi": "Tên tiếng việt",
+        "valueEn": "Tên tiếng anh",
+        "actions": "Thao tác",
+        "export-csv": "Xuất CSV",
+        "back": "Quay về"
     },
     "manage-clinic": {
         "create-title": "Thêm Bệnh viện/ Phòng khám",
@@ -207,5 +214,10 @@
     },
     "my-appointment": {
         "title": "Lịch hẹn của bạn"
+    },
+    "no-access": {
+        "title": "403 - Không có quyền truy cập",
+        "sub-title": "Xin lỗi, bạn không được phép truy cập vào trang này.",
+        "btn-back": "Quay về trang chủ"
     }
 }

@@ -22,7 +22,7 @@ class MedicalFacilities extends Component {
 
     async getClinics() {
         let response = await userService.getClinics();
-        console.log(response);
+        console.log('getClinics', response);
         if (response && response.errCode === 0) {
             this.setState({
                 clinics: response.data,
@@ -40,9 +40,9 @@ class MedicalFacilities extends Component {
                             <h2 className="section-title">
                                 <FormattedMessage id="homepage.clinic" />
                             </h2>
-                            <button type="button" className="btn btn-more">
+                            <Link to={`/book-appointment/specialty`} className="btn btn-more">
                                 <FormattedMessage id="homepage.more" />
-                            </button>
+                            </Link>
                         </div>
 
                         <div className="section-container">
@@ -54,7 +54,11 @@ class MedicalFacilities extends Component {
                                             className="section-item-container"
                                         >
                                             <div className="image-container">
-                                                <img className="image" src={clinicImg} alt="..." />
+                                                <img
+                                                    className="image"
+                                                    src={clinic.image ? clinic.image : clinicImg}
+                                                    alt="..."
+                                                />
                                             </div>
                                             <div className="text-description">{clinic.name}</div>
                                         </Link>

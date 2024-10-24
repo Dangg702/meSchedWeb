@@ -6,7 +6,7 @@ import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
 
-import { path } from '~/utils';
+import { path, USER_ROLE } from '~/utils';
 import * as actions from '../../store/actions';
 import { userService } from '../../services';
 import FormikForm from '~/components/Form/FormikForm';
@@ -26,6 +26,24 @@ class Login extends Component {
 
     state = { ...this.initialState };
 
+    // componentDidUpdate(prevProps) {
+    //     console.log('userRole log', this.props.userRole, prevProps.userRole);
+    //     if (this.props.userRole !== prevProps.userRole) {
+    //         this.redirectBasedOnRole(this.props.userRole);
+    //     }
+    // }
+
+    redirectBasedOnRole = (userRole) => {
+        if (userRole === USER_ROLE.ADMIN) {
+            this.props.navigate(path.SYSTEM_USER_MANAGE);
+        } else if (userRole === USER_ROLE.PATIENT) {
+            // const previousPage = localStorage.getItem('lastVisitedPage');
+            this.props.navigate(path.HOME);
+        } else if (userRole === USER_ROLE.DOCTOR) {
+            this.props.navigate(path.SYSTEM_DOCTOR_SCHEDULE_MANAGE);
+        }
+    };
+
     handleChangeInputForm = (e) => {
         const { name, value } = e.target;
         this.setState({ [name]: value });
@@ -42,8 +60,8 @@ class Login extends Component {
             if (result.errCode !== 0) {
                 toast.error('Login fail: ' + result.message);
             } else {
-                this.props.userLoginSuccess(result.data, result.tokens?.access_token);
-                console.log(result);
+                this.props.userLoginSuccess(result.data, result.tokens?.accessToken);
+                this.redirectBasedOnRole(result.data.roleId);
             }
         } catch (e) {
             console.error('Login error: ' + e);
@@ -57,15 +75,19 @@ class Login extends Component {
         }
     };
 
+    handleBackHome = () => {
+        this.props.navigate(path.HOME);
+    };
+
     render() {
         let { isShowPassword } = this.state;
         return (
             <div className="login-background">
-                <div className="back-btn">
+                <div className="back-btn" onClick={() => this.handleBackHome()}>
                     <i className="fa-solid fa-arrow-left-long"></i>
                 </div>
                 <div className="login-container">
-                    <div className="row login-content">
+                    <div className="row g-0 login-content">
                         <FormikForm
                             formTitle="auth.login"
                             formFields={[
@@ -101,6 +123,7 @@ class Login extends Component {
 const mapStateToProps = (state) => {
     return {
         lang: state.app.language,
+        userRole: state.user.userRole,
     };
 };
 

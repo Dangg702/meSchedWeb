@@ -3,6 +3,8 @@ import actionTypes from '../actions/actionTypes';
 const initialState = {
     isLoggedIn: false,
     userInfo: null,
+    token: null,
+    userRole: null,
 };
 
 const userReducer = (state = initialState, action) => {
@@ -11,6 +13,7 @@ const userReducer = (state = initialState, action) => {
             return {
                 ...state,
                 isLoggedIn: true,
+                userRole: action.userInfo.roleId,
                 userInfo: action.userInfo,
                 token: action.token ? action.token : null,
             };

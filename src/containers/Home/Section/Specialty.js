@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import './Specialty.scss';
 import specialtyImg from '../../../assets/images/specialty/Chanthuongchinhhinh.webp';
 import { userService } from '~/services';
-import { languages } from '~/utils';
+import { languages, path } from '~/utils';
 
 class Specialty extends Component {
     constructor(props) {
@@ -18,7 +18,7 @@ class Specialty extends Component {
     }
 
     async componentDidMount() {
-        let res = await userService.getSpecialty();
+        let res = await userService.getSpecialty('ALL', 1, 50);
         if (res && res.errCode === 0) {
             this.setState({ listSpecialty: res.data ? res.data : [] });
         }
@@ -27,7 +27,6 @@ class Specialty extends Component {
     render() {
         let { language } = this.props;
         let { listSpecialty } = this.state;
-        console.log(listSpecialty);
         return (
             <>
                 <div className="section-wrapper">
@@ -36,9 +35,9 @@ class Specialty extends Component {
                             <h2 className="section-title">
                                 <FormattedMessage id="homepage.specialty" />
                             </h2>
-                            <Link to={`/book-appointment/specialty`} className="btn btn-more">
+                            {/* <Link to={`/book-appointment/specialty`} className="btn btn-more">
                                 <FormattedMessage id="homepage.more" />
-                            </Link>
+                            </Link> */}
                         </div>
 
                         <div className="section-container">
@@ -47,11 +46,15 @@ class Specialty extends Component {
                                     return (
                                         <div className="section-item-wrapper" key={index}>
                                             <Link
-                                                to={`/specialist-examination/${item.id}`}
+                                                to={path.SEARCH + `?type=specialty&q=${item.valueVi}`}
                                                 className="section-item-container"
                                             >
                                                 <div className="image-container">
-                                                    <img className="image" src={specialtyImg} alt="..." />
+                                                    <img
+                                                        className="image"
+                                                        src={item.image ? item.image : specialtyImg}
+                                                        alt="..."
+                                                    />
                                                 </div>
                                                 <div className="text-description">
                                                     {language === languages.VI ? item.valueVi : item.valueEn}

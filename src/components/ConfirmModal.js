@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
-import { Modal } from 'reactstrap';
+import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
 
-import './ConfirmModal.scss';
+// import './ConfirmModal.scss';
 import * as actions from '../store/actions';
 import { KeyCodeUtils } from '../utils';
 
@@ -19,10 +19,9 @@ class ConfirmModal extends Component {
         ...this.initialState,
     };
 
-    componentDidMount() {
-        document.addEventListener('keydown', this.handlerKeyDown);
-        console.log('ConfirmModal', this.props.contentOfConfirmModal);
-    }
+    // componentDidMount() {
+    //     document.addEventListener('keydown', this.handlerKeyDown);
+    // }
 
     // componentDidUpdate(prevProps) {
     //     const { contentOfConfirmModal } = this.props;
@@ -32,84 +31,52 @@ class ConfirmModal extends Component {
     //         }
     //     }
     // }
-    componentWillUnmount() {
-        document.removeEventListener('keydown', this.handlerKeyDown);
-    }
+    // componentWillUnmount() {
+    //     document.removeEventListener('keydown', this.handlerKeyDown);
+    // }
 
-    handlerKeyDown = (event) => {
-        const keyCode = event.which || event.keyCode;
-        if (keyCode === KeyCodeUtils.ENTER) {
-            if (!this.acceptBtnRef.current || this.acceptBtnRef.current.disabled) return;
-            this.acceptBtnRef.current.click();
-        }
-    };
+    // handlerKeyDown = (event) => {
+    //     const keyCode = event.which || event.keyCode;
+    //     if (keyCode === KeyCodeUtils.ENTER) {
+    //         if (!this.acceptBtnRef.current || this.acceptBtnRef.current.disabled) return;
+    //         this.acceptBtnRef.current.click();
+    //     }
+    // };
 
-    onAcceptBtnClick = () => {
-        const { contentOfConfirmModal } = this.props;
-        if (contentOfConfirmModal.handleFunc) {
-            contentOfConfirmModal.handleFunc(contentOfConfirmModal.dataFunc);
-        }
-        this.onClose();
-    };
+    // onAcceptBtnClick = () => {
+    //     const { contentOfConfirmModal } = this.props;
+    //     if (contentOfConfirmModal.handleFunc) {
+    //         contentOfConfirmModal.handleFunc(contentOfConfirmModal.dataFunc);
+    //     }
+    //     this.onClose();
+    // };
 
-    onClose = () => {
-        this.props.setContentOfConfirmModal({
-            isOpen: false,
-            messageId: '',
-            handleFunc: null,
-            dataFunc: null,
-        });
-    };
+    // onClose = () => {
+    //     this.props.setContentOfConfirmModal({
+    //         isOpen: false,
+    //         messageId: '',
+    //         handleFunc: null,
+    //         dataFunc: null,
+    //     });
+    // };
 
     render() {
-        const { contentOfConfirmModal } = this.props;
+        const { isOpen, toggle, onDelete, itemName } = this.props;
 
         return (
-            <Modal isOpen={contentOfConfirmModal.isOpen} className="confirm-modal" centered={true}>
-                <div className="modal-header">
-                    <div className="modal-title">
-                        {/* <FormattedMessage id={'common.confirm'} /> */}
-                        <FormattedMessage id={'common.confirm'} />
-                    </div>
-                    <div className="col-auto">
-                        <button className="btn btn-close" onClick={this.onClose}>
-                            <i className="fal fa-times" />
-                        </button>
-                    </div>
-                </div>
-
-                <div className="modal-body">
-                    <div className="confirm-modal-content">
-                        <div className="row">
-                            <div className="col-12">
-                                <FormattedMessage
-                                    id={
-                                        contentOfConfirmModal.messageId
-                                            ? contentOfConfirmModal.messageId
-                                            : 'common.confirm-this-task'
-                                    }
-                                />
-                            </div>
-
-                            <hr />
-
-                            <div className="col-12">
-                                <div className="btn-container text-center">
-                                    <button className="btn btn-add" onClick={this.onClose}>
-                                        <FormattedMessage id="common.close" />
-                                    </button>
-                                    <button
-                                        ref={this.acceptBtnRef}
-                                        className="btn btn-add"
-                                        onClick={this.onAcceptBtnClick}
-                                    >
-                                        <FormattedMessage id={'common.accept'} />
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <Modal isOpen={isOpen} toggle={toggle}>
+                <ModalHeader toggle={toggle}>Xác nhận xóa</ModalHeader>
+                <ModalBody>
+                    Sau khi xóa sẽ không thể hoàn tác. Bạn có chắc chắn muốn xóa {itemName} này không?
+                </ModalBody>
+                <ModalFooter>
+                    <Button color="primary" onClick={onDelete}>
+                        Xóa
+                    </Button>{' '}
+                    <Button color="secondary" onClick={toggle}>
+                        Hủy
+                    </Button>
+                </ModalFooter>
             </Modal>
         );
     }

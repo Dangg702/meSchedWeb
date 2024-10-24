@@ -4,12 +4,12 @@ import { Route, Switch } from 'react-router-dom';
 import { ConnectedRouter as Router } from 'connected-react-router';
 import { history } from '../redux';
 import { ToastContainer } from 'react-toastify';
-import LoadingOverlay from 'react-loading-overlay';
+import { push } from 'connected-react-router';
 
 import CustomScrollbars from '../components/CustomScrollbars';
 import * as actions from '~/store/actions';
-
 import { routes } from '~/routes/routes';
+import { path, USER_ROLE } from '~/utils';
 import DefaultLayout from '~/layouts/DefaultLayout';
 import LoadingOverlayComponent from '~/components/LoadingOverlayComponent/LoadingOverlayComponent';
 
@@ -30,7 +30,20 @@ class App extends Component {
 
     componentDidMount() {
         this.handlePersistorState();
+        if (this.props.loading === true) {
+            setTimeout(() => {
+                this.props.setLoading(false);
+            }, 10000); // 10 giây
+        }
         // this.props.setLoading(false);
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.props.loading && this.props.loading !== prevProps.loading) {
+            setTimeout(() => {
+                this.props.setLoading(false);
+            }, 10000);
+        }
     }
 
     render() {
@@ -91,12 +104,14 @@ const mapStateToProps = (state) => {
         started: state.app.started,
         isLoggedIn: state.user.isLoggedIn,
         loading: state.app.loading,
+        userRole: state.user.userRole,
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
         setLoading: (isLoading) => dispatch(actions.setLoading(isLoading)),
+        navigate: (path) => dispatch(push(path)),
     };
 };
 

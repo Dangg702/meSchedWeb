@@ -8,7 +8,7 @@ class HomeFooter extends Component {
         return (
             <>
                 <div className="footer-wrapper container-fluid">
-                    <div className="row">
+                    <div className="row g-0">
                         <div className="col-6 col-md-3 col-sm-12">&copy; MedSched</div>
                         <div className="col-6 col-md-3 col-sm-12">
                             <h5>Về MedSched</h5>
@@ -30,7 +30,7 @@ class HomeFooter extends Component {
                             <a href="#">Hỗ trợ khách hàng</a>
                         </div>
                     </div>
-                    <div className="row pt-4">
+                    <div className="row g-0 pt-4">
                         <div className="col text-center">&copy; MedSched</div>
                     </div>
                 </div>

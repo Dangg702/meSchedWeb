@@ -12,6 +12,7 @@ import ModalUser from './ModalUser';
 import userService from '../../../services/userService';
 import { emitter } from '../../../utils/emitter';
 import * as actions from '../../../store/actions';
+import ConfirmModal from '~/components/ConfirmModal';
 import './UserManage.scss';
 
 class UserManage extends Component {
@@ -31,6 +32,8 @@ class UserManage extends Component {
             sortBy: 'asc',
             sortField: 'id',
             dataExport: [],
+            isConfirmDelModal: false,
+            deleteData: null,
         };
     }
 
@@ -87,26 +90,16 @@ class UserManage extends Component {
 
     createNewUser = async (data) => {
         try {
-            let { email, password, firstName, lastName, address, phoneNumber, role, gender, position, image } = data;
-            let newData = {
-                email: email.trim(),
-                password: password.trim(),
-                firstName: firstName.trim(),
-                lastName: lastName.trim(),
-                address: address.trim(),
-                phoneNumber: phoneNumber.trim(),
-                role,
-                gender: gender,
-                position: position,
-                image: image,
-            };
-            let response = await userService.createUser(newData);
+            this.props.setLoading(true);
+            let response = await userService.createUser(data);
             if (response && response.errCode === 0) {
+                this.props.setLoading(false);
                 toast.success('Create user succeeded');
                 this.getAllUsers(this.state.page, this.state.perPage);
                 this.setState({ isOpenModal: false });
                 emitter.emit('EVENT_CLEAR_MODAL_DATA');
             } else {
+                this.props.setLoading(false);
                 toast.error(response.message);
             }
         } catch (error) {
@@ -122,13 +115,16 @@ class UserManage extends Component {
 
     editUser = async (id, data) => {
         try {
-            console.log('edit data', data);
+            this.props.setLoading(true);
             let response = await userService.editUser(id, data);
             if (response && response.errCode === 0) {
+                this.props.setLoading(false);
                 toast.success('Edit user succeeded');
                 this.getAllUsers(this.state.page, this.state.perPage);
                 this.setState({ isOpenModal: false });
+                emitter.emit('EVENT_CLEAR_MODAL_DATA');
             } else {
+                this.props.setLoading(false);
                 toast.error(response.message);
             }
         } catch (error) {
@@ -136,44 +132,25 @@ class UserManage extends Component {
         }
     };
 
-    handleSubmitModal = (data) => {
-        const { email, password, firstName, lastName, address, phoneNumber, gender, role, position, image } = data;
-        // let imageUrl = await
-        const createData = {
-            email,
-            password,
-            firstName,
-            lastName,
-            address,
-            phoneNumber,
-            gender,
-            role,
-            position,
-            image,
-        };
+    handleSubmitModal = (id, data) => {
         if (this.state.isEditing) {
-            this.editUser(data.id, {
-                firstName: firstName && firstName.trim(),
-                lastName: lastName && lastName.trim(),
-                address: address && address.trim(),
-                phoneNumber: phoneNumber && phoneNumber.trim(),
-                gender,
-                roleId: role,
-                positionId: position,
-                image: image && image,
-            });
+            this.editUser(id, data);
         } else {
-            this.createNewUser(createData);
+            this.createNewUser(data);
         }
     };
 
-    handleDeleteUser = (id) => {
-        // this.setState({ isOpenModal: !this.state.isOpenModal });
+    toggleModal = (item) => {
+        this.setState({ isConfirmDelModal: !this.state.isConfirmDelModal });
+        if (item) {
+            this.setState({ deleteData: item });
+        }
     };
 
     deleteUser = async (id) => {
         try {
             let res = await userService.deleteUser(id);
+            this.toggleModal();
             if (res && res.errCode === 0) {
                 toast.success('Delete user succeeded');
                 this.getAllUsers(this.state.page, this.state.perPage);
@@ -208,8 +185,7 @@ class UserManage extends Component {
     }, 300);
 
     render() {
-        console.log(this.state.dataExport);
-
+        const { isConfirmDelModal } = this.state;
         return (
             <div className="user-container container-fluid">
                 <ModalUser
@@ -286,6 +262,9 @@ class UserManage extends Component {
                                     <FormattedMessage id="manage-user.email" />
                                 </th>
                                 <th scope="col">
+                                    <FormattedMessage id="manage-user.last-name" />
+                                </th>
+                                <th scope="col">
                                     <FormattedMessage id="manage-user.first-name" />
                                     <span className="filter-icon">
                                         <i
@@ -297,9 +276,6 @@ class UserManage extends Component {
                                             onClick={() => this.handleSort('desc', 'firstName')}
                                         ></i>
                                     </span>
-                                </th>
-                                <th scope="col">
-                                    <FormattedMessage id="manage-user.last-name" />
                                 </th>
                                 <th scope="col">
                                     <FormattedMessage id="manage-user.address" />
@@ -314,8 +290,8 @@ class UserManage extends Component {
                                 <tr key={index}>
                                     <th scope="row">{user.id}</th>
                                     <td>{user.email}</td>
-                                    <td>{user.firstName}</td>
                                     <td>{user.lastName}</td>
+                                    <td>{user.firstName}</td>
                                     <td>{user.address}</td>
                                     <td className="d-flex gap-2">
                                         <button
@@ -328,10 +304,16 @@ class UserManage extends Component {
                                         <button
                                             type="button"
                                             className="btn btn-outline-danger"
-                                            onClick={() => this.deleteUser(user.id)}
+                                            onClick={() => this.toggleModal(user.id)}
                                         >
                                             <i className="fa-solid fa-trash-can"></i>
                                         </button>
+                                        <ConfirmModal
+                                            isOpen={isConfirmDelModal}
+                                            toggle={this.toggleModal}
+                                            onDelete={() => this.deleteUser(this.state.deleteData)}
+                                            itemName={'Người dùng'}
+                                        />
                                     </td>
                                 </tr>
                             ))}
@@ -340,12 +322,12 @@ class UserManage extends Component {
                 </div>
                 {/* Paginate */}
                 <ReactPaginate
-                    nextLabel=">>"
+                    nextLabel=">"
                     onPageChange={(e) => this.handlePageClick(e)}
                     pageRangeDisplayed={3}
                     marginPagesDisplayed={8}
                     pageCount={this.state.totalPages}
-                    previousLabel="<<"
+                    previousLabel="<"
                     pageClassName="page-item"
                     pageLinkClassName="page-link"
                     previousClassName="page-item"
@@ -371,7 +353,9 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-    return {};
+    return {
+        setLoading: (isLoading) => dispatch(actions.setLoading(isLoading)),
+    };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserManage);

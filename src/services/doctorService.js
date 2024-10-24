@@ -10,7 +10,7 @@ const doctorService = {
     getDoctorInfoById(id) {
         return axios.get(`/api/get-doctor?id=${id}`, {
             headers: {
-                authorization: 'Bearer ' + sessionStorage.getItem('access_token'),
+                authorization: 'Bearer ' + sessionStorage.getItem('accessToken'),
             },
         });
     },

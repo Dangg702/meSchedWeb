@@ -1,48 +1,21 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { Breadcrumb, BreadcrumbItem } from 'reactstrap';
 import { FormattedMessage } from 'react-intl';
 import { NumericFormat } from 'react-number-format';
 
-import DoctorSchedule from './DoctorSchedule';
-import { path, languages } from '~/utils';
-import doctorService from '~/services/doctorService';
-import { userService } from '~/services';
 import './DoctorExtraInfo.scss';
-import doctorImg from '~/assets/images/doctor/user-default.jfif';
+import { languages } from '~/utils';
 
 class DoctorExtraInfo extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            doctorInfoData: {},
-        };
-    }
-
-    async componentDidMount() {
-        let { doctorId } = this.props;
-        let data = await userService.getExtraInfoDoctor(doctorId);
-        if (data && data.errCode === 0) {
-            this.setState({ doctorInfoData: data.data });
-        }
-    }
-
-    async componentDidUpdate(prevProps, prevState) {
-        let { doctorId } = this.props;
-        if (this.props.language !== prevProps.language) {
-        }
-        if (doctorId !== prevProps.doctorId) {
-            let data = await userService.getExtraInfoDoctor(doctorId);
-            if (data && data.errCode === 0) {
-                this.setState({ doctorInfoData: data.data });
-            }
-        }
+        this.state = {};
     }
 
     render() {
         let { language } = this.props;
-        let { doctorInfoData } = this.state;
+        const { doctorExtraData } = this.props;
+        console.log('check doctor extra info', doctorExtraData);
 
         return (
             <div className="doctor-extra-info-container">
@@ -50,8 +23,8 @@ class DoctorExtraInfo extends Component {
                     <div className="info-title">
                         <FormattedMessage id="doctor.address-title" />
                     </div>
-                    <div className="clinic-name">{doctorInfoData?.nameClinic}</div>
-                    <div className="address-detail ">{doctorInfoData?.addressClinic}</div>
+                    <div className="clinic-name">{doctorExtraData?.clinicData.name}</div>
+                    <div className="address-detail ">{doctorExtraData?.clinicData.address}</div>
                 </div>
                 <div className="break-line"></div>
                 <div className="d-flex align-items-center pt-3 ps-3">
@@ -59,17 +32,17 @@ class DoctorExtraInfo extends Component {
                         <FormattedMessage id="doctor.price-title" />:
                     </div>
                     <div className="ms-2">
-                        {doctorInfoData && doctorInfoData.priceData && language === languages.VI ? (
+                        {doctorExtraData && doctorExtraData.priceData && language === languages.VI ? (
                             <NumericFormat
                                 displayType="text"
-                                value={doctorInfoData?.priceData?.valueVi}
+                                value={doctorExtraData?.priceData?.valueVi}
                                 thousandSeparator=","
                                 suffix={'VND'}
                             />
                         ) : (
                             <NumericFormat
                                 displayType="text"
-                                value={doctorInfoData?.priceData?.valueEn}
+                                value={doctorExtraData?.priceData?.valueEn}
                                 thousandSeparator=","
                                 suffix={'USD'}
                             />

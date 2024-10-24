@@ -16,6 +16,9 @@ const userService = {
     getUsers(id, page, perPage) {
         return axios.get(`/api/get-users?id=${id}&page=${page}&per_page=${perPage}`);
     },
+    register(data) {
+        return axios.post(`/api/register`, data);
+    },
     createUser(data) {
         return axios.post(`/api/create-user`, data);
     },
@@ -38,7 +41,7 @@ const userService = {
         return axios.get(`/api/get-extra-info-doctor?id=${doctorId}`);
     },
     getProfileDoctor(doctorId) {
-        return axios.get(`/api/get-profile-doctor?id=${doctorId}`);
+        return axios.get(`/api/get-doctor?id=${doctorId}`);
     },
     bookingAppointment(data) {
         return axios.post(`/api/booking-appointment`, data);
@@ -47,16 +50,27 @@ const userService = {
         return axios.post(`/api/verify-booking-appointment`, data);
     },
     createSpecialty(data) {
-        return axios.post(`/api/create-specialty`, data);
+        return axios.post(`/api/create-specialty`, data, { headers: { 'Content-Type': 'multipart/form-data' } });
     },
-    getSpecialty() {
-        return axios.get(`/api/get-all-specialty`);
+    editSpecialty(id, newData) {
+        return axios.patch(`/api/update-specialty?id=${id}`, newData, {
+            headers: { 'Content-Type': 'multipart/form-data' },
+        });
+    },
+    deleteSpecialty(id) {
+        return axios.delete(`/api/delete-specialty?id=${id}`);
+    },
+    getSpecialty(name, page, perPage) {
+        return axios.get(`/api/get-all-specialty?name=${name}&page=${page}&per_page=${perPage}`);
     },
     getDoctorBySpecialtyId(id) {
         return axios.get(`/api/get-doctor-by-specialty?id=${id}`);
     },
     getClinics() {
         return axios.get(`/api/get-all-clinic`);
+    },
+    getAllClinic(name, page, perPage) {
+        return axios.get(`/api/get-clinics?name=${name}&page=${page}&per_page=${perPage}`);
     },
     getClinicById(id) {
         return axios.get(`/api/get-clinic-detail-by-id?id=${id}`);
@@ -72,6 +86,21 @@ const userService = {
     },
     getListAppointmentOfPatientById(patientId) {
         return axios.get(`/api/list-my-appointment?id=${patientId}`);
+    },
+    searchDoctorBySpecialty(specialty) {
+        return axios.get(`/api/book-exam/search?type=specialty&q=${specialty}`);
+    },
+    searchDoctorByName(doctorName) {
+        return axios.get(`/api/book-exam/search?type=doctor&q=${doctorName}`);
+    },
+    searchClinic(clinicName) {
+        return axios.get(`/api/book-exam/search?type=clinic&q=${clinicName}`);
+    },
+    searchAll(q) {
+        return axios.get(`/api/book-exam/search?type=all&q=${q}`);
+    },
+    getDoctors(name, page, perPage) {
+        return axios.get(`/api/get-doctors?name=${name}&page=${page}&per_page=${perPage}`);
     },
 };
 

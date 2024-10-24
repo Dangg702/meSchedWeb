@@ -162,6 +162,7 @@
     .banner-nav {
         height: 100%;
         align-items: center;
+        cursor: pointer;
 
         .banner-nav-item {
             font-size: 1.2rem;
@@ -171,7 +172,8 @@
             padding-bottom: 8px;
             border-bottom: 2px solid rgb(219, 234, 254);
             transition: ease 0.3s;
-            &:hover {
+            &:hover,
+            &.active {
                 border-bottom: 2px solid $colormain;
                 color: $colormain;
             }

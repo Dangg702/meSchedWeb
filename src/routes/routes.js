@@ -18,8 +18,10 @@ import ManageAppointment from '~/containers/System/Doctor/ManageAppointment';
 import Specialty from '~/containers/Specialty/Specialty';
 import MyFrofile from '~/containers/MyProfile/MyProfile';
 import MyAppointment from '~/containers/MyAppointment/MyAppointment';
+import NoAccessPage from '~/containers/NoAccessPage/NoAccessPage';
+import SearchResultPage from '~/containers/SearchResultPage/SearchResultPage';
 
-import { userIsAuthenticated, userIsNotAuthenticated } from '~/hoc/authentication';
+import { userIsAuthenticated, userIsNotAuthenticated, userIsAdmin, userIsNotPatient } from '~/hoc/authentication';
 
 import SystemLayout from '~/layouts/SystemLayout';
 import HeaderOnlyLayout from '~/layouts/HeaderOnlyLayout';
@@ -27,23 +29,40 @@ import HeaderOnlyLayout from '~/layouts/HeaderOnlyLayout';
 export const routes = [
     { path: path.LOGIN, component: userIsNotAuthenticated(Login), layout: null },
     { path: path.REGISTER, component: userIsNotAuthenticated(Register), layout: null },
+    { path: path.NO_ACCESS, component: NoAccessPage, layout: null },
 
     // system
-    { path: path.SYSTEM_USER_MANAGE, component: userIsAuthenticated(UserManage), layout: SystemLayout },
-    { path: path.SYSTEM_DOCTOR_MANAGE, component: userIsAuthenticated(DoctorManage), layout: SystemLayout },
-    { path: path.SYSTEM_DOCTOR_SCHEDULE_MANAGE, component: userIsAuthenticated(ManageSchedule), layout: SystemLayout },
-    { path: path.SYSTEM_SPECIALTY_MANAGE, component: userIsAuthenticated(SpecialtyManage), layout: SystemLayout },
-    { path: path.SYSTEM_ADD_CLINIC, component: userIsAuthenticated(AddClinic), layout: SystemLayout },
-    { path: path.SYSTEM_CLINIC_MANAGE, component: userIsAuthenticated(ClinicManage), layout: SystemLayout },
+    { path: path.SYSTEM_USER_MANAGE, component: userIsAuthenticated(userIsAdmin(UserManage)), layout: SystemLayout },
+    {
+        path: path.SYSTEM_DOCTOR_MANAGE,
+        component: userIsAuthenticated(userIsAdmin(DoctorManage)),
+        layout: SystemLayout,
+    },
+    {
+        path: path.SYSTEM_DOCTOR_SCHEDULE_MANAGE,
+        component: userIsAuthenticated(userIsNotPatient(ManageSchedule)), // cho R1, R2
+        layout: SystemLayout,
+    },
+    {
+        path: path.SYSTEM_SPECIALTY_MANAGE,
+        component: userIsAuthenticated(userIsAdmin(SpecialtyManage)),
+        layout: SystemLayout,
+    },
+    { path: path.SYSTEM_ADD_CLINIC, component: userIsAuthenticated(userIsAdmin(AddClinic)), layout: SystemLayout },
+    {
+        path: path.SYSTEM_CLINIC_MANAGE,
+        component: userIsAuthenticated(userIsAdmin(ClinicManage)),
+        layout: SystemLayout,
+    },
     {
         path: path.SYSTEM_DOCTOR_APPOINTMENT_MANAGE,
-        component: userIsAuthenticated(ManageAppointment),
+        component: userIsAuthenticated(userIsNotPatient(ManageAppointment)),
         layout: SystemLayout,
     },
 
     // home
     { path: path.DOCTOR_INFO, component: DoctorInfo },
-    { path: path.SPECIALTY_DETAIL, component: SpecialtyDetail },
+    { path: path.SEARCH, component: SearchResultPage },
     { path: path.CLINIC_DETAIL, component: ClinicDetail },
     { path: path.BOOKING, component: userIsAuthenticated(Booking) },
     { path: path.BOOKING_VERIFY, component: userIsAuthenticated(BookingVerify), layout: HeaderOnlyLayout },
@@ -51,5 +70,5 @@ export const routes = [
     { path: path.MY_PROFILE, component: userIsAuthenticated(MyFrofile) },
     { path: path.MY_APPOINTMENT, component: userIsAuthenticated(MyAppointment) },
 
-    { path: path.Home, component: Home, exact: true },
+    { path: path.Home, component: Home },
 ];
