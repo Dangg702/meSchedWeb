@@ -4,7 +4,19 @@ import { connect } from 'react-redux';
 
 const LoadingOverlayComponent = ({ loading, children }) => {
     return (
-        <LoadingOverlay active={loading} spinner text="Loading...">
+        <LoadingOverlay
+            active={loading}
+            spinner
+            text="Loading..."
+            styles={{
+                content: (base) => ({
+                    ...base,               // Bảo tồn các style mặc định
+                    fontSize: '18px',      // Ví dụ: Tuỳ chỉnh kích thước font
+                    color: '#fff',         // Ví dụ: Màu chữ
+                    backgroundColor: 'rgba(0, 0, 0, 0.5)' // Ví dụ: Màu nền lớp phủ
+                }),
+            }}
+        >
             {children}
         </LoadingOverlay>
     );
