@@ -15,7 +15,7 @@ class DefaultLayout extends Component {
         const isBookApmt = window.location && window.location.pathname.includes('/book-appointment');
 
         return (
-            <div className="layout-container" style={{ height: '100vh' }}>
+            <div className="layout-container" style={{ height: 'auto' }}>
                 {/* Header */}
                 <HomeHeader isShowBanner={isHomePage || isBookApmt} isSubNav={isBookApmt} />
                 {/* content */}

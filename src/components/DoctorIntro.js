@@ -16,44 +16,56 @@ class DoctorIntro extends Component {
     componentDidUpdate(prevProps, prevState) {}
 
     render() {
-        const { language, doctorData, addressClinic, fontSize, fontColor, positionSize, buttonRight, btnStyle } =
-            this.props;
-        let specialtyValueVi = `Chuyên khoa: ${doctorData?.doctorInfoData?.specialtyData.valueVi}`;
-        let specialtyValueEn = `Specialty: ${doctorData?.doctorInfoData?.specialtyData.valueEn}`;
+        const { language, doctorData, fontSize, fontColor, positionSize, buttonRight, btnStyle } = this.props;
         let clinicName = doctorData?.doctorInfoData?.clinicData.name;
+        let specialtyValueVi = '',
+            specialtyValueEn = '',
+            doctorNameVi = '',
+            doctorNameEn = '',
+            addressClinic = '',
+            image = doctorImg;
+
+        if (doctorData) {
+            image = doctorData?.image ? doctorData.image : doctorData['doctorInfoData.image'];
+            addressClinic = doctorData?.addressClinic && doctorData.addressClinic;
+            specialtyValueVi =
+                doctorData?.doctorInfoData && doctorData.doctorInfoData
+                    ? `Chuyên khoa: ${doctorData?.doctorInfoData?.specialtyData.valueVi}`
+                    : `Chuyên khoa: ${doctorData['specialtyData.valueVi']}`;
+            specialtyValueEn =
+                doctorData?.doctorInfoData && doctorData.specialtyData
+                    ? `Specialty: ${doctorData?.doctorInfoData?.specialtyData.valueEn}`
+                    : `Specialty: ${doctorData['specialtyData.valueEn']}`;
+            doctorNameVi =
+                doctorData?.lastName && doctorData?.lastName
+                    ? `${doctorData?.lastName} ${doctorData?.firstName}`
+                    : `${doctorData['doctorInfoData.lastName']} ${doctorData['doctorInfoData.firstName']}`;
+            doctorNameEn =
+                doctorData?.lastName && doctorData?.lastName
+                    ? `${doctorData?.firstName} ${doctorData?.lastName} `
+                    : `${doctorData['doctorInfoData.firstName']} ${doctorData['doctorInfoData.lastName']}`;
+        }
+
         return (
             <>
                 <div className="row g-0 doctor-info-content pb-4">
                     <div className="col-sm-12 col-md-4">
                         <div className="image-container">
-                            <img
-                                className={`${this.props.className} image rounded-circle`}
-                                src={doctorImg}
-                                alt="avatar"
-                            />
+                            <img className={`${this.props.className} image rounded-circle`} src={image} alt="avatar" />
                         </div>
                     </div>
                     {buttonRight ? (
                         <>
                             <div className="col-sm-12 col-md-5 m-auto">
                                 <div className="doctor-position" style={{ fontSize: positionSize }}>
-                                    {language === languages.VI
-                                        ? doctorData?.positionData
-                                            ? `${doctorData?.positionData?.valueVi} ${doctorData?.lastName} ${doctorData?.firstName}`
-                                            : `${doctorData?.lastName} ${doctorData?.firstName}`
-                                        : doctorData?.positionData
-                                        ? `${doctorData?.positionData?.valueEn} ${doctorData?.firstName} ${doctorData?.lastName}`
-                                        : `${doctorData?.firstName} ${doctorData?.lastName}`}
+                                    {language === languages.VI ? doctorNameVi : doctorNameEn}
                                 </div>
                                 <div className="doctor-info" style={{ fontSize: fontSize, fontColor: fontColor }}>
-                                    {addressClinic
-                                        ? `${addressClinic}`
-                                        : doctorData?.doctorInfoData?.specialtyData.valueVi &&
-                                          doctorData?.doctorInfoData?.clinicData.name && (
-                                              <span>
-                                                  {language === languages.VI ? specialtyValueVi : specialtyValueEn}
-                                              </span>
-                                          )}
+                                    {addressClinic ? (
+                                        addressClinic
+                                    ) : (
+                                        <span>{language === languages.VI ? specialtyValueVi : specialtyValueEn}</span>
+                                    )}
                                 </div>
                             </div>
                             <div className="col-sm-12 col-md-3 m-auto">
@@ -76,7 +88,7 @@ class DoctorIntro extends Component {
                                 </div>
                                 <div className="doctor-info" style={{ fontSize: fontSize, fontColor: fontColor }}>
                                     {addressClinic
-                                        ? `${addressClinic}`
+                                        ? addressClinic
                                         : doctorData?.doctorInfoData?.specialtyData.valueVi &&
                                           doctorData?.doctorInfoData?.clinicData.name && (
                                               <span>

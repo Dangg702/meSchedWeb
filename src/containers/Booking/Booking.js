@@ -21,6 +21,7 @@ class Booking extends Component {
             date: '',
             time: '',
             doctorInfo: null,
+            priceData: null,
         };
         this.debouncedOnChange = _.debounce(this.handleChangeInput, 400);
     }
@@ -35,11 +36,20 @@ class Booking extends Component {
         if (match?.params?.id && dateSearch && timeSearch) {
             try {
                 const doctorInfo = await userService.getProfileDoctor(match.params.id);
+                const data = doctorInfo.data;
+                console.log(data);
                 this.setState({
                     doctorId: match.params.id,
                     date: dateSearch,
                     time: timeSearch,
-                    doctorInfo: doctorInfo.data,
+                    doctorInfo: {
+                        positionData: data.positionData,
+                        firstName: data.firstName,
+                        lastName: data.lastName,
+                        image: data.image,
+                        addressClinic: data.doctorInfoData.clinicData.address,
+                    },
+                    priceData: data.doctorInfoData.priceData,
                 });
             } catch (error) {
                 console.error('Không thể lấy thông tin bác sĩ.', error);
@@ -101,8 +111,10 @@ class Booking extends Component {
 
     render() {
         let { language, scheduleTime } = this.props;
-        let { doctorInfo, time } = this.state;
+        let { doctorInfo, time, priceData } = this.state;
         const foundTime = scheduleTime?.find((item) => item.keyMap === time);
+        console.log('check', doctorInfo);
+        console.log('price', priceData);
         return (
             <>
                 <div className="booking-container">
@@ -174,7 +186,7 @@ class Booking extends Component {
                             <div className="separate-line"></div>
                             <DoctorIntro
                                 doctorData={doctorInfo}
-                                addressClinic={doctorInfo?.doctorInfoData?.addressClinic}
+                                // addressClinic={doctorInfo}
                                 className={'doctor-avatar-booking'}
                                 fontSize={'0.8rem'}
                                 fontColor={'#595959'}
@@ -204,20 +216,18 @@ class Booking extends Component {
                                         <FormattedMessage id="booking.price" />
                                     </Col>
                                     <Col md={6} className="text-end">
-                                        {doctorInfo &&
-                                            doctorInfo.doctorInfoData &&
-                                            doctorInfo.doctorInfoData.priceData &&
+                                        {priceData &&
                                             (language === languages.VI ? (
                                                 <NumericFormat
                                                     displayType="text"
-                                                    value={doctorInfo.doctorInfoData.priceData.valueVi}
+                                                    value={priceData.valueVi}
                                                     thousandSeparator=","
                                                     suffix={'VND'}
                                                 />
                                             ) : (
                                                 <NumericFormat
                                                     displayType="text"
-                                                    value={doctorInfo.doctorInfoData.priceData.valueEn}
+                                                    value={priceData.valueEn}
                                                     thousandSeparator=","
                                                     suffix={'USD'}
                                                 />

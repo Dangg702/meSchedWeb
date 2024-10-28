@@ -28,6 +28,7 @@ class ClinicIntro extends Component {
             imageStyle,
             linkTo,
         } = this.props;
+        console.log('ClinicIntro', clinicData);
         return (
             <>
                 <div className="row doctor-info-content py-3 g-0">
@@ -59,7 +60,14 @@ class ClinicIntro extends Component {
                             </div>
                         </>
                     ) : (
-                        <></>
+                        <div className="col-sm-12 col-md-7 m-auto">
+                            <div className="doctor-position" style={{ fontSize: positionSize }}>
+                                {clinicData?.name}
+                            </div>
+                            <div className="doctor-info" style={{ fontSize: fontSize, fontColor: fontColor }}>
+                                {clinicData?.address}
+                            </div>
+                        </div>
                     )}
                 </div>
             </>

@@ -34,7 +34,19 @@
     }
 }
 
-.btn-clinic-booking {
+.quick-search-specialty {
+    height: 350px;
+    overflow-y: scroll;
+    scrollbar-width: none;
+    padding-right: 8px;
+}
+
+.search-doctors-wrapper {
+    border-left: 1px solid #eeedef;
+}
+
+.btn-clinic-booking,
+.search-btn-booking {
     display: block;
     text-align: center;
     padding: 8px 0;
@@ -55,7 +67,12 @@
     }
 }
 
-.clinic-image {
+.search-btn-booking {
+    max-width: 150px;
+}
+
+.clinic-image,
+.search-doctor-image {
     width: 120px !important;
     object-fit: contain;
     max-height: 60px;

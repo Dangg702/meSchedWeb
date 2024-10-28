@@ -8,6 +8,10 @@ import './Specialty.scss';
 import doctorImg from '~/assets/images/doctor/user-default.jfif';
 import ReactPaginate from 'react-paginate';
 import ClinicIntro from '~/components/ClinicIntro/ClinicIntro';
+import DoctorIntro from '~/components/DoctorIntro';
+import { Form, FormGroup, Input, Label } from 'reactstrap';
+import CustomScrollbars from '~/components/CustomScrollbars';
+import { debounce } from 'lodash';
 
 class Specialty extends Component {
     constructor(props) {
@@ -18,7 +22,12 @@ class Specialty extends Component {
             totalPages: 1,
             perPage: 10,
             page: 1,
+            listSpecialtyFull: [],
+            listSpecialty: [],
+            searchTerm: '',
+            selectedSpecialtyId: null,
         };
+        this.debounceTimeout = null;
     }
 
     componentDidMount() {
@@ -41,6 +50,12 @@ class Specialty extends Component {
         }
     }
 
+    componentWillUnmount() {
+        if (this.debounceTimeout) {
+            clearTimeout(this.debounceTimeout);
+        }
+    }
+
     //   Paginate
     handlePageClick = (event) => {
         this.setState({ page: +event.selected + 1 });
@@ -57,23 +72,104 @@ class Specialty extends Component {
         }
         if (type === 'doctor') {
             data = await userService.getDoctors('ALL', page, perPage);
+            let listSpecialty = await userService.getSpecialty('ALL', page, perPage);
+            this.setState({ listSpecialty: listSpecialty.data, listSpecialtyFull: listSpecialty.data });
         }
         if (data && data.errCode === 0) {
             this.setState({ dataList: data.data, totalPages: data.total_pages });
         }
     };
 
+    // Hàm xử lý thay đổi từ khóa
+    handleSearchChange = (e) => {
+        if (e.target.value === '') {
+            this.setState({ listSpecialty: this.state.listSpecialtyFull });
+        }
+        this.setState({ searchTerm: e.target.value });
+        // Xóa timeout cũ nếu có
+        if (this.debounceTimeout) {
+            clearTimeout(this.debounceTimeout);
+        }
+
+        this.debounceTimeout = setTimeout(() => {
+            this.filteredSpecialties();
+        }, 300);
+    };
+
+    // Lọc danh sách chuyên khoa dựa trên từ khóa
+    filteredSpecialties = () => {
+        let { language } = this.props;
+        let { searchTerm, listSpecialty } = this.state;
+
+        let res = listSpecialty.filter((item) => {
+            const value = language === languages.VI ? item.valueVi : item.valueEn;
+            let res = value.toLowerCase().includes(searchTerm.toLowerCase());
+            return res;
+        });
+        this.setState({ listSpecialty: res });
+    };
+
+    // Hàm xử lý khi chọn radio
+    handleRadioChange = async (value) => {
+        this.setState({ selectedSpecialtyId: value });
+        let searchRes = await userService.searchDoctorBySpecialty(value);
+        this.setState({ dataList: searchRes.data });
+    };
+
     render() {
-        let { type, dataList } = this.state;
-        console.log('dataList', dataList);
+        let { language } = this.props;
+        let { type, dataList, listSpecialty, searchTerm, selectedSpecialtyId } = this.state;
+        console.log('render', dataList);
         return (
             <>
                 <div className="specialty-more-container row g-0 p-3">
                     {/* doctor */}
                     {type === 'doctor' && (
                         <>
-                            <div className="col-4">30% có search và chọn chuyên khoa</div>
-                            <div className="col-8">{/* continue */}</div>
+                            <div className="col-md-3 quick-search-specialty">
+                                <CustomScrollbars>
+                                    <div className="pb-3 px-2">
+                                        <div className="fw-bold pe-2 pb-2">Chuyên khoa</div>
+                                        <Input
+                                            placeholder="Tìm nhanh"
+                                            value={searchTerm}
+                                            onChange={(e) => this.handleSearchChange(e)}
+                                        />
+                                    </div>
+                                    <Form>
+                                        {listSpecialty.length > 0 &&
+                                            listSpecialty.map((item, index) => (
+                                                <FormGroup className="py-2">
+                                                    <Input
+                                                        type="radio"
+                                                        name="specialty"
+                                                        checked={selectedSpecialtyId === item.valueVi}
+                                                        onChange={() => this.handleRadioChange(item.valueVi)}
+                                                    />{' '}
+                                                    <Label>
+                                                        {language === languages.VI ? item.valueVi : item.valueEn}
+                                                    </Label>
+                                                </FormGroup>
+                                            ))}
+                                    </Form>
+                                </CustomScrollbars>
+                            </div>
+                            <div className="col-sm-12 col-md-9">
+                                <div className="search-doctors-wrapper">
+                                    {dataList &&
+                                        dataList.length > 0 &&
+                                        dataList.map((item, index) => (
+                                            <div key={index} className="search-doctor-item py-3">
+                                                <DoctorIntro
+                                                    doctorData={item}
+                                                    buttonRight={true}
+                                                    className={'search-doctor-image'}
+                                                    btnStyle={'search-btn-booking'}
+                                                />
+                                            </div>
+                                        ))}
+                                </div>
+                            </div>
                         </>
                     )}
                     {/* clinic */}

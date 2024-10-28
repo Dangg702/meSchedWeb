@@ -61,7 +61,7 @@ class SearchResult extends Component {
                                         </div>
                                     </div>
                                     <div className="col-sm-12 col-md-3">
-                                        <Link to={`/doctor/${item['doctorInfoData.id']}`} className="btn-book btn">
+                                        <Link to={`/doctor/${item.doctorId}`} className="btn-book btn">
                                             Đặt khám
                                         </Link>
                                     </div>
