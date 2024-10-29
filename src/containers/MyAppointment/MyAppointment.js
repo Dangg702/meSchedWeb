@@ -24,9 +24,9 @@ class MyAppointment extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if (prevState.listAppointment !== this.state.listAppointment) {
-            this.getListAppointment();
-        }
+        // if (prevState.listAppointment !== this.state.listAppointment) {
+        //     this.getListAppointment();
+        // }
     }
 
     getListAppointment = async () => {

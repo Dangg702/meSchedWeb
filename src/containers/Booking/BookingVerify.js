@@ -24,6 +24,8 @@ class BookingVerify extends Component {
 
     async componentDidMount() {
         let { location } = this.props;
+        let cookieVal = this.getCookie('verifyData');
+
         if (location && location.search) {
             const searchParams = new URLSearchParams(location.search);
             let token = searchParams.get('token');
@@ -31,6 +33,7 @@ class BookingVerify extends Component {
             let rs = await userService.verifyBooking({
                 token: token,
                 date: date,
+                dataVerify: JSON.parse(cookieVal),
             });
             if (rs?.errCode === 0) {
                 this.setState({
@@ -49,8 +52,14 @@ class BookingVerify extends Component {
     componentDidUpdate(prevProps, prevState) {}
 
     componentWillUnmount() {
-        this.debouncedOnChange.cancel();
+        // this.debouncedOnChange.cancel();
     }
+
+    getCookie = (name) => {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+    };
 
     render() {
         let { language } = this.props;

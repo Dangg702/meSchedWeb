@@ -93,12 +93,21 @@ class Booking extends Component {
             timeVal,
             language,
         };
+        let dataVerify = {
+            date: date,
+            doctorId: doctorId,
+            timeType: {
+                type: time,
+                value: timeVal,
+            },
+        };
         try {
             this.props.setLoading(true);
             let result = await userService.bookingAppointment(data);
             if (result.errCode === 0) {
                 this.props.setLoading(false);
                 toast.success('Hãy kiểm tra hộp thư');
+                document.cookie = `verifyData=${JSON.stringify(dataVerify)}; path=/`;
                 this.props.history.goBack();
             } else {
                 this.props.setLoading(false);
@@ -113,8 +122,6 @@ class Booking extends Component {
         let { language, scheduleTime } = this.props;
         let { doctorInfo, time, priceData } = this.state;
         const foundTime = scheduleTime?.find((item) => item.keyMap === time);
-        console.log('check', doctorInfo);
-        console.log('price', priceData);
         return (
             <>
                 <div className="booking-container">
