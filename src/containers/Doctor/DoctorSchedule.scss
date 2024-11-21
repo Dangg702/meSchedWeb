@@ -99,3 +99,12 @@
         }
     }
 }
+
+@media screen and (max-width: 768px) {
+    .slick-slider {
+        padding: 0 !important;
+    }
+    .schedule-container .time-range-container {
+        padding: 20px 20px 10px 20px;
+    }
+}

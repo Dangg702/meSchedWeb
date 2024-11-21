@@ -42,6 +42,7 @@ class MyAppointment extends Component {
 
     handleCancelAppointment = async (data) => {
         let dt = {
+            bookingId: data.id,
             doctorId: data.doctorId,
             patientId: data.patientId,
             date: data.date,
@@ -62,6 +63,7 @@ class MyAppointment extends Component {
     render() {
         let { language } = this.props;
         let { listAppointment, isConfirmDelModal } = this.state;
+        console.log('listAppointment', listAppointment);
         return (
             <>
                 <div className="my-appointment-container">
@@ -73,7 +75,7 @@ class MyAppointment extends Component {
                             listAppointment.map((item, index) => (
                                 <div className="appointment-item row g-3 pb-3">
                                     <div className="appointment-item__img col-xs-2 col-sm-2 col-md-2">
-                                        <img src={doctorImg} alt="doctor" />
+                                        <img src={item.doctorBookingData.image} alt="doctor" />
                                     </div>
                                     <div className="appointment-item__info col-xs-10 col-sm-10 col-md-8">
                                         <p className="fw-bold">

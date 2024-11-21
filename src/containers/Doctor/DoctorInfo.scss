@@ -42,3 +42,9 @@
         }
     }
 }
+
+@media screen and (max-width: 768px) {
+    .doctor-info-container .doctor-schedule-wrapper .separate-line {
+        border-left: none;
+    }
+}

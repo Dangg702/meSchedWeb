@@ -98,7 +98,8 @@
         "date": "Ngày khám",
         "time": "Thời gian",
         "patient": "Bệnh nhân",
-        "btn-booking": "Đặt lịch"
+        "btn-booking": "Đặt lịch",
+        "error-appointment": "Không thể đặt lịch vì đã có lịch hẹn trong ngày"
     },
 
     "manage-user": {

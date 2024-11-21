@@ -151,16 +151,16 @@ class DoctorSchedule extends Component {
                 {
                     breakpoint: 765,
                     settings: {
-                        slidesToShow: 2,
-                        slidesToScroll: 2,
-                        initialSlide: 2,
+                        slidesToShow: 3,
+                        slidesToScroll: 3,
+                        initialSlide: 3,
                     },
                 },
                 {
                     breakpoint: 530,
                     settings: {
-                        slidesToShow: 1,
-                        slidesToScroll: 1,
+                        slidesToShow: 3,
+                        slidesToScroll: 3,
                     },
                 },
             ],
@@ -201,9 +201,11 @@ class DoctorSchedule extends Component {
                     <div className="time-range-content">
                         {scheduleTimeArr && scheduleTimeArr.length > 0 ? (
                             scheduleTimeArr.map((item, index) => (
-                                <Link to={`/booking/${item.doctorId}?date=${item.date}&time=${item.timeType}`}>
+                                <Link
+                                    to={`/booking/${item.doctorId}?date=${item.date}&time=${item.timeType}`}
+                                    key={index}
+                                >
                                     <button
-                                        key={index}
                                         className={
                                             item?.isSelected ? 'btn btn-time-range active' : 'btn btn-time-range'
                                         }

@@ -123,7 +123,8 @@
         "date": "Date",
         "time": "Time",
         "patient": "Patient",
-        "btn-booking": "Book"
+        "btn-booking": "Book",
+        "error-appointment": "Cannot book an appointment because there is already an appointment on that day"
     },
     "manage-doctor": {
         "create-doctor": "Add doctor information",

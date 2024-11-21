@@ -9,9 +9,10 @@ import FormikForm from '~/components/Form/FormikForm';
 import DoctorIntro from '~/components/DoctorIntro';
 import { path, languages } from '~/utils';
 import * as actions from '~/store/actions';
-import { userService } from '~/services';
+import { paymentService, userService } from '~/services';
 import './Booking.scss';
 import { toast } from 'react-toastify';
+import { PayPalButton } from 'react-paypal-button-v2';
 
 class Booking extends Component {
     constructor(props) {
@@ -22,6 +23,8 @@ class Booking extends Component {
             time: '',
             doctorInfo: null,
             priceData: null,
+            sdkReady: false,
+            checkAppointment: false,
         };
         this.debouncedOnChange = _.debounce(this.handleChangeInput, 400);
     }
@@ -32,12 +35,12 @@ class Booking extends Component {
         const searchParams = new URLSearchParams(location.search);
         let dateSearch = searchParams.get('date');
         let timeSearch = searchParams.get('time');
+        // let doctorId =  match?.params?.id;
 
         if (match?.params?.id && dateSearch && timeSearch) {
             try {
                 const doctorInfo = await userService.getProfileDoctor(match.params.id);
                 const data = doctorInfo.data;
-                console.log(data);
                 this.setState({
                     doctorId: match.params.id,
                     date: dateSearch,
@@ -57,6 +60,9 @@ class Booking extends Component {
         } else {
             console.error('Thiếu thông tin cần thiết từ query string hoặc match.');
         }
+
+        await this.getConfig();
+        await this.checkAppointment(match.params.id, dateSearch);
     }
 
     componentDidUpdate(prevProps, prevState) {}
@@ -115,6 +121,85 @@ class Booking extends Component {
             }
         } catch (error) {
             console.error('handleBooking error: ', error);
+        }
+    };
+
+    getConfig = async () => {
+        try {
+            const response = await paymentService.getConfig();
+            if (response.errCode === 0) {
+                const script = document.createElement('script');
+                script.type = 'text/javascript';
+                script.src = `https://sandbox.paypal.com/sdk/js?client-id=${response.data}`;
+                script.async = true;
+                script.onload = () => {
+                    this.setState({ sdkReady: true });
+                };
+                document.body.appendChild(script);
+            } else {
+                console.error('getConfig error: ', response.data.message);
+            }
+        } catch (error) {
+            console.error('getConfig error: ', error);
+        }
+    };
+
+    handleBookAppointment = async (paymentData) => {
+        const { language } = this.props;
+        const { doctorId, date, time, doctorInfo } = this.state;
+        const patientId = this.props.userInfo.id;
+        const doctorName = this.formatDoctorName(doctorInfo);
+        let timetmp = this.props.scheduleTime?.find((item) => item.keyMap === time);
+        let timeVal = language === languages.VI ? timetmp?.valueVi : timetmp?.valueEn;
+        let data = {
+            patientId,
+            doctorId,
+            doctorName,
+            date,
+            timeType: time,
+            timeVal,
+            language,
+            paymentData,
+        };
+        try {
+            this.props.setLoading(true);
+            let result = await userService.bookingAppointment(data);
+            if (result.errCode === 0) {
+                this.props.setLoading(false);
+                toast.success('Đặt lịch thành công');
+                this.props.history.goBack();
+            } else {
+                this.props.setLoading(false);
+                toast.error('Đặt lịch thất bại: ' + result.message);
+            }
+        } catch (error) {
+            console.error('handleBooking error: ', error);
+        }
+    };
+
+    onSuccessPaypal = (details, data) => {
+        const paymentData = {
+            invoiceId: details.id,
+            captureId: details.purchase_units[0].payments.captures[0].id,
+            amount: String(details.purchase_units[0].amount.value * 25000),
+            paymentMethod: 'paypal',
+            paymentStatus: 'paid',
+        };
+        console.log('paymentData', paymentData);
+        this.handleBookAppointment(paymentData);
+    };
+
+    checkAppointment = async (doctorId, date) => {
+        let data = {
+            patientId: this.props.userInfo.id,
+            doctorId,
+            date,
+        };
+        const response = await userService.checkAppointment(data);
+        if (response.errCode !== 0) {
+            this.setState({ checkAppointment: true });
+        } else {
+            this.setState({ checkAppointment: false });
         }
     };
 
@@ -186,7 +271,7 @@ class Booking extends Component {
                                 </Row>
                             </Form>
                         </div>
-                        <div className="col-sm-12 col-lg-4 content-wrapper p-4">
+                        <div className="col-sm-12 col-lg-4 content-wrapper p-3">
                             <div className="booking-title">
                                 <FormattedMessage id="booking.info-booking" />
                             </div>
@@ -203,26 +288,24 @@ class Booking extends Component {
                             <div className="separate-line"></div>
                             <div className="booking-detail">
                                 <Row className="h-30">
-                                    <Col md={6}>
+                                    <Col>
                                         <FormattedMessage id="booking.date" />
                                     </Col>
-                                    <Col md={6} className="text-end">
-                                        {this.state.date}
-                                    </Col>
+                                    <Col className="text-end">{this.state.date}</Col>
                                 </Row>
                                 <Row className="h-30">
-                                    <Col md={6}>
+                                    <Col>
                                         <FormattedMessage id="booking.time" />
                                     </Col>
-                                    <Col md={6} className="text-end">
+                                    <Col className="text-end">
                                         {language === languages.VI ? foundTime?.valueVi : foundTime?.valueEn}
                                     </Col>
                                 </Row>
                                 <Row className="h-30">
-                                    <Col md={6}>
+                                    <Col>
                                         <FormattedMessage id="booking.price" />
                                     </Col>
-                                    <Col md={6} className="text-end">
+                                    <Col className="text-end">
                                         {priceData &&
                                             (language === languages.VI ? (
                                                 <NumericFormat
@@ -242,9 +325,31 @@ class Booking extends Component {
                                     </Col>
                                 </Row>
                                 <Row className="h-30">
-                                    <Button className="w-100 btn-booking" onClick={this.handleBooking}>
+                                    {/* <Button className="w-100 btn-booking" onClick={this.handleBooking}>
                                         <FormattedMessage id="booking.btn-booking" />
-                                    </Button>
+                                    </Button> */}
+                                    {!this.state.checkAppointment ? (
+                                        <PayPalButton
+                                            style={{
+                                                height: 38,
+                                            }}
+                                            amount={Number(priceData?.valueVi) / 25000}
+                                            onSuccess={this.onSuccessPaypal}
+                                            onError={(err) => {
+                                                alert('Thanh toán thất bại');
+                                                console.error('Error: ' + err.message);
+                                            }}
+                                        />
+                                    ) : (
+                                        <>
+                                            <div className="text-center text-danger">
+                                                <FormattedMessage id="booking.error-appointment" />
+                                            </div>
+                                            <Button className="w-100 btn-booking" disabled>
+                                                <FormattedMessage id="booking.btn-booking" />
+                                            </Button>
+                                        </>
+                                    )}
                                 </Row>
                             </div>
                         </div>

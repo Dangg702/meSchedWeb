@@ -18,3 +18,9 @@
         line-height: 2;
     }
 }
+
+@media screen and (max-width: 768px) {
+    .doctor-extra-info-container .break-line {
+        border: none;
+    }
+}

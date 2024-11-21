@@ -48,7 +48,7 @@ class DoctorIntro extends Component {
 
         return (
             <>
-                <div className="row g-0 doctor-info-content pb-4">
+                <div className="row g-0 doctor-info-content">
                     <div className="col-sm-12 col-md-4">
                         <div className="image-container">
                             <img className={`${this.props.className} image rounded-circle`} src={image} alt="avatar" />
