@@ -21,6 +21,8 @@ export const path = {
     SYSTEM_CLINIC_MANAGE: '/system/clinic-manage',
     SYSTEM_ADD_CLINIC: '/system/add-clinic',
     SYSTEM_DOCTOR_APPOINTMENT_MANAGE: '/system/doctor/appointment-manage',
+
+    CHATAI: '/chatAI',
 };
 
 export const languages = {

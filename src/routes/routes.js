@@ -21,6 +21,8 @@ import MyAppointment from '~/containers/MyAppointment/MyAppointment';
 import NoAccessPage from '~/containers/NoAccessPage/NoAccessPage';
 import SearchResultPage from '~/containers/SearchResultPage/SearchResultPage';
 
+import ChatAI from '~/containers/chatPage/ChatAI';
+
 import { userIsAuthenticated, userIsNotAuthenticated, userIsAdmin, userIsNotPatient } from '~/hoc/authentication';
 
 import SystemLayout from '~/layouts/SystemLayout';
@@ -28,6 +30,9 @@ import HeaderOnlyLayout from '~/layouts/HeaderOnlyLayout';
 
 export const routes = [
     { path: path.LOGIN, component: userIsNotAuthenticated(Login), layout: null },
+
+    { path: path.CHATAI, component: ChatAI, layout: SystemLayout },
+
     { path: path.REGISTER, component: userIsNotAuthenticated(Register), layout: null },
     { path: path.NO_ACCESS, component: NoAccessPage, layout: null },
 
@@ -71,4 +76,6 @@ export const routes = [
     { path: path.MY_APPOINTMENT, component: userIsAuthenticated(MyAppointment) },
 
     { path: path.Home, component: Home },
+
+    
 ];
