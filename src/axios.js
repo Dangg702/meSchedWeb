@@ -14,14 +14,14 @@ instance.defaults.headers.common['Authorization'] = 'Bearer ' + Cookies.get('acc
 
 instance.interceptors.request.use(
     (config) => {
-        // const accessToken = localStorage.getItem('persist:user')
-        //     ? JSON.parse(localStorage.getItem('persist:user')).token.replace(/"/g, '')
-        //     : null;
-        // if (accessToken) {
-        //     config.headers.Authorization = `Bearer ${accessToken}`;
-        // }
+        const accessToken = localStorage.getItem('persist:user')
+            ? JSON.parse(localStorage.getItem('persist:user')).token.replace(/"/g, '')
+            : null;
+        if (accessToken) {
+            config.headers.Authorization = `Bearer ${accessToken}`;
+        }
         // return config;
-        const accessToken = Cookies.get('accessToken');
+        // const accessToken = Cookies.get('accessToken');
         if (accessToken) {
             config.headers.Authorization = `Bearer ${accessToken}`;
         }
