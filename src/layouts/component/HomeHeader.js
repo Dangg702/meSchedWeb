@@ -179,6 +179,11 @@ class HomeHeader extends Component {
                                             <FormattedMessage id={'homeHeader.Medical-news'} />
                                         </NavLink>
                                     </NavItem>
+                                    <NavItem>
+                                        <NavLink href="/chatai/message">
+                                            <FormattedMessage id={'Hỏi đáp sức khỏe'} />
+                                        </NavLink>
+                                    </NavItem>
                                     <UncontrolledDropdown
                                         nav
                                         inNavbar
