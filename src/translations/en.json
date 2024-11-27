@@ -15,7 +15,10 @@
         "Doctor": "Doctor",
         "Clinic": "Clinic",
         "Welcome": "Welcome",
-        "Logout": "Log out"
+        "Logout": "Log out",
+        "Chat": "Health Q&A",
+        "MyProfile": "My profile",
+        "MyAppointment": "My appointment"
     },
     "menu": {
         "admin": {
@@ -125,7 +128,8 @@
         "time": "Time",
         "patient": "Patient",
         "btn-booking": "Book",
-        "error-appointment": "Cannot book an appointment because there is already an appointment on that day"
+        "error-appointment": "Cannot book an appointment because there is already an appointment on that day",
+        "quick-booking": "Quick booking"
     },
     "manage-doctor": {
         "create-doctor": "Add doctor information",
@@ -178,7 +182,8 @@
         "valueVi": "Vietnamese Name",
         "valueEn": "English Name",
         "export-csv": "Export",
-        "back": "Back"
+        "back": "Back",
+        "search": "Quick search"
     },
     "manage-clinic": {
         "save": "Save",
@@ -217,5 +222,12 @@
         "title": "403 - No Access",
         "sub-title": "Sorry, you are not authorized to access this page.",
         "btn-back": "Back to home"
+    },
+    "all": {
+        "no-data": "No data",
+        "all": "All",
+        "doctor": "Doctor",
+        "clinic": "Clinic",
+        "specialty": "Specialty"
     }
 }

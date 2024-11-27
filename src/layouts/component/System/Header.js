@@ -14,6 +14,7 @@ class Header extends Component {
         super(props);
         this.state = {
             menuApp: [],
+            isMenuOpen: false,
         };
     }
 

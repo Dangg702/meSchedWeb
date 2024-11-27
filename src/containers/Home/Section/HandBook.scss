@@ -12,6 +12,9 @@
 }
 @media screen and (max-width: 599px) {
     .image-container {
+        img {
+            width: 30%;
+        }
         .handbook-image {
             object-fit: contain;
         }

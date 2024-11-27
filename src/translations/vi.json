@@ -14,7 +14,10 @@
         "Doctor": "Bác sĩ",
         "Clinic": "Phòng khám",
         "Welcome": "Xin chào",
-        "Logout": "Đăng xuất"
+        "Logout": "Đăng xuất",
+        "Chat": "Hỏi đáp sức khỏe",
+        "MyProfile": "Hồ sơ của tôi",
+        "MyAppointment": "Lịch hẹn của tôi"
     },
     "menu": {
         "admin": {
@@ -75,7 +78,7 @@
         "more": "Xem thêm"
     },
     "banner": {
-        "title": "KẾT NỐI NGƯỜI DÂN VỚI CƠ SỞ - DỊCH VỤ Y TẾ",
+        "title": "KẾT NỐI MỌI NGƯỜI VỚI CƠ SỞ - DỊCH VỤ Y TẾ",
         "subtitle": "Đặt khám nhanh - Lấy số xếp hàng trực tuyến - Tư vấn sức khỏe từ xa",
         "search": "Tìm kiếm bác sĩ, bệnh viện, phòng khám,..."
     },
@@ -99,7 +102,8 @@
         "time": "Thời gian",
         "patient": "Bệnh nhân",
         "btn-booking": "Đặt lịch",
-        "error-appointment": "Không thể đặt lịch vì đã có lịch hẹn trong ngày"
+        "error-appointment": "Không thể đặt lịch vì đã có lịch hẹn trong ngày",
+        "quick-booking": "Đặt lịch nhanh"
     },
 
     "manage-user": {
@@ -178,7 +182,8 @@
         "valueEn": "Tên tiếng anh",
         "actions": "Thao tác",
         "export-csv": "Xuất CSV",
-        "back": "Quay về"
+        "back": "Quay về",
+        "search": "Tìm nhanh"
     },
     "manage-clinic": {
         "create-title": "Thêm Bệnh viện/ Phòng khám",
@@ -220,5 +225,12 @@
         "title": "403 - Không có quyền truy cập",
         "sub-title": "Xin lỗi, bạn không được phép truy cập vào trang này.",
         "btn-back": "Quay về trang chủ"
+    },
+    "all": {
+        "no-data": "Không có dữ liệu",
+        "all": "Tất cả",
+        "doctor": "Bác sĩ",
+        "clinic": "Bệnh viện",
+        "specialty": "Chuyên khoa"
     }
 }

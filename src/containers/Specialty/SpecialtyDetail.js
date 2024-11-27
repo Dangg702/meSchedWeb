@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Input, Collapse, Navbar, Nav, NavItem, NavbarText } from 'reactstrap';
+import { FormattedMessage } from 'react-intl';
 
 import { path, languages } from '~/utils';
 import SearchResult from '~/components/SearchResult';
@@ -40,11 +41,15 @@ class SpecialtyDetail extends Component {
                 <div className="specialty-detail-container ">
                     <div className="specialty-search-wrapper">
                         <div className="specialty-search-block">
-                            <Input
-                                className="specialty-search-input"
-                                type="text"
-                                placeholder="Tìm theo bác sĩ, chuyên khoa, bệnh viện"
-                            />
+                            <FormattedMessage id="banner.search" defaultMessage="search">
+                                {(placeholder) => (
+                                   <Input
+                                   className="specialty-search-input"
+                                   type="text"
+                                   placeholder={placeholder}
+                               />
+                                )}
+                            </FormattedMessage>
                             <i class="fa-solid fa-magnifying-glass specialty-icon-search"></i>
                             <i class="fa-solid fa-xmark specialty-icon-close"></i>
                         </div>

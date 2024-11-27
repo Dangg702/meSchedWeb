@@ -61,23 +61,9 @@ export const doctorMenu = [
     {
         name: 'menu.doctor.manage-schedule',
         link: '/system/doctor/schedule-manage',
-
-        // menus: [
-        //     {
-        //         name: 'menu.doctor.manage-schedule',
-        //         link: '/system/doctor/schedule-manage',
-        //     },
-        // ],
     },
     {
         name: 'menu.doctor.manage-appointment',
         link: '/system/doctor/appointment-manage',
-
-        // menus: [
-        //     {
-        //         name: 'menu.doctor.manage-appointment',
-        //         link: '/system/doctor/appointment-manage',
-        //     },
-        // ],
     },
 ];

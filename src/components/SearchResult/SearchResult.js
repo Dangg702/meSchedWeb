@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { FormattedMessage } from 'react-intl';
 
 import { languages, path } from '~/utils';
 import * as actions from '~/store/actions';
@@ -62,7 +63,7 @@ class SearchResult extends Component {
                                     </div>
                                     <div className="col-sm-12 col-md-3">
                                         <Link to={`/doctor/${item.doctorId}`} className="btn-book btn">
-                                            Đặt khám
+                                            <FormattedMessage id="booking.btn-booking" />
                                         </Link>
                                     </div>
                                 </div>
@@ -70,7 +71,9 @@ class SearchResult extends Component {
                         </div>
                     ))
                 ) : (
-                    <div className="no-data">Không có dữ liệu</div>
+                    <div className="no-data">
+                        <FormattedMessage id="all.no-data" />
+                    </div>
                 )}
             </>
         );

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Specialty from './Section/Specialty';
 import MedicalFacilities from './Section/MedicalFacilities';
@@ -59,13 +58,21 @@ class Home extends Component {
                 {
                     breakpoint: 1370,
                     settings: {
+                        slidesToShow: 6,
+                        slidesToScroll: 6,
+                        infinite: true,
+                    },
+                },
+                {
+                    breakpoint: 1200,
+                    settings: {
                         slidesToShow: 5,
                         slidesToScroll: 5,
                         infinite: true,
                     },
                 },
                 {
-                    breakpoint: 1200,
+                    breakpoint: 995,
                     settings: {
                         slidesToShow: 4,
                         slidesToScroll: 4,
@@ -73,18 +80,10 @@ class Home extends Component {
                     },
                 },
                 {
-                    breakpoint: 995,
+                    breakpoint: 798,
                     settings: {
                         slidesToShow: 3,
                         slidesToScroll: 3,
-                        infinite: true,
-                    },
-                },
-                {
-                    breakpoint: 798,
-                    settings: {
-                        slidesToShow: 2,
-                        slidesToScroll: 2,
                         infinite: true,
                     },
                 },
@@ -106,7 +105,7 @@ class Home extends Component {
                 <Specialty settings={settings} />
                 <MedicalFacilities settings={settings} />
                 <OutStandingDoctor settings={settings} />
-                <HandBook settings={settings} />
+                {/* <HandBook settings={settings} /> */}
                 <About />
             </div>
         );

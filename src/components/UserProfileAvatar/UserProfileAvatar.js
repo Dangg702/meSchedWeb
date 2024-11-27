@@ -46,10 +46,14 @@ class UserProfileAvatar extends Component {
                     </DropdownToggle>
                     <DropdownMenu className="dropdown-menu-wrapper">
                         <div className="dropdown-menu-item">
-                            <Link to={path.MY_PROFILE}>Hồ sơ của bạn</Link>
+                            <Link to={path.MY_PROFILE}>
+                                <FormattedMessage id="homeHeader.MyProfile" />
+                            </Link>
                         </div>
                         <div className="dropdown-menu-item">
-                            <Link to={path.MY_APPOINTMENT}>Lịch hẹn của bạn</Link>
+                            <Link to={path.MY_APPOINTMENT}>
+                                <FormattedMessage id="homeHeader.MyAppointment" />
+                            </Link>
                         </div>
                         <div className="dropdown-menu-item" onClick={this.handleLogout}>
                             <FormattedMessage id="homeHeader.Logout" />

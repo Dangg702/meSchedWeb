@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { FormattedMessage } from 'react-intl';
 
 import { languages } from '~/utils';
 import './DoctorIntro.scss';
@@ -33,7 +34,7 @@ class DoctorIntro extends Component {
                     ? `Chuyên khoa: ${doctorData?.doctorInfoData?.specialtyData.valueVi}`
                     : `Chuyên khoa: ${doctorData['specialtyData.valueVi']}`;
             specialtyValueEn =
-                doctorData?.doctorInfoData && doctorData.specialtyData
+                doctorData?.doctorInfoData && doctorData.doctorInfoData
                     ? `Specialty: ${doctorData?.doctorInfoData?.specialtyData.valueEn}`
                     : `Specialty: ${doctorData['specialtyData.valueEn']}`;
             doctorNameVi =
@@ -48,15 +49,15 @@ class DoctorIntro extends Component {
 
         return (
             <>
-                <div className="row g-0 doctor-info-content">
-                    <div className="col-sm-12 col-md-4">
+                <div className="row g-0 doctor-info-content px-3">
+                    <div className="col-sm-12 col-md-2">
                         <div className="image-container">
                             <img className={`${this.props.className} image rounded-circle`} src={image} alt="avatar" />
                         </div>
                     </div>
                     {buttonRight ? (
                         <>
-                            <div className="col-sm-12 col-md-5 m-auto">
+                            <div className="col-sm-12 col-md-7 m-auto">
                                 <div className="doctor-position" style={{ fontSize: positionSize }}>
                                     {language === languages.VI ? doctorNameVi : doctorNameEn}
                                 </div>
@@ -70,7 +71,9 @@ class DoctorIntro extends Component {
                             </div>
                             <div className="col-sm-12 col-md-3 m-auto">
                                 <div className="button-right">
-                                    <button className={`${btnStyle}`}>Đặt khám ngay</button>
+                                    <button className={`${btnStyle}`}>
+                                        <FormattedMessage id="booking.quick-booking" />
+                                    </button>
                                 </div>
                             </div>
                         </>

@@ -19,6 +19,7 @@
             padding: 0 20px;
             background: #fff;
             box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            flex-wrap: nowrap;
 
             .navbar-collapse {
                 background: #fff;
@@ -209,25 +210,41 @@
     // flex-direction: row-reverse;
 }
 
-// .banner-nav-wrapper {
-//     display: none;
-// }
-
 // responsive mobile
 @media only screen and (max-width: 768px) {
     .banner-nav-wrapper {
         display: none;
     }
     .header-logo {
-        // width: 90px;
-        // background-size: 70%;
         display: none;
     }
     .navbar {
         flex-direction: row-reverse;
         justify-content: flex-start !important;
     }
+    .navbar-wrapper {
+        padding: 0 !important;
+    }
+    .navbar-collapse {
+        position: absolute;
+        top: 57px;
+        width: 100%;
+        box-shadow: 0 10px 70px rgba(0, 0, 0, 0.1490196078);
+    }
     .right-nav-wrapper {
         margin-right: 12px;
     }
+    .home-header-banner {
+        height: 48vw;
+    }
+    .search-wrapper {
+        .search-icon {
+            top: 15px !important;
+        }
+        .search-input {
+            height: 42px !important;
+            width: 75% !important;
+        }
+    }
+    
 }

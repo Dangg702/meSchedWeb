@@ -318,7 +318,7 @@ class DoctorManage extends Component {
                 <h2 className="manage-doctor-title text-center mb-3">
                     <FormattedMessage id="manage-doctor.manage" />
                 </h2>
-                <div className="row g-0 mb-3">
+                <div className="row mb-3">
                     <div className="col-sm-12 col-md-4">
                         <label className="lable-input">
                             <FormattedMessage id="manage-doctor.selected-doctor" />
@@ -347,7 +347,7 @@ class DoctorManage extends Component {
                     </div>
                 </div>
 
-                <div className="row g-0 mb-3">
+                <div className="row mb-3">
                     <div className="col-sm-12 col-md-6">
                         <label className="lable-input">
                             <FormattedMessage id="manage-doctor.selected-specialty" />
@@ -376,7 +376,7 @@ class DoctorManage extends Component {
                     </div>
                 </div>
 
-                <div className="row g-0 mb-3">
+                <div className="row mb-3">
                     <div className="col-sm-12 col-md-4">
                         <label className="lable-input">
                             <FormattedMessage id="manage-doctor.price" />
@@ -418,7 +418,7 @@ class DoctorManage extends Component {
                     </div>
                 </div>
 
-                <div className="row g-0 mb-3">
+                <div className="row mb-3">
                     <div className="col-sm-12 col-md-12">
                         <label className="lable-input">
                             <FormattedMessage id="manage-doctor.notes" />

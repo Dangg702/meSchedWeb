@@ -30,9 +30,6 @@ import HeaderOnlyLayout from '~/layouts/HeaderOnlyLayout';
 
 export const routes = [
     { path: path.LOGIN, component: userIsNotAuthenticated(Login), layout: null },
-
-    { path: path.CHATAI, component: ChatAI, layout: SystemLayout },
-
     { path: path.REGISTER, component: userIsNotAuthenticated(Register), layout: null },
     { path: path.NO_ACCESS, component: NoAccessPage, layout: null },
 
@@ -74,6 +71,7 @@ export const routes = [
     { path: path.SPECIALTY_ALL, component: Specialty },
     { path: path.MY_PROFILE, component: userIsAuthenticated(MyFrofile) },
     { path: path.MY_APPOINTMENT, component: userIsAuthenticated(MyAppointment) },
+    { path: path.CHATAI, component: ChatAI, layout: HeaderOnlyLayout },
 
     { path: path.Home, component: Home },
 

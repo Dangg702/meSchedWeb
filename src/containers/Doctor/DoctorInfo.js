@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Breadcrumb, BreadcrumbItem } from 'reactstrap';
+import { FormattedMessage } from 'react-intl';
 
 import DoctorSchedule from './DoctorSchedule';
 import DoctorExtraInfo from './DoctorExtraInfo';
@@ -61,7 +62,9 @@ class DoctorInfo extends Component {
                         <DoctorIntro doctorData={doctorData} className={'doctor-img'} />
                         <div className="doctor-schedule-wrapper pb-4 row g-0">
                             <div className="col-sm-12 col-md-8">
-                                <h5 className="ms-3 pt-3 pb-1">Đặt khám nhanh</h5>
+                                <h5 className="ms-3 pt-3 pb-1">
+                                <FormattedMessage id="booking.quick-booking" />
+                                </h5>
                                 <DoctorSchedule doctorId={doctorId} />
                             </div>
                             <div className="col-sm-12 col-md-4 separate-line">

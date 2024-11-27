@@ -90,4 +90,26 @@
     .search-nav-wrapper.navbar {
         justify-content: center !important;
     }
+    .specialty-detail-container {
+        margin-top: 20px;
+        .specialty-search-wrapper {
+            .specialty-search-block {
+                width: 90%;
+                .specialty-search-input {
+                    padding: 8px 40px 8px 24px;
+                }
+            }
+        }
+    }
+    .search-nav-wrapper {
+        width: auto;
+        padding-left: 0;
+    }
+    .specialty-list-wrapper {
+        padding: 20px 0;
+
+        .specialty-list {
+            width: 90%;
+        }
+    }
 }

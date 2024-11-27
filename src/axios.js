@@ -10,7 +10,7 @@ const instance = axios.create({
 });
 
 axios.defaults.withCredentials = true;
-instance.defaults.headers.common['Authorization'] = 'Bearer ' + Cookies.get('accessToken');
+// instance.defaults.headers.common['Authorization'] = 'Bearer ' + Cookies.get('accessToken');
 
 instance.interceptors.request.use(
     (config) => {

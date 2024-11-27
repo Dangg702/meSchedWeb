@@ -25,11 +25,11 @@ a div {
 }
 
 .slick-arrow-prev {
-    left: -4px;
+    left: -10px;
 }
 
 .slick-arrow-next {
-    right: -4px;
+    right: -10px;
 }
 
 .slick-line:first-child {
@@ -51,7 +51,6 @@ a div {
 // section
 .section-wrapper {
     width: 100%;
-    // height: 330px;
     margin-top: 20px;
     padding: 20px 40px;
     .section-content {
@@ -73,21 +72,19 @@ a div {
                 }
             }
         }
-        .section-container {
-        }
     }
 }
 
 .section-container {
     .section-item-wrapper {
-        min-width: 270px;
+        min-width: 215px;
         width: 100%;
         display: flex !important;
         align-items: center;
         justify-content: center;
 
         .section-item-container {
-            padding: 12px 28px;
+            padding: 8px 20px;
             border: 1px solid #ccc;
             border-radius: 12px;
         }
@@ -96,9 +93,10 @@ a div {
         padding: 12px;
 
         .image {
-            width: 144px;
-            height: 144px;
+            width: 125px;
+            height: 125px;
             object-fit: contain;
+            margin: auto;
         }
     }
     .text-description {
@@ -110,7 +108,7 @@ a div {
         font-size: 1.2rem;
         font-weight: 600;
         line-height: 1.6;
-        max-width: 168px;
+        width: 160px;
         height: 54px;
         &:hover {
             color: $colormain;
@@ -131,5 +129,15 @@ a div {
         width: 100%;
         display: flex;
         justify-content: center;
+    }
+
+    .section-wrapper {
+        padding: 20px !important;
+    }
+    .section-item-wrapper {
+        min-width: 200px !important;
+    }
+    .section-item-container {
+        padding: 8px !important;
     }
 }

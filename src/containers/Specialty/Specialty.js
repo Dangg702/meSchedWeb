@@ -2,16 +2,14 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 import { path, languages } from '~/utils';
-import SearchResult from '~/components/SearchResult';
 import { userService } from '~/services';
-import './Specialty.scss';
-import doctorImg from '~/assets/images/doctor/user-default.jfif';
 import ReactPaginate from 'react-paginate';
 import ClinicIntro from '~/components/ClinicIntro/ClinicIntro';
 import DoctorIntro from '~/components/DoctorIntro';
 import { Form, FormGroup, Input, Label } from 'reactstrap';
 import CustomScrollbars from '~/components/CustomScrollbars';
-import { debounce } from 'lodash';
+import { FormattedMessage } from 'react-intl';
+import './Specialty.scss';
 
 class Specialty extends Component {
     constructor(props) {
@@ -80,7 +78,6 @@ class Specialty extends Component {
         }
     };
 
-    // Hàm xử lý thay đổi từ khóa
     handleSearchChange = (e) => {
         if (e.target.value === '') {
             this.setState({ listSpecialty: this.state.listSpecialtyFull });
@@ -96,7 +93,6 @@ class Specialty extends Component {
         }, 300);
     };
 
-    // Lọc danh sách chuyên khoa dựa trên từ khóa
     filteredSpecialties = () => {
         let { language } = this.props;
         let { searchTerm, listSpecialty } = this.state;
@@ -109,7 +105,6 @@ class Specialty extends Component {
         this.setState({ listSpecialty: res });
     };
 
-    // Hàm xử lý khi chọn radio
     handleRadioChange = async (value) => {
         this.setState({ selectedSpecialtyId: value });
         let searchRes = await userService.searchDoctorBySpecialty(value);
@@ -119,7 +114,6 @@ class Specialty extends Component {
     render() {
         let { language } = this.props;
         let { type, dataList, listSpecialty, searchTerm, selectedSpecialtyId } = this.state;
-        console.log('render', dataList);
         return (
             <>
                 <div className="specialty-more-container row g-0 p-3">
@@ -129,17 +123,23 @@ class Specialty extends Component {
                             <div className="col-md-3 quick-search-specialty">
                                 <CustomScrollbars>
                                     <div className="pb-3 px-2">
-                                        <div className="fw-bold pe-2 pb-2">Chuyên khoa</div>
-                                        <Input
-                                            placeholder="Tìm nhanh"
-                                            value={searchTerm}
-                                            onChange={(e) => this.handleSearchChange(e)}
-                                        />
+                                        <div className="fw-bold pe-2 pb-2">
+                                            <FormattedMessage id={'homepage.specialty'} />
+                                        </div>
+                                        <FormattedMessage id="manage-specialty.search" defaultMessage="search">
+                                            {(placeholder) => (
+                                                <Input
+                                                    placeholder={placeholder}
+                                                    value={searchTerm}
+                                                    onChange={(e) => this.handleSearchChange(e)}
+                                                />
+                                            )}
+                                        </FormattedMessage>
                                     </div>
                                     <Form>
                                         {listSpecialty.length > 0 &&
                                             listSpecialty.map((item, index) => (
-                                                <FormGroup className="py-2">
+                                                <FormGroup className="py-2 ps-2">
                                                     <Input
                                                         type="radio"
                                                         name="specialty"
@@ -192,7 +192,9 @@ class Specialty extends Component {
                                     </div>
                                 ))
                             ) : (
-                                <div className="no-data">Không có dữ liệu</div>
+                                <div className="no-data">
+                                    <FormattedMessage id="all.no-data" />
+                                </div>
                             )}
                         </div>
                     )}
@@ -213,7 +215,9 @@ class Specialty extends Component {
                                     </Link>
                                 ))
                             ) : (
-                                <div className="no-data">Không có dữ liệu</div>
+                                <div className="no-data">
+                                    <FormattedMessage id="all.no-data" />
+                                </div>
                             )}
                         </div>
                     )}

@@ -22,7 +22,7 @@ class HomeFooter extends Component {
                             <br />
                             <a href="#">Đặt khám phòng khám</a>
                             <br />
-                            <a href="#">Đặt lịch tiêm chủng</a>
+                            <a href="#">Hỏi đáp sức khỏe</a>
                             <br />
                         </div>
                         <div className="col-6 col-md-3 col-sm-12">

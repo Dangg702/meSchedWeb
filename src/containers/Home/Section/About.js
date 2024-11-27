@@ -31,7 +31,7 @@ class About extends Component {
                             <div className="col-sm-12 col-md-6 align-self-center">
                                 <div className="about-content">
                                     <h1 style={{ color: '#7bd3ea' }}>Ứng dụng đặt khám</h1>
-                                    <div className="detail pe-3">
+                                    <div className="detail px-3">
                                         Chúng tôi xây dựng nền tảng y tế thông minh với sứ mệnh rút ngắn khoảng cách
                                         giữa Bệnh nhân, Bác sĩ và các Cơ sở y tế
                                     </div>

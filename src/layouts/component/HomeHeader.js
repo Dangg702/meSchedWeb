@@ -14,7 +14,6 @@ import {
     DropdownMenu,
     DropdownItem,
     NavbarText,
-    Dropdown,
 } from 'reactstrap';
 import { FormattedMessage } from 'react-intl';
 import { languages, path } from '../../utils/constant';
@@ -125,7 +124,6 @@ class HomeHeader extends Component {
                                 <div className="header-logo"></div>
                             </NavbarBrand>
                             <NavbarToggler onClick={() => this.toggle()} />
-                            {/* <div> */}
                             <Collapse isOpen={this.state.isOpen} navbar>
                                 <Nav className="ms-auto" navbar>
                                     <UncontrolledDropdown
@@ -181,52 +179,10 @@ class HomeHeader extends Component {
                                     </NavItem>
                                     <NavItem>
                                         <NavLink href="/chatai/message">
-                                            <FormattedMessage id={'Hỏi đáp sức khỏe'} />
+                                            <FormattedMessage id={'homeHeader.Chat'} />
                                         </NavLink>
                                     </NavItem>
-                                    <UncontrolledDropdown
-                                        nav
-                                        inNavbar
-                                        onMouseOver={() => this.onMouseEnter('dropdownMenu2')}
-                                        onMouseLeave={() => this.onMouseLeave('dropdownMenu2')}
-                                        isOpen={this.state.dropdownMenu2}
-                                    >
-                                        <DropdownToggle nav caret>
-                                            <FormattedMessage id={'homeHeader.For-medical-staff'} />
-                                        </DropdownToggle>
-                                        <DropdownMenu right>
-                                            <DropdownItem>
-                                                <NavLink className="nav-item-wrapper" href="/components/">
-                                                    <FormattedMessage id={'homeHeader.Doctor'} />
-                                                </NavLink>
-                                            </DropdownItem>
-                                            <DropdownItem>
-                                                <NavLink className="nav-item-wrapper" href="/components/">
-                                                    <FormattedMessage id={'homeHeader.Clinic'} />
-                                                </NavLink>
-                                            </DropdownItem>
-                                        </DropdownMenu>
-                                    </UncontrolledDropdown>
                                 </Nav>
-                                {/* <NavbarText className="ms-3">
-                                    {isLoggedIn ? (
-                                        <UserProfileAvatar userInfo={userInfo} className="image-avatar-user" />
-                                    ) : (
-                                        <Link to={path.LOGIN} className="btn btn-login">
-                                            <FormattedMessage id={'auth.login'} />
-                                        </Link>
-                                    )}
-                                </NavbarText>
-                                <NavbarText className="ms-3 language-btn">
-                                    <div className={language === languages.VI ? 'language action' : 'language'}>
-                                        <span onClick={() => this.changLanguage(languages.VI)}>VI</span>
-                                    </div>
-                                    <div
-                                        className={language === languages.EN ? 'ms-3 language action' : 'ms-3 language'}
-                                    >
-                                        <span onClick={() => this.changLanguage(languages.EN)}>EN</span>
-                                    </div>
-                                </NavbarText> */}
                             </Collapse>
                             <div className="right-nav-wrapper">
                                 <NavbarText className="ms-3">
@@ -249,7 +205,6 @@ class HomeHeader extends Component {
                                     </div>
                                 </NavbarText>
                             </div>
-                            {/* </div> */}
                         </Navbar>
                     </div>
                 </div>
@@ -298,7 +253,7 @@ class HomeHeader extends Component {
                                 onClick={() => this.handleChangeNavItem('doctor')}
                             >
                                 <i className="fa-regular fa-snowflake me-2"></i>
-                                Đặt khám bác sĩ
+                                <FormattedMessage id="homeHeader.Book-a-doctors-appointment" />
                             </div>
                             <div
                                 className={`col-md-4 col-lg-4 banner-nav-item ${
@@ -307,7 +262,7 @@ class HomeHeader extends Component {
                                 onClick={() => this.handleChangeNavItem('clinic')}
                             >
                                 <i className="fa-regular fa-building me-2"></i>
-                                Đặt khám bệnh viện
+                                <FormattedMessage id="homeHeader.Book-a-hospital-examination" />
                             </div>
                             <div
                                 className={`col-md-4 col-lg-4 banner-nav-item ${
@@ -315,7 +270,8 @@ class HomeHeader extends Component {
                                 }`}
                                 onClick={() => this.handleChangeNavItem('specialty')}
                             >
-                                <i className="fa-regular fa-calendar-plus me-2"></i>Đặt khám chuyên khoa
+                                <i className="fa-regular fa-calendar-plus me-2"></i>
+                                <FormattedMessage id="homeHeader.Book-a-specialty-visit" />
                             </div>
                         </div>
                     </div>

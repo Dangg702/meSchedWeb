@@ -4,8 +4,7 @@ import Slider from 'react-slick';
 import localization from 'moment/locale/vi';
 import { Link } from 'react-router-dom';
 
-import { path, languages, DATE_FORMAT } from '~/utils';
-import doctorService from '~/services/doctorService';
+import { languages, DATE_FORMAT } from '~/utils';
 import { userService } from '~/services';
 import './DoctorSchedule.scss';
 import moment from 'moment';
