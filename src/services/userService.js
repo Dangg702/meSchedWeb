@@ -16,6 +16,7 @@ const userService = {
     getUsers(id, page, perPage) {
         return axios.get(`/api/get-users?id=${id}&page=${page}&per_page=${perPage}`);
     },
+   
     register(data) {
         return axios.post(`/api/register`, data);
     },
