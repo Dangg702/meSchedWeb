@@ -107,13 +107,13 @@ const userService = {
         return axios.get(`/api/get-doctors?name=${name}&page=${page}&per_page=${perPage}`);
     },
     forgotPasswordSendOtp(email) {
-        return axios.post(`/api/check-email`, { email });
+        return axios.post(`/check-email`, { emailUser:email });
     },
     forgotPasswordVerifyOtp(otp, email) {
-        return axios.post(`/api/check-otp`, { otp, email });
+        return axios.post(`/check-otp`, { otp, email });
     },
     forgotPasswordResetPassword(otp, email, anewpassword, passwordRetrieval) {
-        return axios.post(`/api/change-password`, { otp, email, anewpassword, passwordRetrieval });
+        return axios.put(`/change-password`, { otp, email, anewpassword, passwordRetrieval });
     },
 };
 

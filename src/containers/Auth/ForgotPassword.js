@@ -39,12 +39,17 @@ class ForgotPassword extends Component {
             this.setState({ email: email });
 
             let result = await userService.forgotPasswordSendOtp(email);
-            console.log('handleSendOTP', result);
-            if (result.errCode !== 0) {
-                toast.error(result.message);
-            } else {
+            console.log('handleSendOTP', result.status);
+            if (result.status === 'OK') {
                 this.setState({ isSendEmail: true });
-                toast.success('Check your email for OTP');
+                console.log('thanh cong');
+                window.alert('Check your email for OTP');
+                // toast.success('Check your email for OTP');
+            } else {
+                // toast.error(result.message);
+                console.log('that bai');
+
+
             }
         } catch (e) {
             console.log('Send OTP Error: ' + e);
@@ -55,7 +60,7 @@ class ForgotPassword extends Component {
         const { otpCode } = values;
 
         let res = await userService.forgotPasswordVerifyOtp(otpCode.trim(), this.state.email);
-        if (res.errCode === 0) {
+        if (res.status === 'OK') {
             this.setState({ isVerify: true });
         } else {
             toast.error(res.message);
@@ -63,18 +68,23 @@ class ForgotPassword extends Component {
     };
 
     handleResetPassword = async (values) => {
+        const { otpCode } = values;
         try {
-            let { email, password, rePassword } = this.state;
+            let { email} = this.state;
+            const { password, rePassword } = values; 
             // let { otp, email, anewpassword, passwordRetrieval } = values;
-            let newData = {
-                email: email.trim(),
-                anewpassword: password.trim(),
-                passwordRetrieval: rePassword.trim(),
-                otp: '',
-            };
-            let response = await userService.forgotPasswordResetPassword(newData);
-            if (response && response.errCode === 0) {
+            let response = await userService.forgotPasswordResetPassword(
+                '',
+                email.trim(),
+                password.trim(),
+                rePassword.trim(),
+            );
+            console.log(response);
+            if (response.status === 'OK') {
+                window.alert('Mật khẩu đã được thay đổi thành công');
+
                 this.props.navigate(path.LOGIN);
+                
             } else {
                 toast.error(response.message);
             }
@@ -160,7 +170,7 @@ class ForgotPassword extends Component {
                                     },
                                 ]}
                                 handleChange={this.handleInputChange}
-                                onSubmit={this.handleRegister}
+                                onSubmit={this.handleResetPassword}
                                 isShowPassword={isShowPassword}
                                 togglePasswordVisibility={this.handleToggleShowPass}
                                 buttonTitle="auth.confirm"
