@@ -1,17 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Col, Form, FormGroup, Input, Label, Row, Button } from 'reactstrap';
-import { FormattedMessage } from 'react-intl';
-import { NumericFormat } from 'react-number-format';
-import _ from 'lodash';
-import FormikForm from '~/components/Form/FormikForm';
-
-import DoctorIntro from '~/components/DoctorIntro';
-import { path, languages } from '~/utils';
 import * as actions from '~/store/actions';
 import { userService } from '~/services';
-// import './BookingVerify.scss';
-import { toast } from 'react-toastify';
 
 class BookingVerify extends Component {
     constructor(props) {
@@ -62,7 +52,6 @@ class BookingVerify extends Component {
     };
 
     render() {
-        let { language } = this.props;
         let { isVerify, errCode } = this.state;
         return (
             <>

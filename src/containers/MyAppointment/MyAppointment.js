@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { Button, Modal, ModalBody, ModalFooter, ModalHeader, Table } from 'reactstrap';
+import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 
-import { path, languages } from '~/utils';
+import { languages } from '~/utils';
 import userService from '~/services/userService';
 import './MyAppointment.scss';
-import doctorImg from '~/assets/images/doctor/user-default.jfif';
 import { FormattedMessage } from 'react-intl';
 import { toast } from 'react-toastify';
 
@@ -48,11 +46,11 @@ class MyAppointment extends Component {
             date: data.date,
             timeType: data.timeType,
         };
-        // this.props.setLoading(true);
+        this.props.setLoading(true);
         this.setState({ isConfirmDelModal: false });
         let res = await userService.cancelAppointment(dt);
         if (res.errCode === 0) {
-            // this.props.setLoading(false);
+            this.props.setLoading(false);
             toast.success('Cancel success');
             this.getListAppointment();
         } else {
@@ -63,7 +61,6 @@ class MyAppointment extends Component {
     render() {
         let { language } = this.props;
         let { listAppointment, isConfirmDelModal } = this.state;
-        console.log('listAppointment', listAppointment);
         return (
             <>
                 <div className="my-appointment-container">
@@ -105,9 +102,6 @@ class MyAppointment extends Component {
                                         </p>
                                     </div>
                                     <div className="col-xs-12 col-sm-12 col-md-2 appointment-item__btn-wrapper">
-                                        {/* <button type="button" className="btn btn-payment">
-                                    Thanh toán
-                                </button> */}
                                         <button
                                             type="button"
                                             className="btn btn-cancel"

@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import Specialty from './Section/Specialty';
 import MedicalFacilities from './Section/MedicalFacilities';
 import OutStandingDoctor from './Section/OutStandingDoctor';
-import HandBook from './Section/HandBook';
 import About from './Section/About';
 
 import './Home.scss';
@@ -11,7 +10,7 @@ import './Home.scss';
 class Home extends Component {
     render() {
         const CustomNextArrow = (props) => {
-            const { className, style, onClick } = props;
+            const { onClick } = props;
             return (
                 <div className="slick-arrow-next" style={{ display: 'flex', position: 'absolute' }} onClick={onClick}>
                     <svg
@@ -29,7 +28,7 @@ class Home extends Component {
         };
 
         const CustomPrevArrow = (props) => {
-            const { className, style, onClick } = props;
+            const { onClick } = props;
             return (
                 <div className="slick-arrow-prev" style={{ display: 'flex' }} onClick={onClick}>
                     <svg

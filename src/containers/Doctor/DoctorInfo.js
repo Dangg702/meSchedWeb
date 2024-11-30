@@ -7,10 +7,9 @@ import { FormattedMessage } from 'react-intl';
 import DoctorSchedule from './DoctorSchedule';
 import DoctorExtraInfo from './DoctorExtraInfo';
 import DoctorIntro from '~/components/DoctorIntro';
-import { path, languages } from '~/utils';
+import { path } from '~/utils';
 import doctorService from '~/services/doctorService';
 import './DoctorInfo.scss';
-import doctorImg from '~/assets/images/doctor/user-default.jfif';
 
 class DoctorInfo extends Component {
     constructor(props) {
@@ -44,13 +43,12 @@ class DoctorInfo extends Component {
     };
 
     render() {
-        let language = this.props.language;
         let { doctorData, doctorId } = this.state;
         let html = doctorData?.markdownData && doctorData?.markdownData?.contentHtml;
         return (
             <>
                 <div className="doctor-info-container ">
-                    <div className="container breadcrumb-wrapper">
+                    <div className="breadcrumb-wrapper">
                         <Breadcrumb>
                             <BreadcrumbItem>
                                 <Link to={path.HOME}>Home</Link>
@@ -58,7 +56,7 @@ class DoctorInfo extends Component {
                             <BreadcrumbItem active>Doctor</BreadcrumbItem>
                         </Breadcrumb>
                     </div>
-                    <div className="doctor-info-wrapper container">
+                    <div className="doctor-info-wrapper">
                         <DoctorIntro doctorData={doctorData} className={'doctor-img'} />
                         <div className="doctor-schedule-wrapper pb-4 row g-0">
                             <div className="col-sm-12 col-md-8">

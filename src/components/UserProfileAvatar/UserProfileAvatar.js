@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { languages, path } from '~/utils';
+import { path } from '~/utils';
 import * as actions from '~/store/actions';
 
 import './UserProfileAvatar.scss';
@@ -33,7 +33,7 @@ class UserProfileAvatar extends Component {
     };
 
     render() {
-        const { userInfo, processLogout } = this.props;
+        const { userInfo } = this.props;
         return (
             <>
                 <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>

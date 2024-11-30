@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 
-import { languages, path } from '~/utils';
+import { languages } from '~/utils';
 import * as actions from '~/store/actions';
 
 import './SearchResult.scss';
@@ -23,7 +23,6 @@ class SearchResult extends Component {
 
     render() {
         const { resultData, language } = this.props;
-        console.log('resultData', resultData);
         return (
             <>
                 {resultData && resultData.length > 0 ? (

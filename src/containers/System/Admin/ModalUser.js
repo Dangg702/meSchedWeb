@@ -13,12 +13,10 @@ import {
     Input,
     Col,
     Row,
-    FormText,
     FormFeedback,
 } from 'reactstrap';
 import Lightbox from 'yet-another-react-lightbox';
 import { emitter } from '../../../utils/emitter';
-import userService from '../../../services/userService';
 import { languages } from '../../../utils/constant';
 import * as actions from '../../../store/actions';
 import { validateInput } from '../../../utils/ValidateInput';
@@ -209,7 +207,6 @@ class ModalUser extends Component {
     render() {
         let { isEditing, language } = this.props;
         let { genderArr, positionArr, roleArr, isOpenLightBox, errors } = this.state;
-        // console.log('roles', this.props.roles);
         return (
             <Modal
                 isOpen={this.props.modal}

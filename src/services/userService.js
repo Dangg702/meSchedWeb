@@ -16,7 +16,7 @@ const userService = {
     getUsers(id, page, perPage) {
         return axios.get(`/api/get-users?id=${id}&page=${page}&per_page=${perPage}`);
     },
-   
+
     register(data) {
         return axios.post(`/api/register`, data);
     },
@@ -105,6 +105,15 @@ const userService = {
     },
     getDoctors(name, page, perPage) {
         return axios.get(`/api/get-doctors?name=${name}&page=${page}&per_page=${perPage}`);
+    },
+    forgotPasswordSendOtp(email) {
+        return axios.post(`/api/check-email`, { email });
+    },
+    forgotPasswordVerifyOtp(otp, email) {
+        return axios.post(`/api/check-otp`, { otp, email });
+    },
+    forgotPasswordResetPassword(otp, email, anewpassword, passwordRetrieval) {
+        return axios.post(`/api/change-password`, { otp, email, anewpassword, passwordRetrieval });
     },
 };
 

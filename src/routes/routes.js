@@ -3,6 +3,7 @@ import { path } from '~/utils/constant';
 import Home from '~/containers/Home/Home';
 import Login from '~/containers/Auth/Login';
 import Register from '~/containers/Auth/Register';
+import ForgotPassword from '~/containers/Auth/ForgotPassword';
 import DoctorInfo from '~/containers/Doctor/DoctorInfo';
 import Booking from '~/containers/Booking/Booking';
 import UserManage from '~/containers/System/Admin/UserManage';
@@ -10,7 +11,7 @@ import DoctorManage from '~/containers/System/Admin/DoctorManage';
 import ManageSchedule from '~/containers/System/Doctor/ManageSchedule';
 import BookingVerify from '~/containers/Booking/BookingVerify';
 import SpecialtyManage from '~/containers/System/Specialty/SpecialtyManage';
-import SpecialtyDetail from '~/containers/Specialty/SpecialtyDetail';
+// import SpecialtyDetail from '~/containers/Specialty/SpecialtyDetail';
 import AddClinic from '~/containers/System/Clinic/AddClinic';
 import ClinicManage from '~/containers/System/Clinic/ClinicManage';
 import ClinicDetail from '~/containers/Clinics/ClinicDetail';
@@ -31,6 +32,7 @@ import HeaderOnlyLayout from '~/layouts/HeaderOnlyLayout';
 export const routes = [
     { path: path.LOGIN, component: userIsNotAuthenticated(Login), layout: null },
     { path: path.REGISTER, component: userIsNotAuthenticated(Register), layout: null },
+    { path: path.FORGOT_PASSWORD, component: ForgotPassword, layout: null },
     { path: path.NO_ACCESS, component: NoAccessPage, layout: null },
 
     // system

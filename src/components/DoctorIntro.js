@@ -17,7 +17,7 @@ class DoctorIntro extends Component {
     componentDidUpdate(prevProps, prevState) {}
 
     render() {
-        const { language, doctorData, fontSize, fontColor, positionSize, buttonRight, btnStyle } = this.props;
+        const { language, doctorData, fontSize, fontColor, positionSize, buttonRight, btnStyle, btnFunc } = this.props;
         let clinicName = doctorData?.doctorInfoData?.clinicData.name;
         let specialtyValueVi = '',
             specialtyValueEn = '',
@@ -71,7 +71,7 @@ class DoctorIntro extends Component {
                             </div>
                             <div className="col-sm-12 col-md-3 m-auto">
                                 <div className="button-right">
-                                    <button className={`${btnStyle}`}>
+                                    <button className={`${btnStyle}`} onClick={btnFunc}>
                                         <FormattedMessage id="booking.quick-booking" />
                                     </button>
                                 </div>

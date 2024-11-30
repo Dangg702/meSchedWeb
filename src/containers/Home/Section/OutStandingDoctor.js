@@ -66,12 +66,12 @@ class OutStandingDoctor extends Component {
                                                 </div>
                                                 <div className="position-wrapper text-center">
                                                     <div className="position-name">
-                                                        <div className="position">
+                                                        <div>
                                                             {language === languages.VI
                                                                 ? doctor.positionData.valueVi
                                                                 : doctor.positionData.valueEn}
                                                         </div>
-                                                        <div className="name">
+                                                        <div>
                                                             {language === languages.VI
                                                                 ? `${doctor.lastName} ${doctor.firstName}`
                                                                 : `${doctor.firstName} ${doctor.lastName}`}

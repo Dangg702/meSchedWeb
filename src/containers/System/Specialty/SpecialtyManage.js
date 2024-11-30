@@ -5,15 +5,14 @@ import ReactPaginate from 'react-paginate';
 import _ from 'lodash';
 import { debounce } from 'lodash';
 import { CSVLink } from 'react-csv';
-
-import ModalUser from '../Admin/ModalUser';
-import ModalCreateSpecialty from './ModalCreateSpecialty';
 import { toast } from 'react-toastify';
+
+import ModalCreateSpecialty from './ModalCreateSpecialty';
 import userService from '../../../services/userService';
 import { emitter } from '../../../utils/emitter';
 import * as actions from '../../../store/actions';
-import './SpecialtyManage.scss';
 import ConfirmModal from '~/components/ConfirmModal';
+import './SpecialtyManage.scss';
 
 class SpecialtyManage extends Component {
     constructor(props) {
@@ -44,9 +43,6 @@ class SpecialtyManage extends Component {
         if (prevState.page !== this.state.page) {
             this.getAllSpecialty(this.state.page, this.state.perPage);
         }
-        // if (prevState.totalSpecialty !== this.state.totalSpecialty || prevState.isEditing !== this.state.isEditing) {
-        //     this.getUsers();
-        // }
     }
 
     //   Paginate

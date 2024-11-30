@@ -6,7 +6,6 @@ import _ from 'lodash';
 import { debounce } from 'lodash';
 import { CSVLink } from 'react-csv';
 import { toast } from 'react-toastify';
-import { Link } from 'react-router-dom';
 
 import ModalUser from './ModalUser';
 import userService from '../../../services/userService';

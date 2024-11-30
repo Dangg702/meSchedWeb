@@ -82,11 +82,17 @@
         "auth": "Authentication",
         "not-receive": "Didn't receive OTP code?",
         "try-again": "Try again",
-        "profile": "Create profile"
+        "profile": "Create profile",
+        "send-otp": "Send OTP",
+        "confirm": "Confirm",
+        "reset-password": "Reset password", 
+        "otp-desc": "OTP code will be sent to this email"
     },
     "form": {
         "email": "example@example.com",
         "password": "Password",
+        "new-password": "New password",
+        "re-password": "Re-enter password",
         "input-otp": "Please enter the OTP code",
         "first-name": "First name",
         "last-name": "Last name",

@@ -7,6 +7,7 @@ import Error403 from '~/assets/images/error-403.png';
 import './NoAccessPage.scss';
 
 class NoAccessPage extends Component {
+    // eslint-disable-next-line no-useless-constructor
     constructor(props) {
         super(props);
     }

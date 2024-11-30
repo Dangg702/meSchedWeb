@@ -13,16 +13,12 @@ import {
     Input,
     Col,
     Row,
-    FormText,
     FormFeedback,
 } from 'reactstrap';
 import Lightbox from 'yet-another-react-lightbox';
 import { emitter } from '../../../utils/emitter';
-import userService from '../../../services/userService';
-import { languages } from '../../../utils/constant';
 import * as actions from '../../../store/actions';
 import { validateInput } from '../../../utils/ValidateInput';
-// import './ModalCreateSpecialty.scss';
 
 class ModalCreateSpecialty extends Component {
     constructor(props) {
@@ -152,7 +148,6 @@ class ModalCreateSpecialty extends Component {
     };
 
     render() {
-        let { isEditing, language } = this.props;
         let { isOpenLightBox, errors } = this.state;
 
         return (

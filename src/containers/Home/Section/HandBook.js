@@ -7,6 +7,7 @@ import handBookImg from '../../../assets/images/handBook/benh-vien-chua-thoai-ho
 import { FormattedMessage } from 'react-intl';
 
 class HandBook extends Component {
+    // eslint-disable-next-line no-useless-constructor
     constructor(props) {
         super(props);
     }

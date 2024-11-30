@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import _ from 'lodash';
-import { debounce } from 'lodash';
-import { CSVLink } from 'react-csv';
 import MarkdownIt from 'markdown-it';
 import MdEditor from 'react-markdown-editor-lite';
 import Select from 'react-select';
@@ -11,7 +9,6 @@ import { toast } from 'react-toastify';
 import { Input } from 'reactstrap';
 
 import * as actions from '~/store/actions';
-import { validateInput } from '~/utils/ValidateInput';
 import doctorService from '../../../services/doctorService';
 import { languages } from '../../../utils';
 import './DoctorManage.scss';
@@ -184,7 +181,7 @@ class DoctorManage extends Component {
                 : item.name;
             let value = item.hasOwnProperty('firstName') ? item.id : item.keyMap ? item.keyMap : item.id;
 
-            result.push({
+            return result.push({
                 value: value,
                 label: language === languages.VI ? dataVi : dataEn,
             });
@@ -249,19 +246,15 @@ class DoctorManage extends Component {
     };
 
     handleChangeSelect = async (valueObj, selectedName) => {
-        let { language } = this.props;
         let { listPayment, listPrice, listCity, listSpecialty, listClinic } = this.state;
         let name = selectedName.name;
         let cpState = { ...this.state };
         cpState[name] = valueObj;
 
         this.setState({ ...cpState });
-        console.log(valueObj, selectedName);
-        console.log(cpState);
 
         if (name === 'selectedDoctor') {
             let res = await doctorService.getDoctorInfoById(valueObj.value);
-            console.log('getDoctorInfoById', res);
 
             if (res && res.errCode === 0 && res.data) {
                 let markdownData = res.data.markdownData || {};
@@ -287,9 +280,8 @@ class DoctorManage extends Component {
                     note: note,
                 });
             } else {
-                // Xử lý khi không có dữ liệu hợp lệ
                 this.setState({
-                    ...this.initState, // Reset state về ban đầu nếu không có dữ liệu hợp lệ
+                    ...this.initState,
                 });
             }
         }
@@ -310,8 +302,6 @@ class DoctorManage extends Component {
             listSpecialty,
             listClinic,
         } = this.state;
-
-        console.log('selectedDoctor', selectedDoctor);
 
         return (
             <div className="manage-doctor-container container-fluid">

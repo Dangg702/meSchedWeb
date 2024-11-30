@@ -17,6 +17,7 @@ const MyForm = ({
     togglePasswordVisibility,
     buttonTitle,
     intl,
+    reSendOTPFunc,
 }) => (
     <div>
         <div className="col-sm-12 text-center title">
@@ -71,14 +72,16 @@ const MyForm = ({
                             <input type="checkbox" />
                             <FormattedMessage id="auth.remember-me" />
                         </label>
-                        <Link to={'#'}>
+                        <Link to={path.FORGOT_PASSWORD}>
                             <FormattedMessage id="auth.forgot-your-password" />
                         </Link>
                     </div>
                 </>
             )}
-            {formTitle === 'auth.register' && (
-                <div className="col-sm-12 mb-4 text-white">Mã OTP sẽ được gửi đến email này</div>
+            {(formTitle === 'auth.register' || formTitle === 'auth.forgot-your-password') && (
+                <div className="col-sm-12 mb-4 text-white">
+                    <FormattedMessage id="auth.otp-desc" />
+                </div>
             )}
 
             {/* BUTTON */}
@@ -122,11 +125,8 @@ const MyForm = ({
             )}
             {formTitle === 'auth.auth' && (
                 <div className="col-sm-12">
-                    <p>
+                    <p onClick={reSendOTPFunc}>
                         <FormattedMessage id="auth.not-receive" />
-                    </p>
-                    <p>
-                        <FormattedMessage id="auth.try-again" />
                     </p>
                 </div>
             )}

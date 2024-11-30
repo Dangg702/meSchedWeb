@@ -4,10 +4,9 @@ import { Col, Form, FormGroup, Input, Label, Row, Button } from 'reactstrap';
 import { FormattedMessage } from 'react-intl';
 import { NumericFormat } from 'react-number-format';
 import _ from 'lodash';
-import FormikForm from '~/components/Form/FormikForm';
 
 import DoctorIntro from '~/components/DoctorIntro';
-import { path, languages } from '~/utils';
+import { languages } from '~/utils';
 import * as actions from '~/store/actions';
 import { paymentService, userService } from '~/services';
 import './Booking.scss';

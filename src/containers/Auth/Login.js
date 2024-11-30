@@ -2,8 +2,6 @@ import { connect } from 'react-redux';
 import { Component } from 'react';
 import { push } from 'connected-react-router';
 import { toast } from 'react-toastify';
-import { FormattedMessage } from 'react-intl';
-import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
 
 import { path, USER_ROLE } from '~/utils';
@@ -15,6 +13,9 @@ import './Auth.scss';
 class Login extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            ...this.initialState
+        };
     }
 
     initialState = {
@@ -24,20 +25,10 @@ class Login extends Component {
         isShowLogin: false,
     };
 
-    state = { ...this.initialState };
-
-    // componentDidUpdate(prevProps) {
-    //     console.log('userRole log', this.props.userRole, prevProps.userRole);
-    //     if (this.props.userRole !== prevProps.userRole) {
-    //         this.redirectBasedOnRole(this.props.userRole);
-    //     }
-    // }
-
     redirectBasedOnRole = (userRole) => {
         if (userRole === USER_ROLE.ADMIN) {
             this.props.navigate(path.SYSTEM_USER_MANAGE);
         } else if (userRole === USER_ROLE.PATIENT) {
-            // const previousPage = localStorage.getItem('lastVisitedPage');
             this.props.navigate(path.HOME);
         } else if (userRole === USER_ROLE.DOCTOR) {
             this.props.navigate(path.SYSTEM_DOCTOR_SCHEDULE_MANAGE);

@@ -16,8 +16,8 @@
         "Welcome": "Xin chào",
         "Logout": "Đăng xuất",
         "Chat": "Hỏi đáp sức khỏe",
-        "MyProfile": "Hồ sơ của tôi",
-        "MyAppointment": "Lịch hẹn của tôi"
+        "MyProfile": "Hồ sơ",
+        "MyAppointment": "Lịch hẹn"
     },
     "menu": {
         "admin": {
@@ -56,11 +56,17 @@
         "auth": "Xác thực",
         "not-receive": "Không nhận được mã OTP?",
         "try-again": "Thử lại",
-        "profile": "Tạo hồ sơ"
+        "profile": "Tạo hồ sơ",
+        "send-otp": "Gửi OTP",
+        "confirm":"Xác nhận",
+        "reset-password": "Đặt lại mật khẩu", 
+        "otp-desc": "Mã OTP sẽ được gửi đến email này"
     },
     "form": {
         "email": "example@example.com",
         "password": "Mật khẩu",
+        "new-password": "Mật khẩu mới",
+        "re-password": "Nhập lại mật khẩu",
         "input-otp": "Nhập mã OTP",
         "first-name": "Tên",
         "last-name": "Họ",

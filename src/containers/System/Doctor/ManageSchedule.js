@@ -5,16 +5,14 @@ import { FormattedMessage } from 'react-intl';
 import _, { debounce } from 'lodash';
 import moment from 'moment';
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader, Table } from 'reactstrap';
+import ReactPaginate from 'react-paginate';
+import { toast } from 'react-toastify';
 
-import './ManageSchedule.scss';
 import { languages } from '~/utils';
 import doctorService from '~/services/doctorService';
 import { DatePicker } from '~/components/Input';
-import { FormattedDate } from '~/components/Formating';
-import { isRequired } from '~/utils/ValidateInput';
 import * as actions from '~/store/actions';
-import { toast } from 'react-toastify';
-import ReactPaginate from 'react-paginate';
+import './ManageSchedule.scss';
 
 class ManageSchedule extends Component {
     constructor(props) {
@@ -93,6 +91,7 @@ class ManageSchedule extends Component {
                 value: item.id,
                 label: language === languages.VI ? dataVi : dataEn,
             });
+            return item;
         });
         return result;
     };
@@ -166,6 +165,7 @@ class ManageSchedule extends Component {
                 obj.date = formattedDate;
                 obj.timeType = item;
                 result.push(obj);
+                return obj;
             });
             this.props.setLoading(true);
             let response = await doctorService.createDoctorSchedule({
@@ -251,7 +251,7 @@ class ManageSchedule extends Component {
         let options = this.buildInputDataSelect(doctors);
 
         return (
-            <div className="container schedule-container">
+            <div className="schedule-container px-5">
                 <div className="schedule-title my-3">
                     <FormattedMessage id="manage-schedule.title" />
                 </div>

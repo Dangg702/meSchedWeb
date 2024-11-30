@@ -30,7 +30,6 @@ class Specialty extends Component {
 
     componentDidMount() {
         let match = this.props.match;
-        console.log('match', match);
         if (match && match.params && match.params.type) {
             this.setState({ type: match.params.type });
             this.getDataList(match.params.type);
@@ -165,6 +164,7 @@ class Specialty extends Component {
                                                     buttonRight={true}
                                                     className={'search-doctor-image'}
                                                     btnStyle={'search-btn-booking'}
+                                                    btnFunc={() => this.props.history.push(`/doctor/${item.id}`)}
                                                 />
                                             </div>
                                         ))}

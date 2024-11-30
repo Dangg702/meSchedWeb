@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { Input, Collapse, Navbar, Nav, NavItem, NavbarText } from 'reactstrap';
+import { Input, Navbar, Nav, NavItem, NavbarText } from 'reactstrap';
 import { FormattedMessage } from 'react-intl';
 
-import { path, languages } from '~/utils';
 import SearchResult from '~/components/SearchResult';
 import './SpecialtyDetail.scss';
-import doctorImg from '~/assets/images/doctor/user-default.jfif';
 
 class SpecialtyDetail extends Component {
     constructor(props) {
@@ -34,7 +31,6 @@ class SpecialtyDetail extends Component {
     };
 
     render() {
-        let { language } = this.props;
         let { activeNavItem } = this.state;
         return (
             <>

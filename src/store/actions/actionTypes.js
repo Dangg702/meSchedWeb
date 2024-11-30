@@ -38,6 +38,9 @@ const actionTypes = Object.freeze({
 
     FETCH_LIST_CITY_SUCCESS: 'FETCH_LIST_CITY_SUCCESS',
     FETCH_LIST_CITY_FAILED: 'FETCH_LIST_CITY_FAILED',
+
+    // chat
+    ADD_MESSAGE: 'ADD_MESSAGE',
 });
 
 export default actionTypes;

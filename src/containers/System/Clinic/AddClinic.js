@@ -5,26 +5,11 @@ import Lightbox from 'yet-another-react-lightbox';
 import MarkdownIt from 'markdown-it';
 import MdEditor from 'react-markdown-editor-lite';
 import { withRouter } from 'react-router-dom';
-import _ from 'lodash';
-import {
-    Modal,
-    ModalHeader,
-    ModalBody,
-    ModalFooter,
-    Button,
-    Form,
-    FormGroup,
-    Label,
-    Input,
-    Col,
-    Row,
-    FormText,
-    FormFeedback,
-} from 'reactstrap';
+import { Form, FormGroup, Label, Input, Col, Row, FormFeedback } from 'reactstrap';
 
 import { emitter } from '~/utils/emitter';
 import './AddClinic.scss';
-import { languages, path } from '~/utils';
+import { path } from '~/utils';
 import * as actions from '~/store/actions';
 import { toast } from 'react-toastify';
 import { adminService } from '~/services';
@@ -155,7 +140,6 @@ class AddClinic extends Component {
 
     handleSubmit = async () => {
         let { id, type, name, address, description, contentMarkdown, contentHtml, image } = this.state;
-        let errs = {};
         try {
             const data = new FormData();
             data.append('type', type);
@@ -205,7 +189,6 @@ class AddClinic extends Component {
 
     render() {
         let { errors, isOpenLightBox } = this.state;
-        let { language } = this.props;
         return (
             <div className="container-fluid clinic-container p-4">
                 <div className="clinic-title my-3">

@@ -1,65 +1,16 @@
 import React, { Component } from 'react';
-import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
 
-// import './ConfirmModal.scss';
 import * as actions from '../store/actions';
-import { KeyCodeUtils } from '../utils';
 
 class ConfirmModal extends Component {
     constructor(props) {
         super(props);
-        this.acceptBtnRef = React.createRef();
+        this.state = this.initialState
     }
 
     initialState = {};
-
-    state = {
-        ...this.initialState,
-    };
-
-    // componentDidMount() {
-    //     document.addEventListener('keydown', this.handlerKeyDown);
-    // }
-
-    // componentDidUpdate(prevProps) {
-    //     const { contentOfConfirmModal } = this.props;
-    //     if (prevProps.contentOfConfirmModal.isOpen !== contentOfConfirmModal.isOpen) {
-    //         if (contentOfConfirmModal.isOpen) {
-    //             this.acceptBtnRef.current.focus();
-    //         }
-    //     }
-    // }
-    // componentWillUnmount() {
-    //     document.removeEventListener('keydown', this.handlerKeyDown);
-    // }
-
-    // handlerKeyDown = (event) => {
-    //     const keyCode = event.which || event.keyCode;
-    //     if (keyCode === KeyCodeUtils.ENTER) {
-    //         if (!this.acceptBtnRef.current || this.acceptBtnRef.current.disabled) return;
-    //         this.acceptBtnRef.current.click();
-    //     }
-    // };
-
-    // onAcceptBtnClick = () => {
-    //     const { contentOfConfirmModal } = this.props;
-    //     if (contentOfConfirmModal.handleFunc) {
-    //         contentOfConfirmModal.handleFunc(contentOfConfirmModal.dataFunc);
-    //     }
-    //     this.onClose();
-    // };
-
-    // onClose = () => {
-    //     this.props.setContentOfConfirmModal({
-    //         isOpen: false,
-    //         messageId: '',
-    //         handleFunc: null,
-    //         dataFunc: null,
-    //     });
-    // };
-
     render() {
         const { isOpen, toggle, onDelete, itemName } = this.props;
 

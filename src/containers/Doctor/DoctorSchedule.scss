@@ -1,6 +1,7 @@
 @import '../../styles/variables';
 
 .schedule-container {
+    padding: 20px;
     .schedule-list-wrapper {
         padding: 0 14px;
 
@@ -80,6 +81,7 @@
                 transition: cubic-bezier(0.075, 0.82, 0.165, 1) 0.3s;
                 min-width: 120px;
                 height: 34px;
+                line-height: 1;
 
                 &:hover {
                     background-color: $colormain;

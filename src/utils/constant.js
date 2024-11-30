@@ -4,6 +4,7 @@ export const path = {
     LOG_OUT: '/logout',
     REGISTER: '/register',
     NO_ACCESS: '/no-access',
+    FORGOT_PASSWORD: '/forgot-password',
     DOCTOR_INFO: '/doctor/:id',
     BOOKING: '/booking/:id',
     BOOKING_VERIFY: '/booking-verify',

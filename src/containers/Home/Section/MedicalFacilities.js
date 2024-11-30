@@ -22,7 +22,6 @@ class MedicalFacilities extends Component {
 
     async getClinics() {
         let response = await userService.getClinics();
-        console.log('getClinics', response);
         if (response && response.errCode === 0) {
             this.setState({
                 clinics: response.data,

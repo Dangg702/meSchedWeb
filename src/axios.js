@@ -1,7 +1,6 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { toast } from 'react-toastify';
-import { userService } from './services';
 
 const instance = axios.create({
     baseURL: process.env.REACT_APP_BACKEND_URL,

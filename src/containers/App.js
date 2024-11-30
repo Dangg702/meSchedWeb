@@ -9,7 +9,6 @@ import { push } from 'connected-react-router';
 import CustomScrollbars from '../components/CustomScrollbars';
 import * as actions from '~/store/actions';
 import { routes } from '~/routes/routes';
-import { path, USER_ROLE } from '~/utils';
 import DefaultLayout from '~/layouts/DefaultLayout';
 import LoadingOverlayComponent from '~/components/LoadingOverlayComponent/LoadingOverlayComponent';
 

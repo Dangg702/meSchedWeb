@@ -5,13 +5,12 @@ import { push } from 'connected-react-router';
 import ReactPaginate from 'react-paginate';
 import _ from 'lodash';
 import { debounce } from 'lodash';
-import { CSVLink } from 'react-csv';
 import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
-import { Button, Modal, ModalBody, ModalFooter, ModalHeader, Table } from 'reactstrap';
+import { Table } from 'reactstrap';
 
-import { languages, path } from '~/utils';
-import doctorService from '~/services/doctorService';
+import { path } from '~/utils';
+
 import * as actions from '~/store/actions';
 import { adminService } from '~/services';
 

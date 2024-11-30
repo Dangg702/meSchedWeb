@@ -12,7 +12,7 @@ import FormikForm from '~/components/Form/FormikForm';
 
 import './Auth.scss';
 
-class Register extends Component {
+class ForgotPassword extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -21,12 +21,9 @@ class Register extends Component {
             otpCode: '',
             isVerify: false,
             password: '',
-            firstName: '',
-            lastName: '',
-            address: '',
-            phoneNumber: '',
-            gender: '',
+            rePassword: '',
             isShowPassword: false,
+            isShowRePassword: false,
         };
         this.debouncedOnChange = debounce(this.handleInputChange, 400);
     }
@@ -40,7 +37,9 @@ class Register extends Component {
         try {
             const { email } = values;
             this.setState({ email: email });
-            let result = await userService.getOpt(email);
+
+            let result = await userService.forgotPasswordSendOtp(email);
+            console.log('handleSendOTP', result);
             if (result.errCode !== 0) {
                 toast.error(result.message);
             } else {
@@ -54,7 +53,8 @@ class Register extends Component {
 
     handleCheckOTP = async (values) => {
         const { otpCode } = values;
-        let res = await userService.verifyOtpCode(otpCode.trim());
+
+        let res = await userService.forgotPasswordVerifyOtp(otpCode.trim(), this.state.email);
         if (res.errCode === 0) {
             this.setState({ isVerify: true });
         } else {
@@ -62,21 +62,17 @@ class Register extends Component {
         }
     };
 
-    handleRegister = async (values) => {
+    handleResetPassword = async (values) => {
         try {
-            let { email } = this.state;
-            let { password, firstName, lastName, address, phoneNumber, gender } = values;
+            let { email, password, rePassword } = this.state;
+            // let { otp, email, anewpassword, passwordRetrieval } = values;
             let newData = {
                 email: email.trim(),
-                password: password.trim(),
-                firstName: firstName.trim(),
-                lastName: lastName.trim(),
-                address: address.trim(),
-                phoneNumber: phoneNumber.trim(),
-                roleId: 'R3',
-                gender: gender,
+                anewpassword: password.trim(),
+                passwordRetrieval: rePassword.trim(),
+                otp: '',
             };
-            let response = await userService.register(newData);
+            let response = await userService.forgotPasswordResetPassword(newData);
             if (response && response.errCode === 0) {
                 this.props.navigate(path.LOGIN);
             } else {
@@ -86,26 +82,28 @@ class Register extends Component {
             console.log(error);
         }
     };
-    handleToggleShowPass = () => {
+    handleToggleShowPass = (type) => {
         this.setState({ isShowPassword: !this.state.isShowPassword });
+        // if (type === 'password') {
+        // }
     };
 
-    handleBackHome = () => {
-        this.props.navigate(path.HOME);
+    handleBack = () => {
+        this.props.navigate(path.LOGIN);
     };
 
     render() {
         const { isSendEmail, isVerify, isShowPassword } = this.state;
         return (
             <div className="login-background">
-                <div className="back-btn" onClick={() => this.handleBackHome()}>
+                <div className="back-btn" onClick={() => this.handleBack()}>
                     <i className="fa-solid fa-arrow-left-long"></i>
                 </div>
                 <div className="login-container w-register">
                     {!isSendEmail ? (
                         <div className="row g-0 login-content">
                             <FormikForm
-                                formTitle="auth.register"
+                                formTitle="auth.forgot-your-password"
                                 formFields={[
                                     {
                                         name: 'email',
@@ -119,7 +117,7 @@ class Register extends Component {
                                 ]}
                                 handleChange={this.handleInputChange}
                                 onSubmit={this.handleSendOTP}
-                                buttonTitle="auth.register"
+                                buttonTitle="auth.send-otp"
                             />
                         </div>
                     ) : !isVerify ? (
@@ -142,55 +140,30 @@ class Register extends Component {
                     ) : (
                         <div className="row g-0 login-content">
                             <FormikForm
-                                formTitle="auth.profile"
+                                formTitle="auth.reset-password"
                                 formFields={[
-                                    {
-                                        name: 'firstName',
-                                        type: 'text',
-                                        icon: 'fa-regular fa-user icon',
-                                        placeholder: 'form.first-name',
-                                    },
-                                    {
-                                        name: 'lastName',
-                                        type: 'text',
-                                        icon: 'fa-regular fa-user icon',
-                                        placeholder: 'form.last-name',
-                                    },
                                     {
                                         name: 'password',
                                         type: isShowPassword ? 'text' : 'password',
-                                        placeholder: 'form.password',
+                                        placeholder: 'form.new-password',
                                         icon: isShowPassword
                                             ? 'fa-regular fa-eye icon'
                                             : 'fa-regular fa-eye-slash icon',
                                     },
                                     {
-                                        name: 'gender',
-                                        type: 'select',
-                                        placeholder: 'form.gender',
-                                        options: [
-                                            { value: 'M', label: 'Male' },
-                                            { value: 'F', label: 'Female' },
-                                        ],
-                                    },
-                                    {
-                                        name: 'address',
-                                        type: 'text',
-                                        icon: 'fa-solid fa-location-dot icon',
-                                        placeholder: 'form.address',
-                                    },
-                                    {
-                                        name: 'phoneNumber',
-                                        type: 'text',
-                                        icon: 'fa-solid fa-phone-flip icon',
-                                        placeholder: 'form.phone-number',
+                                        name: 'rePassword',
+                                        type: isShowPassword ? 'text' : 'password',
+                                        placeholder: 'form.re-password',
+                                        icon: isShowPassword
+                                            ? 'fa-regular fa-eye icon'
+                                            : 'fa-regular fa-eye-slash icon',
                                     },
                                 ]}
                                 handleChange={this.handleInputChange}
                                 onSubmit={this.handleRegister}
                                 isShowPassword={isShowPassword}
                                 togglePasswordVisibility={this.handleToggleShowPass}
-                                buttonTitle="auth.register"
+                                buttonTitle="auth.confirm"
                             />
                         </div>
                     )}
@@ -213,4 +186,4 @@ const mapDispatchToProps = (dispatch) => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Register);
+export default connect(mapStateToProps, mapDispatchToProps)(ForgotPassword);

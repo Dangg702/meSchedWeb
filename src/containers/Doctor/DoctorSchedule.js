@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Slider from 'react-slick';
-import localization from 'moment/locale/vi';
+import localization from 'moment/locale/vi'; // có sử dụng
 import { Link } from 'react-router-dom';
 
 import { languages, DATE_FORMAT } from '~/utils';
@@ -94,7 +94,7 @@ class DoctorSchedule extends Component {
         const { language } = this.props;
 
         const CustomNextArrow = (props) => {
-            const { className, style, onClick } = props;
+            const { onClick } = props;
             return (
                 <div className="slick-arrow-next" style={{ display: 'flex', position: 'absolute' }} onClick={onClick}>
                     <svg
@@ -112,7 +112,7 @@ class DoctorSchedule extends Component {
         };
 
         const CustomPrevArrow = (props) => {
-            const { className, style, onClick } = props;
+            const { onClick } = props;
             return (
                 <div className="slick-arrow-prev" style={{ display: 'flex' }} onClick={onClick}>
                     <svg

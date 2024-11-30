@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { languages } from '~/utils';
 import './ClinicIntro.scss';
 import clinicImg from '~/assets/images/clinic/cho-ray.jpg';
+import { FormattedMessage } from 'react-intl';
 
 class ClinicIntro extends Component {
     constructor(props) {
@@ -17,9 +17,7 @@ class ClinicIntro extends Component {
 
     render() {
         const {
-            language,
             clinicData,
-            addressClinic,
             fontSize,
             fontColor,
             positionSize,
@@ -28,7 +26,6 @@ class ClinicIntro extends Component {
             imageStyle,
             linkTo,
         } = this.props;
-        console.log('ClinicIntro', clinicData);
         return (
             <>
                 <div className="row doctor-info-content py-3 g-0">
@@ -54,7 +51,7 @@ class ClinicIntro extends Component {
                             <div className="col-sm-12 col-md-3 m-auto">
                                 <div className="button-right">
                                     <Link to={linkTo} className={`${btnStyle}`}>
-                                        Đặt khám ngay
+                                        <FormattedMessage id="booking.quick-booking" />
                                     </Link>
                                 </div>
                             </div>

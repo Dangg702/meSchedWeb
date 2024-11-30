@@ -25,6 +25,7 @@
             font-size: 1.1rem;
             font-weight: 400;
             transition: cubic-bezier(0.075, 0.82, 0.165, 1) 0.3s;
+            line-height: 1;
 
             &:hover {
                 background-color: $colormain;

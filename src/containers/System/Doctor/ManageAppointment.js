@@ -1,22 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Select from 'react-select';
 import { FormattedMessage } from 'react-intl';
-import _ from 'lodash';
 import moment from 'moment';
 
 import './ManageAppointment.scss';
 import { languages } from '~/utils';
-import doctorService from '~/services/doctorService';
 import { DatePicker } from '~/components/Input';
-import { FormattedDate } from '~/components/Formating';
-import { isRequired } from '~/utils/ValidateInput';
 import * as actions from '~/store/actions';
 import { toast } from 'react-toastify';
 import { Table } from 'reactstrap';
 import { userService } from '~/services';
-import { date } from 'yup';
-import LoadingOverlayComponent from '~/components/LoadingOverlayComponent/LoadingOverlayComponent';
 
 class ManageAppointment extends Component {
     constructor(props) {
@@ -65,10 +58,10 @@ class ManageAppointment extends Component {
         let res = await userService.confirmAppointment(dt);
         if (res.errCode === 0) {
             this.props.setLoading(false);
-            toast.success('Confirm success');
+            toast.success('Xác nhận thành công');
             this.getListAppointmentPatient();
         } else {
-            toast.error('Confirm failed');
+            toast.error('Xác nhận thất bại');
         }
     };
 
@@ -83,10 +76,10 @@ class ManageAppointment extends Component {
         let res = await userService.cancelAppointment(dt);
         if (res.errCode === 0) {
             this.props.setLoading(false);
-            toast.success('Cancel success');
+            toast.success('Hủy thành công');
             this.getListAppointmentPatient();
         } else {
-            toast.error('Cancel failed');
+            toast.error('Hủy thất bại');
         }
     };
 
