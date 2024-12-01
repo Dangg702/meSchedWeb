@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 
+import * as actions from '~/store/actions';
 import { languages } from '~/utils';
 import userService from '~/services/userService';
 import './MyAppointment.scss';
@@ -46,8 +47,8 @@ class MyAppointment extends Component {
             date: data.date,
             timeType: data.timeType,
         };
-        this.props.setLoading(true);
         this.setState({ isConfirmDelModal: false });
+        this.props.setLoading(true);
         let res = await userService.cancelAppointment(dt);
         if (res.errCode === 0) {
             this.props.setLoading(false);
@@ -146,7 +147,10 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-    return {};
+    return {
+        setLoading: (isLoading) => dispatch(actions.setLoading(isLoading)),
+
+    };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyAppointment);

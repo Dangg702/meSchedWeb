@@ -58,7 +58,7 @@ class DoctorInfo extends Component {
                     </div>
                     <div className="doctor-info-wrapper">
                         <DoctorIntro doctorData={doctorData} className={'doctor-img'} />
-                        <div className="doctor-schedule-wrapper pb-4 row g-0">
+                        <div className="doctor-schedule-wrapper row g-0">
                             <div className="col-sm-12 col-md-8">
                                 <h5 className="ms-3 pt-3 pb-1">
                                 <FormattedMessage id="booking.quick-booking" />
@@ -69,7 +69,7 @@ class DoctorInfo extends Component {
                                 <DoctorExtraInfo doctorExtraData={doctorData.doctorInfoData} />
                             </div>
                         </div>
-                        <div className="doctor-introduce-wrapper py-4" dangerouslySetInnerHTML={{ __html: html }}></div>
+                        <div className="doctor-introduce-wrapper py-2" dangerouslySetInnerHTML={{ __html: html }}></div>
                         <div className="doctor-comment-wrapper"></div>
                     </div>
                     <div style={{ height: '30px' }}></div>
