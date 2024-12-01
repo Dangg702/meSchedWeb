@@ -7,6 +7,7 @@ import { FormattedMessage } from 'react-intl';
 import { path } from '~/utils';
 import { userService } from '~/services';
 import SearchResult from '~/components/SearchResult';
+import * as actions from '~/store/actions';
 import './SearchResultPage.scss';
 
 class SearchResultPage extends Component {
@@ -54,16 +55,21 @@ class SearchResultPage extends Component {
     getSearchResult = async (type, q) => {
         let res;
         if (type === 'specialty') {
+            // this.props.setLoading(true);
             res = await userService.searchDoctorBySpecialty(q);
         } else if (type === 'doctor') {
+            // this.props.setLoading(true);
             res = await userService.searchDoctorByName(q);
         } else if (type === 'clinic') {
+            // this.props.setLoading(true);
             res = await userService.searchClinic(q);
         } else if (type === 'all') {
+            // this.props.setLoading(true);
             res = await userService.searchAll(q);
         }
 
         if (res && res.errCode === 0) {
+            this.props.setLoading(false);
             this.setState({ searchResList: res.data });
         } else {
             this.setState({ searchResList: [] });
@@ -183,6 +189,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         navigate: (path) => dispatch(push(path)),
+        setLoading: (isLoading) => dispatch(actions.setLoading(isLoading)),
+
     };
 };
 

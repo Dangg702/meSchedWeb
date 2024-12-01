@@ -9,6 +9,7 @@ import DoctorIntro from '~/components/DoctorIntro';
 import { Form, FormGroup, Input, Label } from 'reactstrap';
 import CustomScrollbars from '~/components/CustomScrollbars';
 import { FormattedMessage } from 'react-intl';
+import * as actions from '~/store/actions';
 import './Specialty.scss';
 
 class Specialty extends Component {
@@ -62,17 +63,21 @@ class Specialty extends Component {
         let { page, perPage } = this.state;
         let data = '';
         if (type === 'clinic') {
+            this.props.setLoading(true);
             data = await userService.getAllClinic('ALL', page, perPage);
         }
         if (type === 'specialty') {
+            this.props.setLoading(true);
             data = await userService.getSpecialty('ALL', page, perPage);
         }
         if (type === 'doctor') {
+            this.props.setLoading(true);
             data = await userService.getDoctors('ALL', page, perPage);
             let listSpecialty = await userService.getSpecialty('ALL', page, perPage);
             this.setState({ listSpecialty: listSpecialty.data, listSpecialtyFull: listSpecialty.data });
         }
         if (data && data.errCode === 0) {
+            this.props.setLoading(false);
             this.setState({ dataList: data.data, totalPages: data.total_pages });
         }
     };
@@ -258,7 +263,9 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-    return {};
+    return {
+        setLoading: (isLoading) => dispatch(actions.setLoading(isLoading)),
+    };
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Specialty));
