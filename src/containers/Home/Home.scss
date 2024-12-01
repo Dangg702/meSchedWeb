@@ -84,7 +84,7 @@ a div {
         justify-content: center;
 
         .section-item-container {
-            padding: 8px 20px;
+            padding: 7px 20px;
             border: 1px solid #ccc;
             border-radius: 12px;
         }
@@ -104,9 +104,8 @@ a div {
         text-decoration: none;
         text-transform: capitalize;
         text-align: center;
-        color: #000;
+        color: #333;
         font-size: 1.2rem;
-        font-weight: 600;
         line-height: 1.6;
         width: 160px;
         height: 54px;
@@ -124,6 +123,7 @@ a div {
 
     .section-item-container {
         width: 80%;
+        padding: 8px !important;
     }
     .image-container {
         width: 100%;
@@ -136,8 +136,5 @@ a div {
     }
     .section-item-wrapper {
         min-width: 200px !important;
-    }
-    .section-item-container {
-        padding: 8px !important;
     }
 }

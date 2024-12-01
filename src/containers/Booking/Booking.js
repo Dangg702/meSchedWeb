@@ -209,7 +209,7 @@ class Booking extends Component {
         return (
             <>
                 <div className="booking-container">
-                    <div className="row justify-content-md-evenly gy-3 gx-0">
+                    <div className="row justify-content-md-evenly gy-3">
                         <div className="col-sm-12 col-lg-7 content-wrapper">
                             <Form className="p-4">
                                 <Row className="mb-3">
