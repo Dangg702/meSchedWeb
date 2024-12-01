@@ -9,7 +9,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 8px;
+            padding: 8px 4px;
             &.active {
                 border-bottom: 2px solid $colormain;
             }
@@ -54,7 +54,7 @@
     .time-range-container {
         display: flex;
         flex-direction: column;
-        padding: 20px 40px 10px 40px;
+        padding-top: 20px;
 
         .time-range-title {
             margin-bottom: 12px;
@@ -106,7 +106,10 @@
     .slick-slider {
         padding: 0 !important;
     }
-    .schedule-container .time-range-container {
-        padding: 20px 20px 10px 20px;
+    .schedule-container {
+        padding: 10px 8px;
+        .time-range-container {
+            padding: 8px 0 0px 0px;
+        }
     }
 }
