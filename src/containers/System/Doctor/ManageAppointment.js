@@ -87,7 +87,7 @@ class ManageAppointment extends Component {
         let { selectedDate, errs, listAppointment } = this.state;
         let { language } = this.props;
         return (
-            <div className="container appointment-container">
+            <div className="appointment-container">
                 <div className="appointment-title my-3">
                     <FormattedMessage id="manage-appointment.title" />
                 </div>
